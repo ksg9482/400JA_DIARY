@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Diary from "pages/dairy/diaryPage";
+import Diary from "pages/diary/diaryPage";
 import Mypage from "pages/mypage/mypagePage";
 
 export const LoggedInRouter = () => {
