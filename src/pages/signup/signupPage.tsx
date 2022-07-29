@@ -17,6 +17,7 @@ const Signup = () => {
                 <button>email valid</button>
                 <input type="password" placeholder="Password"/>
                 <input type="password" placeholder="Password check"/>
+                <button>cancle</button>
                 <button>sign up</button>
             </form>
         </div>
