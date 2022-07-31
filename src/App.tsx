@@ -9,9 +9,7 @@ const isLoggedIn = false; //로컬에 저장된 토큰으로 판단
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
         {AppRouter(isLoggedIn)}
-      </header>
     </div>
   );
 }
