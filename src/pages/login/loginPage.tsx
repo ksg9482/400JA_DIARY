@@ -43,23 +43,32 @@ const Login = () => {
 
     //에러메시지 공간 필요함
     return (
-        <div className="border h-screen flex items-center justify-center flex-col mt-8 lg:mt-0">
+        <div className="border h-screen flex items-center justify-center flex-col lg:mt-0">
             <Helmet>
                 Login | 400JA-DIARY
             </Helmet>
-            <div className="border w-full h-3/4 max-w-screen-sm flex flex-col items-center justify-center">
-                <form className="border w-full h-3/4 max-w-screen-sm flex flex-col items-center">
+            <div className="border w-full h-3/4 lg:max-w-screen-lg  flex flex-col items-center justify-center">
+                <form className="border w-full h-3/4  flex flex-col items-center">
+                    <div className="border flex  items-center mb-6">
                     <div className="border flex flex-col mt-10 items-center mb-6">
                         <input className="input border mb-1" type="email" name="email" onChange={inputHandler('email')} placeholder="email" required />
                         <input className="input border" type="password" name="password" onChange={inputHandler('password')} placeholder="Password" required />
                     </div>
+                    <button className="border" onClick={loginSubmitHandler(loginInfo)}>로그인</button>
+
+                    </div>
+                    
+
                     <div className="border flex items-center justify-between w-1/4">
                         <Link to ="/signup">
-                        <button className="border" >sign up</button>
+                        <span className="border" >회원 가입</span>
                         </Link>
-                        <button className="border" onClick={loginSubmitHandler(loginInfo)}>log in</button>
+                        <span className="border" >메일/비밀번호 찾기</span>
                     </div>
-
+                    <div className="border flex flex-col items-center justify-between w-1/4">
+                        <button className="border">google</button>
+                        <button className="border">kakao</button>
+                    </div>
                 </form>
             </div>
         </div>
