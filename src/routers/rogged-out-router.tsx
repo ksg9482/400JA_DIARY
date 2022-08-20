@@ -4,6 +4,7 @@ import Signup from '../pages/signup/signupPage';
 import Login from '../pages/login/loginPage';
 import Diary from "pages/diary/diaryPage"; //테스트 끝나면 삭제
 import Header from "components/header";
+import Mypage from "pages/mypage/mypagePage";
 export const LoggedOutRouter = () => {
     //로그인 하지 않은 상태에서 가능한 라우터
     //Header 만들어서 넣어야 함
@@ -15,6 +16,7 @@ export const LoggedOutRouter = () => {
                 <Route path="/" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/diary" element={<Diary />} /> {/*테스트 끝나면 삭제*/}
+                <Route path="/mypage" element={<Mypage />} />
             </Routes>
         </Router>
     )

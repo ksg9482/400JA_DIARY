@@ -32,7 +32,7 @@ const Signup = () => {
     //본인인증 메일
     //본인인증 했으면 웰컴 메일
     
-    const validCheckHandle = (signupInfo:IsignupInfoState) => {
+    const validCheckHandle = (signupInfo:IsignupInfoState):void => {
         const emailCheck = () => {
             const emailValidPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return emailValidPattern.exec(signupInfo.email)
@@ -71,7 +71,7 @@ const Signup = () => {
         navigate('/')
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (): Promise<void> => {
         try {
             validCheckHandle(signupInfo)
             await sendSignup()
