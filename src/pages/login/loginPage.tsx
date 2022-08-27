@@ -48,18 +48,17 @@ const Login = () => {
                 Login | 400JA-DIARY
             </Helmet>
             <div className="border w-full h-3/4 lg:max-w-screen-lg  flex flex-col items-center justify-center">
-                <form className="border w-full h-3/4  flex flex-col items-center">
+                <form className="border w-full h-1/4  flex flex-col items-center">
                     <div className="border flex  items-center mb-6">
                     <div className="border flex flex-col mt-10 items-center mb-6">
                         <input className="input border mb-1" type="email" name="email" onChange={inputHandler('email')} placeholder="email" required />
                         <input className="input border" type="password" name="password" onChange={inputHandler('password')} placeholder="Password" required />
                     </div>
                     <button className="border" onClick={loginSubmitHandler(loginInfo)}>로그인</button>
-
                     </div>
-                    
-
-                    <div className="border flex items-center justify-between w-1/4">
+                </form>
+                
+                <div className="border flex items-center justify-between w-1/4">
                         <Link to ="/signup">
                         <span className="border" >회원 가입</span>
                         </Link>
@@ -69,7 +68,6 @@ const Login = () => {
                         <button className="border">google</button>
                         <button className="border">kakao</button>
                     </div>
-                </form>
             </div>
         </div>
     )
