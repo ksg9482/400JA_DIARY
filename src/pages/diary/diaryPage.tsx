@@ -55,8 +55,7 @@ const Diary = () => {
             content: diaryInputForm,
             createAt: '2022-07-30T13:05:33.020Z'
         }
-        console.log('작동')
-        setDiaries([...diaries, test])
+        setDiaries([ test, ...diaries])
         // create 보내기
         // 새로 일주일치 적용해서 캐시에 넣고 뿌리기
 

@@ -62,7 +62,7 @@ const Login = () => {
                         <Link to ="/signup">
                         <span className="border" >회원 가입</span>
                         </Link>
-                        <span className="border" >메일/비밀번호 찾기</span>
+                        <span className="border" >비밀번호 찾기</span>
                     </div>
                     <div className="border flex flex-col items-center justify-between w-1/4">
                         <button className="border">google</button>
