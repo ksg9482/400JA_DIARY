@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import CreateDiary from "./createDiary";
 import DiaryCompoenet from "./diaryCompoenet";
+import { diaryInputKey } from "../../constants";
 const Diary = () => {
+    interface IdiaryValidCheck{
+        subject:string;
+        content:string;
+    }
     //일기 생성, 일기 모아보기, 오늘 일기 페이지
     const fakeDiaries = [
         {
@@ -29,30 +34,18 @@ const Diary = () => {
     //위로가기 버튼
     //onClick 말고 이벤트 리스너가 나을까?
     //제목은 없애는게 좋을지도
-    const [diaryInputForm, setDiaryInputForm] = useState('');
+    const [subjectInputForm, setSubjectInputForm] = useState('');
+    const [contentInputForm, setContentInputForm] = useState('');
     const [scrollY, setScrollY] = useState(0);
     const [btnStatus, setBtnStatus] = useState(false);
     const [diaries, setDiaries] = useState(fakeDiaries);
 
-    // const createDiaryHandle = (e: React.MouseEvent<HTMLButtonElement>) => async () => {
-    //     function test () {
-    //         return '함수 작동'
-    //     }
-    //     const etst2 = test()
-    //     console.log('작동')
-    //     console.log(etst2)
-    //     e.preventDefault();
-
-    //     // create 보내기
-    //     // 새로 일주일치 적용해서 캐시에 넣고 뿌리기
-
-    // }
     const createDiaryHandle = async () => {
         //인수로 내용을 받아야 하나?
         const test = {
             id: 'd4',
-            subject: '제목4',
-            content: diaryInputForm,
+            subject: subjectInputForm,
+            content: contentInputForm,
             createAt: '2022-07-30T13:05:33.020Z'
         }
         setDiaries([ test, ...diaries])
@@ -81,30 +74,45 @@ const Diary = () => {
         setScrollY(0);  // ScrollY 의 값을 초기화
         setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
     }
-
-    const diaryInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDiaryInputForm(e.target.value)
+    
+    const diaryValidCheck = (/*{subject, content}:IdiaryValidCheck*/):boolean => {
+        console.log(subjectInputForm, contentInputForm)
+        if (subjectInputForm.length === 0 || contentInputForm.length === 0) {
+            return false
+        }
+        return true
     }
-    // const CreateDiary = () => {
 
-    //     return(
-    //         <form className="border flex flex-col w-full mb-8">
-    //                 <input className="border" type="text" placeholder="일기를 적어주세요" onChange={diaryInputHandler} required />
-    //                 <button className="border" onClick={createDiaryHandle}>일기 쓰기</button>
-    //         </form>
-    //     )
-    // }
+    const diaryInputHandler = (key:string)=>(e: React.ChangeEvent<HTMLInputElement>) => {
+        if(key === diaryInputKey.subject) {
+            setSubjectInputForm(e.target.value);
+        };
+
+        if(key === diaryInputKey.content) {
+            setContentInputForm(e.target.value);
+        };
+
+        
+    }
+
+    const diaryStateInit = () => {
+        setSubjectInputForm('');
+        setContentInputForm('');
+    }
+    
 
     useEffect(() => {
         const watch = () => {
             window.addEventListener('scroll', handleFollow)
         }
-        watch();
+        //setTimeout 말고 스크롤 이벤트를 제한할 방법이 있을까?
+        //스크롤 이벤트가 끝나고 어느정도 시간이 지나면?(0.2초정도)
+        setTimeout(()=>{watch()}, 1000);
         return () => {
             window.removeEventListener('scroll', handleFollow)
         }
     })
-
+    
     return (
         <div className="border h-screen flex items-center justify-center flex-col mt-8 lg:mt-0">
             <Helmet>
@@ -113,6 +121,8 @@ const Diary = () => {
             <CreateDiary
                 diaryInputHandler={diaryInputHandler}
                 createDiaryHandle={createDiaryHandle}
+                diaryStateInit={diaryStateInit}
+                diaryValidCheck={diaryValidCheck}
             />
             <div className="w-full max-w-screen-lg flex flex-col px-5 items-center">
 
