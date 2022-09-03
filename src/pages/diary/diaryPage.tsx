@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import CreateDiary from "./createDiary";
 import DiaryCompoenet from "./diaryCompoenet";
 import { diaryInputKey } from "../../constants";
+import axios from "axios";
 const Diary = () => {
     interface IdiaryValidCheck{
         subject:string;
@@ -54,6 +55,13 @@ const Diary = () => {
 
     }
 
+    const getDiary = async () => { //맨처음에 뿌릴 일주일치 일기
+        const weeklyDiary:any = await axios.get(`http://localhost:8080/api/diary/weekly`, { withCredentials: true });
+        //이거 함수에 넣어서 객체로
+        const convertDiaryForm = weeklyDiary['_doc']
+        setDiaries(convertDiaryForm)
+    }
+    
     const handleFollow = () => {
         setScrollY(window.pageYOffset); //스크롤 Y축 수
         if (scrollY > 100) {

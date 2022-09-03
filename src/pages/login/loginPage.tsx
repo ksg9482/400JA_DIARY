@@ -2,7 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-
+/*
+맨처음 로그인하면 유저정보 받아오기, 토큰 받아오기
+다이어리 페이지 접속하면 일주일치 받아와서 캐시 저장(새 일기 쓰면 늘어난 다이어리 배열 초기화하고 오늘꺼 넣어서 7개. 스크롤 하면 그때서야 다시 읽기)
+마이페이지 접속하면 이미 다 있는 정보만 있다. 뿌리기. 총 몇개인지는 언제?
+*/
 interface loginInfoState {
     email: string,
     password: string
