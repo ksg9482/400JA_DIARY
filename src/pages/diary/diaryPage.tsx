@@ -55,7 +55,7 @@ const Diary = () => {
 
     }
 
-    const getDiary = async () => { //맨처음에 뿌릴 일주일치 일기
+    const getWeeklyDiary = async () => { //맨처음에 뿌릴 일주일치 일기
         const weeklyDiary:any = await axios.get(`http://localhost:8080/api/diary/weekly`, { withCredentials: true });
         //이거 함수에 넣어서 객체로
         const convertDiaryForm = weeklyDiary['_doc']
