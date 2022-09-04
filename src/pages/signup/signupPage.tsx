@@ -91,7 +91,7 @@ const Signup = () => {
             </Helmet>
             <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
                 <form
-                    onSubmit={handleSubmit}
+                    //onSubmit={handleSubmit}
                     className="grid gap-3 mt-5 w-full mb-5"
                 >
                     <input className="border" type="email" placeholder="email" onChange={inputHandler('email')} />
@@ -102,9 +102,9 @@ const Signup = () => {
                         <Link to="/">
                             <button className="border">cancle</button>
                         </Link>
-                        <Link to="/">
-                            <button className="border">sign up</button>
-                        </Link>
+                        
+                            <button className="border" onSubmit={handleSubmit}>sign up</button>
+                        
                     </div>
                 </form>
             </div>
