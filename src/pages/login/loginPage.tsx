@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 /*
 맨처음 로그인하면 유저정보 받아오기, 토큰 받아오기
 다이어리 페이지 접속하면 일주일치 받아와서 캐시 저장(새 일기 쓰면 늘어난 다이어리 배열 초기화하고 오늘꺼 넣어서 7개. 스크롤 하면 그때서야 다시 읽기)
@@ -24,6 +24,7 @@ const Login = () => {
     const linkSignupHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
     }
+    const navigate = useNavigate()
     const loginSubmitHandler = (loginInfo: loginInfoState) => async (e: React.MouseEvent<HTMLButtonElement>) => {
         //env 적용 해야함
         e.preventDefault();
@@ -33,8 +34,9 @@ const Login = () => {
             }
             const body = { email: loginInfo.email, password: loginInfo.password };
             const userLogin = await axios.post(`http://localhost:8080/api/auth/login`, body, { withCredentials: true });
-
+console.log(userLogin)
             const userInfo = userLogin.data
+            navigate('/diary')
             return userInfo;
         } catch (error: any) {
             throw new Error(error)
