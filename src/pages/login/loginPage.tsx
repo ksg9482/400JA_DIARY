@@ -34,7 +34,7 @@ const Login = () => {
             }
             const body = { email: loginInfo.email, password: loginInfo.password };
             const userLogin = await axios.post(`http://localhost:8080/api/auth/login`, body, { withCredentials: true });
-console.log(userLogin)
+
             const userInfo = userLogin.data
             navigate('/diary')
             return userInfo;
