@@ -4,13 +4,14 @@ import CreateDiary from "./createDiary";
 import DiaryCompoenet from "./diaryCompoenet";
 import { diaryInputKey } from "../../constants";
 import axios from "axios";
+import Diarys from "./diarys";
 const Diary = () => {
     interface IdiaryValidCheck {
         subject: string;
         content: string;
     }
     //일기 생성, 일기 모아보기, 오늘 일기 페이지
-    
+
     //오늘의 일기(위)
     //일기 컨테이너(아래)
     //위로가기 버튼
@@ -33,20 +34,38 @@ const Diary = () => {
 
     const createDiaryHandle = async () => {
         //인수로 내용을 받아야 하나?
-        const test = {
-            id: 'd4',
-            subject: subjectInputForm,
-            content: contentInputForm,
-            date: '2022-07-30'
+        try {
+
+            const getKRDate = () => {
+                const date = new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })
+                const dateSplitArr = date.split('. ') // 공백문자도 포함해 분리
+                const year = dateSplitArr[0].padStart(2, '0')
+                const month = dateSplitArr[1].padStart(2, '0')
+                const day = dateSplitArr[2].padStart(2, '0')
+                return `${year}-${month}-${day}`
+            };
+            const dateKR = getKRDate();
+            const body = { subject: subjectInputForm, content: contentInputForm };
+            const createdDiary = {
+                id: 'temp-Id',
+                ...body,
+                date: dateKR
+            }
+            const sendDiary: any = await axios.post(`http://localhost:8080/api/diary`, body, { withCredentials: true });
+            if (!sendDiary) {
+                throw new Error('Create diary fail')
+            }
+            setDiaries([createdDiary, ...diaries])
+            // create 보내기
+            // 새로 일주일치 적용해서 캐시에 넣고 뿌리기
+        } catch (error) {
+            return error
         }
-        setDiaries([test, ...diaries])
-        const weeklyDiary: any = await axios.post(`http://localhost:8080/api/diary`, { withCredentials: true });
-        // create 보내기
-        // 새로 일주일치 적용해서 캐시에 넣고 뿌리기
+
 
     }
 
-    
+
 
     const handleFollow = () => {
         setScrollY(window.pageYOffset); //스크롤 Y축 수
@@ -107,7 +126,6 @@ const Diary = () => {
     })
 
     useEffect(() => {
-        console.log('다이어리 호출')
         const diaryInit = async () => {
             const weeklyDiary: any = await axios.get(`http://localhost:8080/api/diary/weekly`, { withCredentials: true });
             //이거 함수에 넣어서 객체로
@@ -136,13 +154,8 @@ const Diary = () => {
                 diaryValidCheck={diaryValidCheck}
             />
             <div className="w-full max-w-screen-lg flex flex-col px-5 items-center">
-
                 <div className="w-full">
-                    <div className="border">{
-                        diaries.map((diaryContent) =>
-                            <DiaryCompoenet diaryContent={diaryContent} key={diaryContent.id} />
-                        )}
-                    </div>
+                    <Diarys diaries={diaries} />
                 </div>
                 <button className="border " onClick={scrollTop}>맨위로</button>{/*맨 위 레이어로 빼서 오른쪽에 붙이기 */}
             </div>
