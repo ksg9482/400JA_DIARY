@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
+import config from "../../config"
+//import config from '../../config';
 /*
 맨처음 로그인하면 유저정보 받아오기, 토큰 받아오기
 다이어리 페이지 접속하면 일주일치 받아와서 캐시 저장(새 일기 쓰면 늘어난 다이어리 배열 초기화하고 오늘꺼 넣어서 7개. 스크롤 하면 그때서야 다시 읽기)
@@ -40,14 +42,24 @@ const Login = () => {
             return userInfo;
         } catch (error: any) {
             throw new Error(error)
-        }
-
-    }
+        };
+    };
+    const socialLoginHandler = (key: string) => async (e: React.MouseEvent<HTMLSpanElement/*이거 바뀜 */>) => {
+        console.log(process.env.KAKAO_REST_API_KEY)
+        const kakaoOAuth = `https://kauth.kakao.com/oauth/authorize?client_id=${config.KAKAO_REST_API_KEY}&redirect_uri=${config.KAKAO_REDIRECT_URI}&response_type=code`;        
+        const GOOGLE = process.env.GOOGLE || 'http://localhost:8080/google';
+        if (key === 'kakao') {
+          window.location.href = kakaoOAuth
+        } else if(key === 'google'){
+            window.location.href = GOOGLE
+        };
+    };
     //아이디
     //비밀번호
     //회원가입 로그인
 
     //에러메시지 공간 필요함
+    //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
     return (
         <div className="border h-screen flex items-center justify-center flex-col lg:mt-0">
             <Helmet>
@@ -71,8 +83,8 @@ const Login = () => {
                         <span className="border" >비밀번호 찾기</span>
                     </div>
                     <div className="border flex flex-col items-center justify-between w-1/4">
-                        <button className="border">google</button>
-                        <button className="border">kakao</button>
+                        <button className="border" onClick={socialLoginHandler('google')}>google</button>
+                        <button className="border" onClick={socialLoginHandler('kakao')}>kakao</button>
                     </div>
             </div>
         </div>
