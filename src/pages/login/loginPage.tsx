@@ -55,13 +55,27 @@ const Login = () => {
     async (e: React.MouseEvent<HTMLSpanElement /*이거 바뀜 */>) => {
       //함수로 나눠 관리해도 리다이렉트가 제대로 되나?
       const kakaoOAuth = () => {
-        const kakaoOAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${config.KAKAO_REST_API_KEY}&redirect_uri=${config.KAKAO_REDIRECT_URI}&response_type=code`;
+        const kakaoHost = 'kauth.kakao.com';
+        const kakaoParametor = {
+          client_id: config.KAKAO_REST_API_KEY,
+          redirect_uri: config.KAKAO_REDIRECT_URI,
+        }
+        const kakaoOAuthURL = `https://${kakaoHost}/oauth/authorize
+        ?client_id=${kakaoParametor.client_id}
+        &redirect_uri=${kakaoParametor.redirect_uri}
+        &response_type=code`;
+        
         window.location.href = kakaoOAuthURL;
       };
 
       const googleOAuth = () => {
-        const googleOAuthURL =
-          process.env.GOOGLE || "http://localhost:8080/google";
+        const googleOAuthURL =`https://accounts.google.com/o/oauth2/v2/auth
+        ?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline
+        &response_type=code
+        &state=hello
+        &redirect_uri=${config.GOOGLE_REDIRECT_URI}
+        &client_id=${process.env.GOOGLE_CLIENT_ID}`;
+
         window.location.href = googleOAuthURL;
       };
 
