@@ -60,21 +60,13 @@ const Login = () => {
           client_id: config.KAKAO_REST_API_KEY,
           redirect_uri: config.KAKAO_REDIRECT_URI,
         }
-        const kakaoOAuthURL = `https://${kakaoHost}/oauth/authorize
-        ?client_id=${kakaoParametor.client_id}
-        &redirect_uri=${kakaoParametor.redirect_uri}
-        &response_type=code`;
+        const kakaoOAuthURL = `https://${kakaoHost}/oauth/authorize?client_id=${kakaoParametor.client_id}&redirect_uri=${kakaoParametor.redirect_uri}&response_type=code`;
         
         window.location.href = kakaoOAuthURL;
       };
 
       const googleOAuth = () => {
-        const googleOAuthURL =`https://accounts.google.com/o/oauth2/v2/auth
-        ?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline
-        &response_type=code
-        &state=hello
-        &redirect_uri=${config.GOOGLE_REDIRECT_URI}
-        &client_id=${process.env.GOOGLE_CLIENT_ID}`;
+        const googleOAuthURL =`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline&response_type=code&state=hello&redirect_uri=${config.GOOGLE_REDIRECT_URI}&client_id=${process.env.GOOGLE_CLIENT_ID}`;
 
         window.location.href = googleOAuthURL;
       };
