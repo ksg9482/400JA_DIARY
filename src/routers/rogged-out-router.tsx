@@ -18,7 +18,7 @@ export const LoggedOutRouter = () => {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/diary" element={<Diary />} /> {/*테스트 끝나면 삭제*/}
                 <Route path="/mypage" element={<Mypage />} />
-                <Route path="/oauth/callback/kakao" element={<OAuth2RedirectHandler/>}></Route>
+                <Route path="/oauth/callback/*" element={<OAuth2RedirectHandler/>}></Route>
             </Routes>
         </Router>
     )
