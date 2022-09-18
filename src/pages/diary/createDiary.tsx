@@ -1,6 +1,9 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { diaryInputKey } from "../../constants";
+
 const CreateDiary = (props: any) => {
+    const [defaultInputForm, setDefaultInputForm] = useState({subject:'', content:''});
     const { diaryInputHandler, createDiaryHandle, diaryStateInit, diaryValidCheck } = props
     //일기 작성 컴포넌트
 
@@ -14,8 +17,9 @@ const CreateDiary = (props: any) => {
         if(!diaryValid){
             return ;
         }
-        e.preventDefault();
-        createDiaryHandle()
+        
+        createDiaryHandle();
+        //e.preventDefault(); //set이 안되는건 이벤트 전파가 안되서?
         diaryStateInit();
         diaryInputValueInit();
     }
@@ -30,12 +34,83 @@ const CreateDiary = (props: any) => {
         });
     };
 
+    const defaultInputHandler = (key: string,e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('defaultInputHandler - ', e.target.value)
+        if (key === diaryInputKey.subject) {
+            setDefaultInputForm({ ...defaultInputForm, [key]: e.target.value });
+        };
+
+        if (key === diaryInputKey.content) {
+            setDefaultInputForm({ ...defaultInputForm, [key]: e.target.value });
+        };
+    };
+   
+    
+useEffect(() => {
+    const createDefaultValue = () => {
+        try {
+            const diaryInit = async () => {
+                const weeklyDiary: any = await axios.get(`http://localhost:8080/api/diary/weekly`, { withCredentials: true });
+                //이거 함수에 넣어서 객체로
+                //다이어리를 불러올수 없습니다 컴포넌트 만들고 이상 생기면 그거 보여줘야 됨
+                const diaryForm = weeklyDiary ? weeklyDiary.data : [{
+                    id: '',
+                    subject: '',
+                    content: '',
+                    createAt: ''
+                }]
+                return diaryForm
+                
+            };
+    
+            diaryInit().then((resp)=>{
+                const getKRDate = () => {
+                    const date = new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })
+                            const dateSplitArr = date.split('. ') // 공백문자도 포함해 분리
+                            
+                            return `${dateSplitArr[0]}-${dateSplitArr[1].padStart(2, '0')}-${dateSplitArr[2].padStart(2, '0')}`
+                }
+                const now = new Date(getKRDate())
+                const targetDate = new Date(resp[0].date)
+                const nowDiary = resp[0]
+                if (now <= targetDate) {
+                    setDefaultInputForm({
+                        subject:nowDiary.subject,
+                        content:nowDiary.content
+                    })
+                    
+                    diaryInputHandler('init', {subject:nowDiary.subject, content:nowDiary.content});
+                }
+                return { subject: '', content: '' }
+            })
+        } catch (error) {
+            return error
+        }
+        
+    }
+    createDefaultValue()
+    // const defaultValue = createDefaultValue();
+    // console.log(defaultValue)
+    // setDefaultInputForm({
+    //     subject:defaultValue.subject,
+    //     content:defaultValue.content
+    // })
+},[]) 
+    
+
     //일기 생성, 오늘 일기 페이지(트위터처럼 바로 위쪽은 작성창, 아래는 이미 작성된 일기)
     //key 값으로 구분해서 작동
     return (
         <form className="border flex flex-col w-full mb-8" onSubmit={submitHandle}>
-            <input id="diaryInputSubject" className="border" type="text" placeholder="제목을 적어주세요" onChange={diaryInputHandler(diaryInputKey.subject)} required />
-            <input id="diaryInputContent" className="border" type="text" placeholder="일기를 적어주세요" onChange={diaryInputHandler(diaryInputKey.content)} required />
+            <input id="diaryInputSubject" className="border" type="text" placeholder="제목을 적어주세요" value={defaultInputForm.subject} onChange={(e)=>{
+                defaultInputHandler(diaryInputKey.subject, e)
+                diaryInputHandler(diaryInputKey.subject, e)
+                }} required />
+            <input id="diaryInputContent" className="border" type="text" placeholder="일기를 적어주세요" value={defaultInputForm.content} onChange={(e)=>{
+                defaultInputHandler(diaryInputKey.content, e)
+                diaryInputHandler(diaryInputKey.content, e)
+                }
+                } required />
             <button className="border" >일기 쓰기</button>
         </form>
     )
