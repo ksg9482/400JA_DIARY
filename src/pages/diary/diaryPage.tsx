@@ -51,11 +51,17 @@ const Diary = () => {
                 ...body,
                 date: dateKR
             }
+            console.log('createdDiary - ', createdDiary)
             const sendDiary: any = await axios.post(`http://localhost:8080/api/diary`, body, { withCredentials: true });
             if (!sendDiary) {
                 throw new Error('Create diary fail')
             }
-            setDiaries([createdDiary, ...diaries])
+            if (createdDiary.date === diaries[0].date) {
+                setDiaries([createdDiary, ...diaries.slice(1)])
+            } else {
+                setDiaries([createdDiary, ...diaries])
+            }
+
             // create 보내기
             // 새로 일주일치 적용해서 캐시에 넣고 뿌리기
         } catch (error) {
@@ -95,22 +101,75 @@ const Diary = () => {
         return true
     }
 
-    const diaryInputHandler = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (key === diaryInputKey.subject) {
-            setSubjectInputForm(e.target.value);
-        };
+    const diaryInputHandler = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(subjectInputForm, contentInputForm)
+        if (key === 'init') {
+            const initValue: any = e
+            setSubjectInputForm(initValue.subject);
+            setContentInputForm(initValue.content);
+            return;
+        }
+        else {
+            if (key === diaryInputKey.subject) {
+                setSubjectInputForm(e.target.value);
+                setContentInputForm(contentInputForm);
+                console.log(subjectInputForm, contentInputForm)
+                return;
+            }
+            else if (key === diaryInputKey.content) {
+                setSubjectInputForm(subjectInputForm);
+                setContentInputForm(e.target.value);
+                console.log(subjectInputForm, contentInputForm)
+                return;
+            };
+        }
 
-        if (key === diaryInputKey.content) {
-            setContentInputForm(e.target.value);
-        };
-
-
-    }
+    };
 
     const diaryStateInit = () => {
+        console.log('diaryStateInit')
         setSubjectInputForm('');
         setContentInputForm('');
     }
+
+    // const createDefaultValue = () => {
+    //     try {
+    //         const diaryInit = async () => {
+    //             const weeklyDiary: any = await axios.get(`http://localhost:8080/api/diary/weekly`, { withCredentials: true });
+    //             //이거 함수에 넣어서 객체로
+    //             //다이어리를 불러올수 없습니다 컴포넌트 만들고 이상 생기면 그거 보여줘야 됨
+    //             const diaryForm = weeklyDiary ? weeklyDiary.data : [{
+    //                 id: '',
+    //                 subject: '',
+    //                 content: '',
+    //                 createAt: ''
+    //             }]
+    //             return diaryForm
+
+    //         };
+
+    //         diaryInit()
+
+    //         const getKRDate = () => {
+    //             const date = new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })
+    //                     const dateSplitArr = date.split('. ') // 공백문자도 포함해 분리
+
+    //                     return `${dateSplitArr[0]}-${dateSplitArr[1].padStart(2, '0')}-${dateSplitArr[2].padStart(2, '0')}`
+    //         }
+    //         const now = new Date(getKRDate())
+    //         //console.log(diaries[0])
+    //         const targetDate = new Date(diaries[0].date)
+    //         console.log(now, targetDate, now <= targetDate)
+    //         const nowDiary = diaries[0]
+    //         if (now <= targetDate) {
+    //             return { subject: nowDiary.subject, content: nowDiary.content }
+    //         }
+    //         return { subject: '', content: '' }
+    //     } catch (error) {
+    //         return error
+    //     }
+
+    // }
 
 
     useEffect(() => {
@@ -136,12 +195,15 @@ const Diary = () => {
                 content: '',
                 createAt: ''
             }]
+            console.log('유즈 이펙트', diaryForm)
             setDiaries(diaryForm)
         };
 
-        diaryInit()
+        diaryInit();
+        return;
     }, [])
-
+    console.log(subjectInputForm)
+    console.log(contentInputForm)
     return (
         <div className="border h-screen flex items-center justify-center flex-col mt-8 lg:mt-0">
             <Helmet>
