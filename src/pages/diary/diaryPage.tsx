@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import CreateDiary from "./createDiary";
-import DiaryCompoenet from "./diaryCompoenet";
+import DiaryCompoenet from "./diaryComponent";
 import { diaryInputKey } from "../../constants";
 import axios from "axios";
 import Diarys from "./diarys";
@@ -51,7 +51,6 @@ const Diary = () => {
                 ...body,
                 date: dateKR
             }
-            console.log('createdDiary - ', createdDiary)
             const sendDiary: any = await axios.post(`http://localhost:8080/api/diary`, body, { withCredentials: true });
             if (!sendDiary) {
                 throw new Error('Create diary fail')
@@ -102,7 +101,7 @@ const Diary = () => {
     }
 
     const diaryInputHandler = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(subjectInputForm, contentInputForm)
+     
         if (key === 'init') {
             const initValue: any = e
             setSubjectInputForm(initValue.subject);
@@ -113,13 +112,11 @@ const Diary = () => {
             if (key === diaryInputKey.subject) {
                 setSubjectInputForm(e.target.value);
                 setContentInputForm(contentInputForm);
-                console.log(subjectInputForm, contentInputForm)
                 return;
             }
             else if (key === diaryInputKey.content) {
                 setSubjectInputForm(subjectInputForm);
                 setContentInputForm(e.target.value);
-                console.log(subjectInputForm, contentInputForm)
                 return;
             };
         }
@@ -195,17 +192,14 @@ const Diary = () => {
                 content: '',
                 createAt: ''
             }]
-            console.log('유즈 이펙트', diaryForm)
             setDiaries(diaryForm)
         };
 
         diaryInit();
         return;
     }, [])
-    console.log(subjectInputForm)
-    console.log(contentInputForm)
     return (
-        <div className="border h-screen flex items-center justify-center flex-col mt-8 lg:mt-0">
+        <div className="border h-screen overflow-y-scroll flex items-center justify-start flex-col mt-1 ">
             <Helmet>
                 Diary | 400JA-DIARY
             </Helmet>
@@ -215,12 +209,12 @@ const Diary = () => {
                 diaryStateInit={diaryStateInit}
                 diaryValidCheck={diaryValidCheck}
             />
-            <div className="w-full max-w-screen-lg flex flex-col px-5 items-center">
+            <div className="border w-full max-w-screen-lg flex flex-col px-5 items-center">
                 <div className="w-full">
                     <Diarys diaries={diaries} />
                 </div>
-                <button className="border " onClick={scrollTop}>맨위로</button>{/*맨 위 레이어로 빼서 오른쪽에 붙이기 */}
             </div>
+            <button className="border " onClick={scrollTop}>맨위로</button>{/*맨 위 레이어로 빼서 오른쪽에 붙이기 */}
         </div>
     )
 };

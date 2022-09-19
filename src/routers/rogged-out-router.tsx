@@ -12,12 +12,10 @@ export const LoggedOutRouter = () => {
     //로그인이 기본 페이지. 아니면 인트로페이지 만들고 옆쪽에 로그인 기능 있게??
     return (
         <Router>
-            <Header isLogin={true} />{/*테스트 끝나면 false*/}
+            <Header isLogin={false} />{/*테스트 끝나면 false*/}
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/diary" element={<Diary />} /> {/*테스트 끝나면 삭제*/}
-                <Route path="/mypage" element={<Mypage />} />
                 <Route path="/oauth/callback/*" element={<OAuth2RedirectHandler/>}></Route>
             </Routes>
         </Router>

@@ -4,6 +4,7 @@ type headerProps = {
     isLogin: boolean
 }
 const Header = (props: headerProps) => {
+    console.log(props)
     //헤더. 컴포넌트로 옮기는게 좋을지도?
     //로고
     //홈버튼, 일기페이지, 마이페이지, 로그아웃
@@ -11,7 +12,7 @@ const Header = (props: headerProps) => {
     const pageLink = () => {
         return (
             <div className="border">
-                <Link to='/diary'>
+                <Link to='/'>
                     <span className="text-xs"> Diary Link</span>
                 </Link>
                 <Link to='/mypage'>
@@ -24,7 +25,7 @@ const Header = (props: headerProps) => {
     }
 // 최소 640px로 제한하는게 좋을듯?
     return (
-        <header className="border flex items-center justify-center lg:mt-0">
+        <header className="border flex items-center justify-center lg:mt-0 px-5 ">
             <div className="border flex items-center justify-between w-full lg:max-w-screen-lg">
             <Link to='/'>
                 <span className="border">logo Img.</span>
