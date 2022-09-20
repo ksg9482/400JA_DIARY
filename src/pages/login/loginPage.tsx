@@ -109,12 +109,12 @@ const Login = () => {
   //에러메시지 공간 필요함
   //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
   return (
-    <div className="border h-screen flex items-center justify-center flex-col lg:mt-0">
+    <div className="border h-screen flex items-center justify-center flex-col min-w-max">
       <Helmet>Login | 400JA-DIARY</Helmet>
       <div className="border w-full h-3/4 lg:max-w-screen-lg  flex flex-col items-center justify-center">
-        <form className="border w-full h-1/4  flex flex-col items-center">
-          <div className="border flex  items-center mb-6">
-            <div className="border flex flex-col mt-10 items-center mb-6">
+        <form className="border w-full h-1/4  flex flex-col items-center min-w-max">
+          <div className="border flex w-1/3 justify-between items-center mb-6 min-w-fit">
+            <div className="border flex flex-col my-10 items-center mr-12 ">
               <input
                 className="input border mb-1"
                 type="email"
@@ -132,20 +132,23 @@ const Login = () => {
                 required
               />
             </div>
-            <button className="border" onClick={loginSubmitHandler(loginInfo)}>
+            <div className="flex flex-col my-10">
+              <button className="border" onClick={loginSubmitHandler(loginInfo)}>
               로그인
             </button>
+            <button className="border">비밀번호 찾기</button></div>
+            
           </div>
         </form>
 
-        <div className="border flex items-center justify-between w-1/4">
+        <div className="border flex flex-col items-center justify-between w-1/3 min-w-max my-4">
           <Link to="/signup">
+            아직 회원으로 등록하지 않으셨나요?
             <span className="border">회원 가입</span>
           </Link>
-          <span className="border">비밀번호 찾기</span>
         </div>
-        <div className="border flex flex-col items-center justify-between w-1/4">
-          <button className="border" onClick={socialLoginHandler("google")}>
+        <div className="border flex flex-col items-center justify-between w-1/3">
+          <button className="border mb-1" onClick={socialLoginHandler("google")}>
             google
           </button>
           <button className="border" onClick={socialLoginHandler("kakao")}>

@@ -31,8 +31,8 @@ const Signup = () => {
 
     //본인인증 메일
     //본인인증 했으면 웰컴 메일
-    
-    const validCheckHandle = (signupInfo:IsignupInfoState):void => {
+
+    const validCheckHandle = (signupInfo: IsignupInfoState): void => {
         const emailCheck = () => {
             const emailValidPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return emailValidPattern.exec(signupInfo.email)
@@ -42,11 +42,11 @@ const Signup = () => {
             return signupInfo.password === signupInfo.passwordCheck
         };
 
-        if(emailCheck()) {
-            setValidCheck({ ...validCheck, email: true})
+        if (emailCheck()) {
+            setValidCheck({ ...validCheck, email: true })
         };
-        if(samePasswordCheck()) {
-            setValidCheck({ ...validCheck, password: true})
+        if (samePasswordCheck()) {
+            setValidCheck({ ...validCheck, password: true })
         };
     }
     const sendSignup = async (): Promise<{ data: any }> => {
@@ -76,8 +76,8 @@ const Signup = () => {
             validCheckHandle(signupInfo)
             await sendSignup()
             onCompleted()
-        } catch (error:any) {
-            if(error.message === 'Already Email') {
+        } catch (error: any) {
+            if (error.message === 'Already Email') {
                 alert('이미 가입된 이메일 입니다.');
             }
         }
@@ -94,17 +94,28 @@ const Signup = () => {
                     //onSubmit={handleSubmit}
                     className="grid gap-3 mt-5 w-full mb-5"
                 >
-                    <input className="border" type="email" placeholder="email" onChange={inputHandler('email')} />
-                    <input className="border" type="password" placeholder="Password" onChange={inputHandler('password')} />
-                    <input className="border" type="password" placeholder="Password check" onChange={inputHandler('passwordCheck')} />
+                    <div className="w-full flex justify-between">
+                        <span>Email</span>
+                        <input className="border w-3/4" type="email" placeholder="email" onChange={inputHandler('email')} />
+                    </div>
+                    <div className="w-full flex justify-between">
+                        <span>Password</span>
+                        <input className="border w-3/4" type="password" placeholder="Password" onChange={inputHandler('password')} />
+                    </div>
+                    <div className="w-full flex justify-between">
+                        <span>Password Check</span>
+                        <input className="border w-3/4" type="password" placeholder="Password check" onChange={inputHandler('passwordCheck')} />
+                    </div>
 
-                    <div className="border flex items-center justify-between w-2/4">
+                    <div className="border flex justify-center w-full mt-10">
+                        <div className="w-3/4 flex justify-between">
                         <Link to="/">
                             <button className="border">cancle</button>
                         </Link>
+                        <button className="border" onSubmit={handleSubmit}>sign up</button>
+                        </div>
                         
-                            <button className="border" onSubmit={handleSubmit}>sign up</button>
-                        
+
                     </div>
                 </form>
             </div>
