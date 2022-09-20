@@ -20,7 +20,7 @@ const OAuth2RedirectHandler = (props: any) => {
             withCredentials: true,
           }
         );
-        navigate("/diary");
+        navigate("/");
         return;
       } catch (error) {
         return error;
@@ -29,7 +29,9 @@ const OAuth2RedirectHandler = (props: any) => {
 
     if (oauthPath.includes("google")) {
       try {
-        const parsedHash = new URLSearchParams(window.location.hash.substring(1));
+        const parsedHash = new URLSearchParams(
+          window.location.hash.substring(1)
+        );
         const accessToken = parsedHash.get("access_token");
         const sendCode = await axios.post(
           `http://localhost:8080/api/auth/google`,
@@ -38,12 +40,11 @@ const OAuth2RedirectHandler = (props: any) => {
             withCredentials: true,
           }
         );
-        navigate("/diary");
+        navigate("/");
         return;
       } catch (error) {
         return error;
       }
-
     }
   }
   useEffect(() => {
