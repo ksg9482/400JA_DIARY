@@ -60,11 +60,11 @@ const Login = () => {
           client_id: config.KAKAO_REST_API_KEY,
           redirect_uri: config.KAKAO_REDIRECT_URI,
         };
-        const kakaoOAuthURL = 
-        `https://${kakaoHost}/oauth/authorize?`
-        +`client_id=${kakaoParametor.client_id}`
-        +`&redirect_uri=${kakaoParametor.redirect_uri}`
-        +`&response_type=code`;
+        const kakaoOAuthURL =
+          `https://${kakaoHost}/oauth/authorize?` +
+          `client_id=${kakaoParametor.client_id}` +
+          `&redirect_uri=${kakaoParametor.redirect_uri}` +
+          `&response_type=code`;
 
         window.location.href = kakaoOAuthURL;
       };
@@ -74,14 +74,14 @@ const Login = () => {
         const googleParametor = {
           client_id: config.GOOGLE_CLIENT_ID,
           redirect_uri: config.GOOGLE_REDIRECT_URI,
-          scope_email:'https://www.googleapis.com/auth/userinfo.email'
+          scope_email: "https://www.googleapis.com/auth/userinfo.email",
         };
-        const googleOAuthURL = 
-        `https://${googleHost}/o/oauth2/v2/auth`
-        +`?client_id=${googleParametor.client_id}`
-        +`&redirect_uri=${googleParametor.redirect_uri}`
-        +`&response_type=token`
-        +`&scope=${googleParametor.scope_email}`;
+        const googleOAuthURL =
+          `https://${googleHost}/o/oauth2/v2/auth` +
+          `?client_id=${googleParametor.client_id}` +
+          `&redirect_uri=${googleParametor.redirect_uri}` +
+          `&response_type=token` +
+          `&scope=${googleParametor.scope_email}`;
 
         window.location.href = googleOAuthURL;
       };
@@ -109,9 +109,9 @@ const Login = () => {
   //에러메시지 공간 필요함
   //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
   return (
-    <div className="border h-screen flex items-center justify-center flex-col min-w-max">
+    <div className="border h-screen flex items-center justify-center flex-col bg-slate-500 min-w-max pt-8">
       <Helmet>Login | 400JA-DIARY</Helmet>
-      <div className="border w-full h-3/4 lg:max-w-screen-lg  flex flex-col items-center justify-center">
+      <div className="border w-full h-full lg:max-w-screen-lg bg-white flex flex-col items-center justify-center">
         <form className="border w-full h-1/4  flex flex-col items-center min-w-max">
           <div className="border flex w-1/3 justify-between items-center mb-6 min-w-fit">
             <div className="border flex flex-col my-10 items-center mr-12 ">
@@ -133,22 +133,27 @@ const Login = () => {
               />
             </div>
             <div className="flex flex-col my-10">
-              <button className="border" onClick={loginSubmitHandler(loginInfo)}>
-              로그인
-            </button>
-            <button className="border">비밀번호 찾기</button></div>
-            
+              <button
+                className="border"
+                onClick={loginSubmitHandler(loginInfo)}
+              >
+                로그인
+              </button>
+              <button className="border">비밀번호 찾기</button>
+            </div>
           </div>
         </form>
 
         <div className="border flex flex-col items-center justify-between w-1/3 min-w-max my-4">
-          <Link to="/signup">
-            아직 회원으로 등록하지 않으셨나요?
-            <span className="border">회원 가입</span>
+          <Link to="/signup" className="text-blue-400">
+            아직 회원으로 등록하지 않으셨나요? 회원가입
           </Link>
         </div>
         <div className="border flex flex-col items-center justify-between w-1/3">
-          <button className="border mb-1" onClick={socialLoginHandler("google")}>
+          <button
+            className="border mb-1"
+            onClick={socialLoginHandler("google")}
+          >
             google
           </button>
           <button className="border" onClick={socialLoginHandler("kakao")}>
