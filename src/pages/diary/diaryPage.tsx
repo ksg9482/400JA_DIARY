@@ -5,6 +5,7 @@ import DiaryCompoenet from "./diaryComponent";
 import { diaryInputKey } from "../../constants";
 import axios from "axios";
 import Diarys from "./diarys";
+import SideBar from "components/sideBar/sideBar";
 const Diary = () => {
   interface IdiaryValidCheck {
     subject: string;
@@ -33,6 +34,9 @@ const Diary = () => {
     },
   ]);
 
+  const setFindResult = (resultArr:any[]) => {
+    setDiaries(resultArr)
+  }
   const createDiaryHandle = async () => {
     //인수로 내용을 받아야 하나?
     try {
@@ -211,6 +215,7 @@ const Diary = () => {
   return (
     <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col pt-8">
       <Helmet>Diary | 400JA-DIARY</Helmet>
+      <SideBar setFindResult={setFindResult}/>
       <CreateDiary
         diaryInputHandler={diaryInputHandler}
         createDiaryHandle={createDiaryHandle}
@@ -218,7 +223,7 @@ const Diary = () => {
         diaryValidCheck={diaryValidCheck}
       />
 
-      <div className="border w-3/4 h-full min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center">
+      <div className="border w-3/4 h-auto min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center ">
         <div className="flex">
           <div className="w-60"></div>
           <div className="w-60"></div>
