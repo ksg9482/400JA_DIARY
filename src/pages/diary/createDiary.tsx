@@ -81,6 +81,7 @@ const CreateDiary = (props: any) => {
         };
 
         diaryInit().then((resp) => {
+          
           const getKRDate = () => {
             const date = new Date().toLocaleString("ko-KR", {
               timeZone: "Asia/Seoul",
@@ -92,6 +93,14 @@ const CreateDiary = (props: any) => {
               "0"
             )}-${dateSplitArr[2].padStart(2, "0")}`;
           };
+
+          if(resp.length <= 0){
+            resp.push({
+              subject: '',
+              content: ''
+            })
+          }
+
           const now = new Date(getKRDate());
           const targetDate = new Date(resp[0].date);
           const nowDiary = resp[0];

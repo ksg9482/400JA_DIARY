@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { LoggedInRouter } from './rogged-in-router'
 import { LoggedOutRouter } from './rogged-out-router'
 const Router = (isLoggedIn: boolean) => {
-  
   const [isOauthLoggedIn, setIsOauthLoggedIn] = useState(false);
   const oauthLoginIsTrue = () => {
     setIsOauthLoggedIn(true)

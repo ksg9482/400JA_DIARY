@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 type headerProps = {
@@ -8,8 +9,12 @@ const Header = (props: headerProps) => {
   //헤더. 컴포넌트로 옮기는게 좋을지도?
   //로고
   //홈버튼, 일기페이지, 마이페이지, 로그아웃
-  const logOutHandle = () => {
-    console.log("logout");
+  const logOutHandle = async () => {
+    const userLogout = await axios.get(
+      `http://localhost:8080/api/user/logout`,
+      { withCredentials: true }
+      );
+      location.reload()
     return;
   };
   const pageLink = () => {

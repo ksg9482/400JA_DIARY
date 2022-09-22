@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import UserDeleteModal from "./userDelete";
 //프로필 페이지가 좋을까?
 const Mypage = () => {
   //유저정보, 정보변경, 일기 정보, 유저 삭제
@@ -9,18 +10,11 @@ const Mypage = () => {
     email: "",
     diaryCount: "",
   });
-  const sampleUserData = {
-    userId: "",
-    email: "sample@test.com",
-    password: "",
-  };
-
-  // const getUserData = async () => {
-  //   const userData: any = await axios.get(`http://localhost:8080/api/user/me`, {
-  //     withCredentials: true,
-  //   });
-  // };
-  
+ 
+  const [onModal, setOnModal] = useState(false); 
+  const modalHandle = () => {
+    setOnModal(!onModal)
+  }
 
   const passwordChangeHandle = async (password:string) => {
     console.log('passwordChangeHandle')
@@ -33,24 +27,9 @@ const Mypage = () => {
 
   const userDeleteHandle = async (password:string) => { 
     try {
-    console.log('userDeleteHandle')
-    //비밀번호 보내서 확인하고
-    //비밀번호 맞으면 유저 삭제
-    const userDeleteSequence = async (password:string) => {
-      const passwordCheck: any = await axios.post(
-        `http://localhost:8080/api/user/password`,
-        password,
-        { withCredentials: true }
-      ); 
-      if(!passwordCheck) {
-        throw new Error('Invalid Password')
-      }
-      const userdelete: any = await axios.delete(
-        `http://localhost:8080/api/user`,
-        { withCredentials: true }
-      ); 
-    }
-    await userDeleteSequence(password)
+    modalHandle()
+    
+    
     return 'test'
     } catch (error:any) {
       return error
@@ -80,9 +59,14 @@ const Mypage = () => {
     mypageInit();
   }, []);
 
+  useEffect(()=>{
+
+  },[onModal])
+console.log(userData)
   return (
     <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col pt-8">
       <Helmet>Diary | 400JA-DIARY</Helmet>
+      {onModal? <UserDeleteModal modalHandle={modalHandle}/> : null}
       <div className="border w-3/4 h-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
         <div className="mb-4">
           <div>{userData.email}님의 마이페이지 입니다.</div>
