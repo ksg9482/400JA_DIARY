@@ -92,7 +92,7 @@ const Signup = () => {
   return (
     <div className="border h-screen bg-slate-500 flex items-center justify-center flex-col mt-8 lg:mt-0 pt-8">
       <Helmet>Login | 400JA-DIARY</Helmet>
-      <div className="w-full h-full lg:max-w-screen-lg bg-white max-w-screen-sm flex flex-col px-5 justify-center items-center">
+      <div className="w-full h-full lg:max-w-screen-lg bg-white  flex flex-col px-5 justify-center items-center">
         <form
           //onSubmit={handleSubmit}
           className="grid gap-3 mt-5 w-3/4 mb-5"

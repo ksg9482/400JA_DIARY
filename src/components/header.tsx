@@ -21,10 +21,7 @@ const Header = (props: headerProps) => {
         <Link to="/mypage">
           <span className="text-xs"> Mypage Link</span>
         </Link>
-        {/*서비스에서 로그아웃 함수 적용시키기*/}
-        <span className="text-xs" onClick={logOutHandle}>
-          Logout
-        </span>
+        <span className="text-xs" onClick={logOutHandle}>Logout</span>
       </div>
     );
   };

@@ -15,28 +15,49 @@ const Mypage = () => {
     password: "",
   };
 
-  const getUserData = async () => {
-    const userData: any = await axios.get(`http://localhost:8080/api/user/me`, {
-      withCredentials: true,
-    });
-  };
-  const checkDiaryCount = () => {
-    //페이지가 열리면 자동으로 호출
-    const fakeDiarycount = 107;
-    return fakeDiarycount;
+  // const getUserData = async () => {
+  //   const userData: any = await axios.get(`http://localhost:8080/api/user/me`, {
+  //     withCredentials: true,
+  //   });
+  // };
+  
+
+  const passwordChangeHandle = async (password:string) => {
+    console.log('passwordChangeHandle')
+    const passwordCheck: any = await axios.patch(
+      `http://localhost:8080/api/user/password`,
+      password,
+      { withCredentials: true }
+    ); 
   };
 
-  const passwordChangeHandle = () => {
-    //등록된 이메일로 인증메일
-    //비밀번호, 확인
+  const userDeleteHandle = async (password:string) => { 
+    try {
+    console.log('userDeleteHandle')
+    //비밀번호 보내서 확인하고
+    //비밀번호 맞으면 유저 삭제
+    const userDeleteSequence = async (password:string) => {
+      const passwordCheck: any = await axios.post(
+        `http://localhost:8080/api/user/password`,
+        password,
+        { withCredentials: true }
+      ); 
+      if(!passwordCheck) {
+        throw new Error('Invalid Password')
+      }
+      const userdelete: any = await axios.delete(
+        `http://localhost:8080/api/user`,
+        { withCredentials: true }
+      ); 
+    }
+    await userDeleteSequence(password)
+    return 'test'
+    } catch (error:any) {
+      return error
+    }
+    
   };
-
-  const userDeleteHandle = () => {};
-  const diaryCount = checkDiaryCount();
-
-  // useEffect(()=>{
-  //     const diaryCount = checkDiaryCount()
-  // },[]);
+  
   useEffect(() => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
@@ -48,11 +69,11 @@ const Mypage = () => {
       const MypageForm = userData
         ? userData.data
         : [
-            {
-              email: "",
-              diaryCount: "",
-            },
-          ];
+          {
+            email: "",
+            diaryCount: "",
+          },
+        ];
       setUserdata(MypageForm);
     };
 
@@ -63,12 +84,17 @@ const Mypage = () => {
     <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col pt-8">
       <Helmet>Diary | 400JA-DIARY</Helmet>
       <div className="border w-3/4 h-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-        <div>{userData.email}님의 마이페이지 입니다.</div>
-        <div>
-          오늘까지 총<span>{userData.diaryCount}</span>개 일기를 쓰셨습니다.
+        <div className="mb-4">
+          <div>{userData.email}님의 마이페이지 입니다.</div>
+          <div>
+            오늘까지 총<span>{userData.diaryCount}</span>개 일기를 쓰셨습니다.
+          </div>
         </div>
-        <div onClick={passwordChangeHandle}>비밀번호 변경</div>
-        <div onClick={userDeleteHandle}>회원 탈퇴</div>
+        <div>
+          <div className="mb-4" onClick={()=>passwordChangeHandle('')}>비밀번호 변경</div>
+          <div onClick={()=>userDeleteHandle('')}>회원 탈퇴</div>
+        </div>
+
       </div>
     </div>
   );
