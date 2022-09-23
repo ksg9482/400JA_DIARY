@@ -223,7 +223,7 @@ const Diary = () => {
         diaryValidCheck={diaryValidCheck}
       />
 
-      <div className="border w-3/4 h-auto min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center ">
+      <div className="border w-3/4 h-auto min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center pb-4">
         <div className="flex">
           <div className="w-60"></div>
           <div className="w-60"></div>

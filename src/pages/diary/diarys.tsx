@@ -8,6 +8,15 @@ interface IdiaryContent {
 }
 const Diarys = (props: any) => {
   const diaries = props.diaries;
+  if(diaries.length <= 0) {
+    diaries.push({
+      id: ' ', 
+      subject: ' ', 
+      content: ' ', 
+      date: ' '
+    })
+  }
+  console.log(diaries)
   //여러 일기의 컨테이너 컴포넌트.
 
   //일기 모아보기. map으로 뿌린다.

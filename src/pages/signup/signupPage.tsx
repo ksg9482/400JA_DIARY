@@ -58,9 +58,10 @@ const Signup = () => {
       passwordCheck: signupInfo.passwordCheck,
     };
 
+    //error 처리 개선!!!
     const userSignup = await axios.post(
       `http://localhost:8080/api/auth/signup`,
-      body,
+      {email:body.email, password:body.password},
       { withCredentials: true }
     );
     if (userSignup.status === 500) {
@@ -74,13 +75,18 @@ const Signup = () => {
   };
 
   const onCompleted = (): void => {
+    console.log('회원가입 네비')
     navigate("/");
   };
 
-  const handleSubmit = async (): Promise<void> => {
+  const handleSubmit = async (e:React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     try {
+      e.preventDefault()
+      console.log('start')
       validCheckHandle(signupInfo);
+      console.log('validCheckHandle')
       await sendSignup();
+      console.log('sendSignup')
       onCompleted();
     } catch (error: any) {
       if (error.message === "Already Email") {
@@ -130,7 +136,7 @@ const Signup = () => {
               <Link to="/">
                 <button className="border">cancle</button>
               </Link>
-              <button className="border" onSubmit={handleSubmit}>
+              <button className="border" onClick={handleSubmit}>
                 sign up
               </button>
             </div>

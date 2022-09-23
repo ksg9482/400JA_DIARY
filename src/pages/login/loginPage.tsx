@@ -27,9 +27,8 @@ const Login = () => {
     e: React.MouseEvent<HTMLButtonElement>
   ) => {};
   const navigate = useNavigate();
-  const loginSubmitHandler =
-    (loginInfo: loginInfoState) =>
-    async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const loginSubmitHandler = (loginInfo: loginInfoState) => 
+  async (e: React.MouseEvent<HTMLButtonElement>) => {
       //env 적용 해야함
       e.preventDefault();
       try {
@@ -42,14 +41,20 @@ const Login = () => {
           body,
           { withCredentials: true }
         );
-
+          console.log(userLogin)
         const userInfo = userLogin.data;
-        navigate("/diary");
+        //navigate("/",{replace:true});
+        //location.reload()
         return userInfo;
       } catch (error: any) {
-        throw new Error(error);
-      }
+        console.log(error.response.data.error)
+        if(error.response.data.error === 'User not registered') {
+          return '가입되지 않은 사용자 입니다.';
+        }
+        return error
+      };
     };
+
   const socialLoginHandler =
     (key: string) =>
     async (e: React.MouseEvent<HTMLSpanElement /*이거 바뀜 */>) => {
