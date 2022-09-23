@@ -26,15 +26,7 @@ const Mypage = () => {
   };
 
   const userDeleteHandle = async (password:string) => { 
-    try {
-    modalHandle()
-    
-    
-    return 'test'
-    } catch (error:any) {
-      return error
-    }
-    
+    modalHandle();
   };
   
   useEffect(() => {
