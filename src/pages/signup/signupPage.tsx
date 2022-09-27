@@ -18,6 +18,8 @@ const Signup = () => {
     email: false,
     password: false,
   });
+  const [errorMessage,setErrorMessage] = useState('');
+  
 
   const inputHandler =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,20 +80,33 @@ const Signup = () => {
     console.log('회원가입 네비')
     navigate("/");
   };
-
+const emptyCheck = () => {
+  if(signupInfo.email === '' || signupInfo.password === ''|| signupInfo.passwordCheck === ''){
+    return {message:'각 항목을 채워주세요.'}
+  }
+  if(signupInfo.password !== signupInfo.passwordCheck) {
+    return {message:'비밀번호와 비밀번호 확인이 같지 않습니다.'}
+  }
+  return ;
+}
   const handleSubmit = async (e:React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     try {
-      e.preventDefault()
-      console.log('start')
+      //e.preventDefault()
+      const check = emptyCheck()
+      if(check) {
+        console.log(check)
+        setErrorMessage(check.message)
+        return ;
+      }
+      console.log('검증통과')
       validCheckHandle(signupInfo);
-      console.log('validCheckHandle')
       await sendSignup();
-      console.log('sendSignup')
       onCompleted();
     } catch (error: any) {
       if (error.message === "Already Email") {
         alert("이미 가입된 이메일 입니다.");
       }
+      return ;
     }
   };
   //에러메시지 공간 필요함
@@ -130,7 +145,7 @@ const Signup = () => {
               onChange={inputHandler("passwordCheck")}
             />
           </div>
-
+          {errorMessage? errorMessage : <div>&nbsp;</div>}
           <div className="border flex justify-center w-full mt-10">
             <div className="w-3/4 flex justify-between">
               <Link to="/">
@@ -141,6 +156,7 @@ const Signup = () => {
               </button>
             </div>
           </div>
+          
         </form>
       </div>
     </div>

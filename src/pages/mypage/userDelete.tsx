@@ -32,6 +32,7 @@ const UserDeleteModal = (props: any) => {
         await userDeleteSequence()
         modalHandle()
         nav('/',{replace:true})
+        location.reload()
     }
 
     //일반가입이면 단순 데이터 삭제
@@ -42,7 +43,7 @@ const UserDeleteModal = (props: any) => {
             <div className="bg-white w-1/3 h-1/3  ">
                 <div>
                     <div>
-                        j00JA-DIARY 회원을 탈퇴하시면 모든 유저정보가 삭제되고 복구할 수 없습니다. 회원을 탈퇴하시겠습니까?
+                        400JA-DIARY 회원을 탈퇴하시면 모든 유저정보가 삭제되고 복구할 수 없습니다. 회원을 탈퇴하시겠습니까?
                     </div>
                     <div>
                         최종 확인을 위해 비밀번호를 입력해 주세요.

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import config from "../../config";
+import FindPasswordModal from "./findPasswordModal";
 //import config from '../../config';
 /*
 맨처음 로그인하면 유저정보 받아오기, 토큰 받아오기
@@ -23,17 +24,21 @@ const Login = () => {
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setLoginInfo({ ...loginInfo, [key]: e.target.value });
     };
-  const linkSignupHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {};
+  
   const navigate = useNavigate();
+  const [errorMessage,setErrorMessage] = useState('');
+  const [onModal, setOnModal] = useState(false); 
+  const modalHandle = () => {
+    setOnModal(!onModal)
+  }
   const loginSubmitHandler = (loginInfo: loginInfoState) => 
   async (e: React.MouseEvent<HTMLButtonElement>) => {
       //env 적용 해야함
       e.preventDefault();
       try {
         if (loginInfo.email === "" || loginInfo.password === "") {
-          //setErrorMessage('이메일 혹은 비밀번호를 확인해주세요')
+          setErrorMessage('이메일과 비밀번호를 입력해주세요')
+          return ;
         }
         const body = { email: loginInfo.email, password: loginInfo.password };
         const userLogin = await axios.post(
@@ -41,19 +46,23 @@ const Login = () => {
           body,
           { withCredentials: true }
         );
-          console.log(userLogin)
         const userInfo = userLogin.data;
-        //navigate("/",{replace:true});
-        //location.reload()
+        navigate("/",{replace:true});
+        location.reload()
         return userInfo;
       } catch (error: any) {
-        console.log(error.response.data.error)
         if(error.response.data.error === 'User not registered') {
-          return '가입되지 않은 사용자 입니다.';
-        }
+          setErrorMessage('가입되지 않은 사용자 입니다')
+          return ;
+        };
         return error
       };
     };
+
+    const findPasswordHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      modalHandle()
+    }
 
   const socialLoginHandler =
     (key: string) =>
@@ -116,6 +125,7 @@ const Login = () => {
   return (
     <div className="border h-screen flex items-center justify-center flex-col bg-slate-500 min-w-max pt-8">
       <Helmet>Login | 400JA-DIARY</Helmet>
+      {onModal? <FindPasswordModal modalHandle={modalHandle}/> : null}
       <div className="border w-full h-full lg:max-w-screen-lg bg-white flex flex-col items-center justify-center">
         <form className="border w-full h-1/4  flex flex-col items-center min-w-max">
           <div className="border flex w-1/3 justify-between items-center mb-6 min-w-fit">
@@ -144,9 +154,11 @@ const Login = () => {
               >
                 로그인
               </button>
-              <button className="border">비밀번호 찾기</button>
+              <button className="border" onClick={findPasswordHandle}>비밀번호 찾기</button>
             </div>
+            
           </div>
+          {errorMessage? errorMessage : <div>&nbsp;</div>}
         </form>
 
         <div className="border flex flex-col items-center justify-between w-1/3 min-w-max my-4">
