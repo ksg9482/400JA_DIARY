@@ -16,7 +16,6 @@ const Diarys = (props: any) => {
       date: ' '
     })
   }
-  console.log(diaries)
   //여러 일기의 컨테이너 컴포넌트.
 
   //일기 모아보기. map으로 뿌린다.
@@ -26,6 +25,7 @@ const Diarys = (props: any) => {
       {diaries.map((diaryContent: IdiaryContent) => (
         <DiaryCompoenet diaryContent={diaryContent} key={diaryContent.id} />
       ))}
+      
     </div>
   );
 };

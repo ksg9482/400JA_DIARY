@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import PasswordChangeModal from "./passwordChangeModal";
 import UserDeleteModal from "./userDelete";
 //프로필 페이지가 좋을까?
 const Mypage = () => {
@@ -13,21 +14,19 @@ const Mypage = () => {
  
   const [onModal, setOnModal] = useState(false); 
   const modalHandle = () => {
-    setOnModal(!onModal)
+    setOnModal(onModal => !onModal)
   }
-
-  const passwordChangeHandle = async (password:string) => {
-    console.log('passwordChangeHandle')
-    const passwordCheck: any = await axios.patch(
-      `http://localhost:8080/api/user/password`,
-      password,
-      { withCredentials: true }
-    ); 
-  };
-
-  const userDeleteHandle = async (password:string) => { 
-    modalHandle();
-  };
+  const [modalPage, setModalPage] = useState(<UserDeleteModal modalHandle={modalHandle}/>); 
+  
+  const setModalPage2 = (key:string) => {
+    if(key === 'userDelete') {
+      setModalPage(<UserDeleteModal modalHandle={modalHandle}/>) 
+    }
+    if(key === 'passwordChange') {
+      setModalPage(<PasswordChangeModal modalHandle={modalHandle}/>) 
+    }
+    modalHandle()
+  }
   
   useEffect(() => {
     const mypageInit = async () => {
@@ -54,11 +53,10 @@ const Mypage = () => {
   useEffect(()=>{
 
   },[onModal])
-console.log(userData)
   return (
     <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col pt-8">
       <Helmet>Diary | 400JA-DIARY</Helmet>
-      {onModal? <UserDeleteModal modalHandle={modalHandle}/> : null}
+      {onModal? modalPage : null}
       <div className="border w-3/4 h-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
         <div className="mb-4">
           <div>{userData.email}님의 마이페이지 입니다.</div>
@@ -67,8 +65,8 @@ console.log(userData)
           </div>
         </div>
         <div>
-          <div className="mb-4" onClick={()=>passwordChangeHandle('')}>비밀번호 변경</div>
-          <div onClick={()=>userDeleteHandle('')}>회원 탈퇴</div>
+          <div className="mb-4" onClick={()=>setModalPage2('passwordChange')}>비밀번호 변경</div>
+          <div onClick={()=>setModalPage2('userDelete')}>회원 탈퇴</div>
         </div>
 
       </div>

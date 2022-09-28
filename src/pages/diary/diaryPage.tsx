@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import CreateDiary from "./createDiary";
 import DiaryCompoenet from "./diaryComponent";
@@ -34,6 +34,12 @@ const Diary = () => {
     },
   ]);
 
+  const [page, setPage] = useState(0);
+  const [load, setLoad] = useState(false);
+
+  const preventRef = useRef(true);
+  const obsRef = useRef(null);
+  const endRef = useRef(false);
   const setFindResult = (resultArr:any[]) => {
     setDiaries(resultArr)
   }
@@ -178,8 +184,7 @@ const Diary = () => {
     const watch = () => {
       window.addEventListener("scroll", handleFollow);
     };
-    //setTimeout 말고 스크롤 이벤트를 제한할 방법이 있을까?
-    //스크롤 이벤트가 끝나고 어느정도 시간이 지나면?(0.2초정도)
+
     setTimeout(() => {
       watch();
     }, 1000);
@@ -188,30 +193,72 @@ const Diary = () => {
     };
   });
 
-  useEffect(() => {
-    const diaryInit = async () => {
-      const weeklyDiary: any = await axios.get(
-        `http://localhost:8080/api/diary/weekly`,
-        { withCredentials: true }
-      );
-      //이거 함수에 넣어서 객체로
-      //다이어리를 불러올수 없습니다 컴포넌트 만들고 이상 생기면 그거 보여줘야 됨
-      const diaryForm = weeklyDiary
-        ? weeklyDiary.data
-        : [
-            {
-              id: "",
-              subject: "",
-              content: "",
-              createAt: "",
-            },
-          ];
-      setDiaries(diaryForm);
-    };
+  const obsHandle = ((entries:any) => {
+    const target = entries[0];
+    
+    if(!endRef.current && target.isIntersecting && preventRef.current) {
+      preventRef.current = false;
+      setPage(prev => prev + 1);
+    }
+  })
 
-    diaryInit();
-    return;
-  }, []);
+  useEffect(()=>{
+    const observer = new IntersectionObserver(obsHandle, {threshold: 0.5});
+    if(obsRef.current) observer.observe(obsRef.current);
+    return () => {observer.disconnect();}
+  }, [])
+
+  const getPost = useCallback(async()=>{
+    setLoad(true);
+    const lastDiaryId = diaries[diaries.length-1].id;
+    if(lastDiaryId.length <= 0) {
+      const diaryInit = async () => {
+        const weeklyDiary: any = await axios.get(
+          `http://localhost:8080/api/diary/weekly`,
+          { withCredentials: true }
+        );
+        
+        if(weeklyDiary.data) {
+          
+          setDiaries([...weeklyDiary.data]) //list로 안보내줌
+          preventRef.current = true;
+        } 
+        else {
+          console.log(weeklyDiary)
+        }
+        setLoad(false);
+      };
+  
+      diaryInit();
+      
+      return;
+    } 
+    else {
+      const res = await axios.post(
+        `http://localhost:8080/api/diary/diary`,
+        {lastDiaryId:lastDiaryId},
+        { withCredentials: true }
+          )
+      
+      if(res.data) {
+        if(res.data.end){
+          endRef.current = true;
+        }
+        setDiaries(prev => [...prev, ...res.data.list]) //list로 안보내줌
+        preventRef.current = true;
+      } 
+      else {
+        console.log(res)
+      }
+      setLoad(false);
+    }
+    
+  },[page])
+
+  useEffect(()=>{
+    if(page !== 1) getPost();
+  },[page])
+
   return (
     <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col pt-8">
       <Helmet>Diary | 400JA-DIARY</Helmet>
@@ -225,12 +272,13 @@ const Diary = () => {
 
       <div className="border w-3/4 h-auto min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center pb-4">
         <div className="flex">
-          <div className="w-60"></div>
-          <div className="w-60"></div>
+          <div className="w-72"></div>
+          <div className="w-72"></div>
         </div>
         <div className="w-full">
           <Diarys diaries={diaries} />
         </div>
+        <div id="diary-end" ref={obsRef}></div>
       </div>
       <button
         className="border flex bottom-0 right-7 absolute bg-white"

@@ -26,7 +26,7 @@ const Header = (props: headerProps) => {
         <Link to="/mypage">
           <span className="text-xs"> Mypage Link</span>
         </Link>
-        <span className="text-xs" onClick={logOutHandle}>Logout</span>
+        <span className="text-xs" onClick={logOutHandle}>Log Out</span>
       </div>
     );
   };

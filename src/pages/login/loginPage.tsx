@@ -29,7 +29,7 @@ const Login = () => {
   const [errorMessage,setErrorMessage] = useState('');
   const [onModal, setOnModal] = useState(false); 
   const modalHandle = () => {
-    setOnModal(!onModal)
+    setOnModal(onModal => !onModal)
   }
   const loginSubmitHandler = (loginInfo: loginInfoState) => 
   async (e: React.MouseEvent<HTMLButtonElement>) => {

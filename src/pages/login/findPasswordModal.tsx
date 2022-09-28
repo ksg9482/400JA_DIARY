@@ -16,14 +16,16 @@ const FindPasswordModal = (props: any) => {
     const passwordFindHandle = async (email:string) => {
         try {
             setErrorMessage('등록되지 않은 사용자 입니다.')
-        const userLogin = await axios.post(
+        const userValid = await axios.post(
             `http://localhost:8080/api/auth/findPassword`,
             {email:email},
             { withCredentials: true }
           );
-        console.log(userLogin)
-        // modalHandle()
-        // nav('/',{replace:true})
+        console.log(userValid)
+        //여기 주석이었음
+         modalHandle()
+         nav('/',{replace:true})
+         //여기 주석이었음
         } catch (error:any) {
             if(error.response.data.error === 'Password change fail') {
                 setErrorMessage('임시 비밀번호 발급에 실패하였습니다.')
