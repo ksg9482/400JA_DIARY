@@ -138,8 +138,8 @@ const CreateDiary = (props: any) => {
       onSubmit={submitHandle}
     >
       <div className="flex">
-        <div className="w-60"></div>
-        <div className="w-60"></div>
+        <div className="w-72"></div>
+        <div className="w-72"></div>
       </div>
       <textarea
         id="diaryInputSubject"
