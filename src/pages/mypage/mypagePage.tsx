@@ -10,6 +10,7 @@ const Mypage = () => {
   const [userData, setUserdata] = useState({
     email: "",
     diaryCount: "",
+    type:""
   });
  
   const [onModal, setOnModal] = useState(false); 
@@ -34,6 +35,7 @@ const Mypage = () => {
         `http://localhost:8080/api/user/me`,
         { withCredentials: true }
       );
+      
       //이거 함수에 넣어서 객체로
       //다이어리를 불러올수 없습니다 컴포넌트 만들고 이상 생기면 그거 보여줘야 됨
       const MypageForm = userData
@@ -42,6 +44,7 @@ const Mypage = () => {
           {
             email: "",
             diaryCount: "",
+            type:""
           },
         ];
       setUserdata(MypageForm);
@@ -54,7 +57,7 @@ const Mypage = () => {
 
   },[onModal])
   return (
-    <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col pt-8">
+    <div className="border h-screen overflow-y-scroll flex bg-slate-500 items-center justify-start flex-col ">
       <Helmet>Diary | 400JA-DIARY</Helmet>
       {onModal? modalPage : null}
       <div className="border w-3/4 h-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
@@ -65,7 +68,7 @@ const Mypage = () => {
           </div>
         </div>
         <div>
-          <div className="mb-4" onClick={()=>setModalPage2('passwordChange')}>비밀번호 변경</div>
+          {userData.type === 'BASIC' ? <div className="mb-4" onClick={()=>setModalPage2('passwordChange')}>비밀번호 변경</div> : <div>소셜로그인은 비밀번호를 변경할 수 없습니다</div>}
           <div onClick={()=>setModalPage2('userDelete')}>회원 탈퇴</div>
         </div>
 

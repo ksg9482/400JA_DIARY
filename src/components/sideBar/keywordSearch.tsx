@@ -13,9 +13,8 @@ const KeywordSearch = (props:any) => {
             `http://localhost:8080/api/diary/search/keyword?keyword=${searchInput}`,
             { withCredentials: true }
             );
-            console.log(findResult)
-        const diaryForm = [...findResult.data];
-        setFindResult(diaryForm)
+        const diaryForm = [...findResult.data.list];
+        setFindResult({end:findResult.data.end, list:diaryForm});
         return diaryForm
     }
     

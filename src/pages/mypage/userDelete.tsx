@@ -9,14 +9,14 @@ const UserDeleteModal = (props: any) => {
     const userDeleteCancle = () => {
         modalHandle()
     }
-    const inputHandle = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordInput(e.target.value)
     }
     const userDeleteHandle = async () => {
         const userDeleteSequence = async () => {
             const passwordCheck: any = await axios.post(
                 `http://localhost:8080/api/user/valid`,
-                {password:passwordInput},
+                { password: passwordInput },
                 { withCredentials: true }
             );
             if (passwordCheck.data !== true) {
@@ -26,12 +26,12 @@ const UserDeleteModal = (props: any) => {
                 `http://localhost:8080/api/user`,
                 { withCredentials: true }
             );
-            
+
             return 'userDelete';
         }
         await userDeleteSequence()
         modalHandle()
-        nav('/',{replace:true})
+        nav('/', { replace: true })
         location.reload()
     }
 
@@ -39,19 +39,21 @@ const UserDeleteModal = (props: any) => {
     //소셜 로그인이면 소셜 끊기?
     //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
     return (
-        <div className="absolute bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white w-1/3 h-1/3  ">
-                <div>
-                    <div>
+        <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white w-1/3 h-1/3">
+                <div className="mb-6">
+                    <div className="mb-6 px-1">
                         400JA-DIARY 회원을 탈퇴하시면 모든 유저정보가 삭제되고 복구할 수 없습니다. 회원을 탈퇴하시겠습니까?
                     </div>
-                    <div>
+                    <div className="mb-6 px-1">
                         최종 확인을 위해 비밀번호를 입력해 주세요.
                     </div>
-                    <input type="text" placeholder="비밀번호" onChange={inputHandle}/>
-                </div>
+                    <div className="flex justify-center items-center mt-6">
+                        <span className="mr-3">비밀번호</span>
+                        <input className="border w-3/4" type="password" placeholder="비밀번호" onChange={inputHandle} /></div>
+                    </div>
                 <div>
-                    <button onClick={userDeleteCancle} >취소</button>
+                    <button className="mr-6" onClick={userDeleteCancle} >취소</button>
                     <button onClick={userDeleteHandle} >회원탈퇴</button>
                 </div>
             </div>

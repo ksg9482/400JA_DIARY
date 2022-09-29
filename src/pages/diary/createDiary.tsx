@@ -81,7 +81,7 @@ const CreateDiary = (props: any) => {
         };
 
         diaryInit().then((resp) => {
-          
+          const list = resp.list
           const getKRDate = () => {
             const date = new Date().toLocaleString("ko-KR", {
               timeZone: "Asia/Seoul",
@@ -94,16 +94,16 @@ const CreateDiary = (props: any) => {
             )}-${dateSplitArr[2].padStart(2, "0")}`;
           };
 
-          if(resp.length <= 0){
-            resp.push({
+          if(list.length <= 0){
+            list.push({
               subject: '',
               content: ''
             })
           }
 
           const now = new Date(getKRDate());
-          const targetDate = new Date(resp[0].date);
-          const nowDiary = resp[0];
+          const targetDate = new Date(list[0].date);
+          const nowDiary = list[0];
           if (now <= targetDate) {
             setDefaultInputForm({
               subject: nowDiary.subject,
@@ -143,7 +143,7 @@ const CreateDiary = (props: any) => {
       </div>
       <textarea
         id="diaryInputSubject"
-        className="border"
+        className="border px-1 mt-2"
         placeholder="제목을 적어주세요"
         rows={1}
         value={defaultInputForm.subject}
@@ -155,7 +155,7 @@ const CreateDiary = (props: any) => {
       />
       <textarea
         id="diaryInputContent"
-        className="border overflow-y-scroll h-auto"
+        className="border overflow-y-scroll h-auto  px-1"
         placeholder="일기를 적어주세요"
         rows={6}
         maxLength={400}

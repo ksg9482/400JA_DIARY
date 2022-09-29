@@ -20,8 +20,8 @@ const DateSearch = (props:any) => {
             `http://localhost:8080/api/diary/search/date?date=${targetDate.value}`,
             { withCredentials: true }
             );
-        const diaryForm = [...findResult.data];
-        setFindResult(diaryForm)
+            const diaryForm = [...findResult.data.list];
+            setFindResult({end:findResult.data.end, list:diaryForm});
         return diaryForm
     }
 
