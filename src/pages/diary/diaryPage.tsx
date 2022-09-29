@@ -40,8 +40,13 @@ const Diary = () => {
   const preventRef = useRef(true);
   const obsRef = useRef(null);
   const endRef = useRef(false);
-  const setFindResult = (resultArr:any[]) => {
-    setDiaries(resultArr)
+  const setFindResult = (result:any) => {
+    if(result.end){
+      endRef.current = true;
+    }
+    setDiaries([...result.list])
+    preventRef.current = true;
+    
   }
   const createDiaryHandle = async () => {
     //인수로 내용을 받아야 하나?
@@ -219,8 +224,10 @@ const Diary = () => {
         );
         
         if(weeklyDiary.data) {
-          
-          setDiaries([...weeklyDiary.data]) //list로 안보내줌
+          if(weeklyDiary.data.end){
+            endRef.current = true;
+          }
+          setDiaries([...weeklyDiary.data.list]) 
           preventRef.current = true;
         } 
         else {

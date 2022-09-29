@@ -11,37 +11,37 @@ const PasswordChangeModal = (props: any) => {
     const [passwordInputObj, setPasswordInputObj] = useState({
         password: "",
         passwordChange: "",
-      });
-      const [validCheck, setValidCheck] = useState({
+    });
+    const [validCheck, setValidCheck] = useState({
         password: false,
-      });
+    });
     const [errorMessage, setErrorMessage] = useState('');
     const { modalHandle } = props;
-    
+
     const passwordFindCancle = () => {
         modalHandle()
     }
     const inputHandle =
-    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPasswordInputObj({ ...passwordInputObj, [key]: e.target.value });
-    };
+        (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+            setPasswordInputObj({ ...passwordInputObj, [key]: e.target.value });
+        };
 
     const emptyCheck = () => {
-        if(passwordInputObj.password === ''|| passwordInputObj.passwordChange === ''){
-          return {message:'각 항목을 채워주세요.'}
+        if (passwordInputObj.password === '' || passwordInputObj.passwordChange === '') {
+            return { message: '각 항목을 채워주세요.' }
         }
         // if(passwordInputObj.password !== passwordInputObj.passwordCheck) {
         //   return {message:'비밀번호와 비밀번호 확인이 같지 않습니다.'}
         // }
         return false;
-      }
+    }
 
-    const passwordChangeHandle = async (passwordInputObj:IpasswordInputObj) => {
+    const passwordChangeHandle = async (passwordInputObj: IpasswordInputObj) => {
         const check = emptyCheck()
-        if(check) {
-          console.log(check)
-          setErrorMessage(check.message)
-          return ;
+        if (check) {
+            console.log(check)
+            setErrorMessage(check.message)
+            return;
         }
 
         // validCheckHandle(passwordInputObj);
@@ -53,33 +53,37 @@ const PasswordChangeModal = (props: any) => {
             `http://localhost:8080/api/user/password`,
             body,
             { withCredentials: true }
-          ); 
+        );
         console.log(passwordChange)
-        if(passwordChange.status !== 200){
+        if (passwordChange.status !== 200) {
             setErrorMessage('비밀번호 변경에 실패했습니다.')
-            return ;
+            return;
         }
         modalHandle()
     }
-    
+
     return (
-        <div className="absolute bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
+        <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
             <div className="bg-white w-1/3 h-1/3 ">
-                <div >
-                    <div>
+                <div className="mb-6">
+                    <div className="mb-6 px-1">
                         비밀번호를 변경합니다.
                     </div>
-                    <div className="flex flex-col justify-center items-center mt-6">
-                        <span>비밀번호</span>
-                        <input className="w-3/4" type="password" placeholder="Password" onChange={inputHandle("password")} />
-                        <span>비밀번호 변경</span>
-                        <input className="w-3/4" type="password" placeholder="Password Change" onChange={inputHandle("passwordChange")} />
+                    <div className="flex flex-col mt-6">
+                        <div className="flex justify-between items-center mt-6 px-1">
+                            <span>비밀번호</span>
+                            <input className="w-3/4 border" type="password" placeholder="Password" onChange={inputHandle("password")} />
+                        </div>
+                        <div className="flex justify-between items-center mt-6 px-1">
+                            <span className="">비밀번호 변경</span>
+                            <input className="w-3/4 border" type="password" placeholder="Password Change" onChange={inputHandle("passwordChange")} />
+                        </div>
                     </div>
                 </div>
                 {errorMessage ? errorMessage : <div>&nbsp;</div>}
 
                 <div>
-                    <button className="mr-5" onClick={passwordFindCancle} >취소</button>
+                    <button className="mr-6" onClick={passwordFindCancle} >취소</button>
                     <button onClick={(e) => passwordChangeHandle(passwordInputObj)} >비밀번호 변경</button>
                 </div>
             </div>

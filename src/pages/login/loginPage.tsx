@@ -123,7 +123,7 @@ const Login = () => {
   //에러메시지 공간 필요함
   //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
   return (
-    <div className="border h-screen flex items-center justify-center flex-col bg-slate-500 min-w-max pt-8">
+    <div className="border h-screen flex items-center justify-center flex-col bg-slate-500 min-w-max ">
       <Helmet>Login | 400JA-DIARY</Helmet>
       {onModal? <FindPasswordModal modalHandle={modalHandle}/> : null}
       <div className="border w-full h-full lg:max-w-screen-lg bg-white flex flex-col items-center justify-center">

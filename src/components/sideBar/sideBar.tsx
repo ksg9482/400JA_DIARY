@@ -53,7 +53,7 @@ const SideBar = (props: any) => {
     return (
         <div className="flex w-full">
             <aside id='sideBar' className="fixed top-auto left-0 z-auto float-none overflow-auto w-64 h-full border-2 border-cyan-700 bg-slate-400 box-border hidden">
-                <div className="pt-10 pb-20 flex justify-center">
+                <div className="pt-14 pb-28 flex justify-center">
                     <button id="searchbox-keyword" className="border border-slate-800 mr-3" onClick={searchBoxChange(constants.keyWord)}>키워드 검색</button>
                     <button id="searchbox-date" className="border" onClick={searchBoxChange(constants.date)}>날짜 검색</button>
                 </div>
