@@ -20,10 +20,10 @@ const KeywordSearch = (props:any) => {
     
     return (
             
-            <form id="searchForm-keyword" className="border flex flex-col px-2" action="">
-                키워드검색
+            <form id="searchForm-keyword" className=" flex flex-col px-2" action="">
+                <div className="border">키워드검색</div>
                 <input className="border" type="text" onChange={inputHandle} placeholder="키워드를 입력해주세요"/>
-                <button className="border" onClick={findByKeyword}>검색</button>
+                <button className="border hover:bg-slate-300" onClick={findByKeyword}>검색</button>
             </form>
     )
 }

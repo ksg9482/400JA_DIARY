@@ -64,7 +64,10 @@ const PasswordChangeModal = (props: any) => {
 
     return (
         <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white w-1/3 h-1/3 ">
+            <div className="bg-white w-1/3 h-1/3 min-w-min max-w-sm">
+                <div className="flex">
+                    <div className="w-56"></div>
+                </div>
                 <div className="mb-6">
                     <div className="mb-6 px-1">
                         비밀번호를 변경합니다.
@@ -87,8 +90,6 @@ const PasswordChangeModal = (props: any) => {
                     <button onClick={(e) => passwordChangeHandle(passwordInputObj)} >비밀번호 변경</button>
                 </div>
             </div>
-
-
         </div>
     )
 };
