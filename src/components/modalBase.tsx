@@ -41,25 +41,18 @@ const FindPasswordModal = (props: any) => {
     //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
     return (
         <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white w-1/3 h-1/3 pt-1 min-w-min max-w-sm">
-                <div className="flex">
-                    <div className="w-56"></div>
-                </div>
-                <div className="flex flex-col mb-6 sm:pb-1">
-                    <div className="mb-6 px-1 ">
-                        <text className="sm:pb-1">
-                            입력하신 이메일로 임시 비밀번호가 발송됩니다.
-                        </text>
+            <div className="bg-white w-1/3 h-1/3  ">
+                <div className="mb-6">
+                    <div className="mb-6 px-1">
+                        입력하신 이메일로 임시 비밀번호가 발송됩니다.
                     </div>
                     <div className="mb-6 px-1">
-                        <text>
-                            로그인 후 반드시 비밀번호를 수정해 주세요.
-                        </text>
+                        로그인 후 반드시 비밀번호를 수정해 주세요.
                     </div>
-                    <div className="flex flex-col">
-                        <div className="flex flex-col justify-center items-start px-2 sm:mt-6 sm:flex-row sm:items-center">
-                            <span className="mb-1 sm:mb-0 sm:mr-3">이메일</span>
-                            <input className="border w-full sm:w-3/4" type="text" placeholder="이메일" onChange={inputHandle} />
+                    <div className="flex flex-col mt-6">
+                        <div className="flex justify-between items-center mt-6 px-1">
+                            <span className="">이메일</span>
+                            <input type="text" placeholder="이메일" onChange={inputHandle} />                        
                         </div>
                     </div>
                 </div>
@@ -67,8 +60,8 @@ const FindPasswordModal = (props: any) => {
                 {errorMessage ? errorMessage : <div>&nbsp;</div>}
 
                 <div>
-                    <button className="mr-6 hover:bg-slate-300" onClick={passwordFindCancle} >취소</button>
-                    <button className="hover:bg-slate-300" onClick={(e) => passwordFindHandle(emailInput)} >비밀번호 찾기</button>
+                    <button className="mr-6" onClick={passwordFindCancle} >취소</button>
+                    <button onClick={(e) => passwordFindHandle(emailInput)} >비밀번호 찾기</button>
                 </div>
             </div>
         </div>

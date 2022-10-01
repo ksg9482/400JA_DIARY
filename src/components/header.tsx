@@ -1,41 +1,59 @@
 import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faUser, faRightFromBracket, faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router-dom";
 type headerProps = {
   isLogin: boolean;
 };
 const Header = (props: headerProps) => {
-  console.log("헤더 호출");
-  //헤더. 컴포넌트로 옮기는게 좋을지도?
-  //로고
-  //홈버튼, 일기페이지, 마이페이지, 로그아웃
+  const navigate = useNavigate()
   const logOutHandle = async () => {
     const userLogout = await axios.get(
       `http://localhost:8080/api/user/logout`,
       { withCredentials: true }
-      );
-      location.reload()
+    );
+    navigate('/', { replace: true })
+    location.reload()
     return;
   };
   const pageLink = () => {
     return (
-      <div className="border w-3/6 flex justify-between">
+      <div className="border w-3/6 flex justify-between px-2">
         <Link to="/">
-          <span className="text-xs"> Diary Link</span>
+          <button className="border px-1">
+            <span className="text-sm">
+              <FontAwesomeIcon className="mr-1" icon={faPencil} size='1x'></FontAwesomeIcon>
+              Diary
+            </span>
+          </button>
         </Link>
         <Link to="/mypage">
-          <span className="text-xs"> Mypage Link</span>
+          <button className="border px-1">
+            <span className="text-sm">
+              <FontAwesomeIcon className="mr-1" icon={faUser} size='1x'></FontAwesomeIcon>
+              Mypage
+            </span>
+          </button>
         </Link>
-        <span className="text-xs" onClick={logOutHandle}>Log Out</span>
+        <button className="border px-1" onClick={logOutHandle}>
+          <span className="text-sm" >
+            <FontAwesomeIcon className="mr-1" icon={faRightFromBracket} size='1x'></FontAwesomeIcon>
+            LogOut
+          </span>
+        </button>
       </div>
     );
   };
   // 최소 640px로 제한하는게 좋을듯?
   return (
-    <header className="border fixed w-full bg-white flex items-center justify-center px-5 ">
+    <header className="border-b-2 border-b-slate-500 fixed w-full bg-white flex items-center justify-center px-5 ">
       <div className="border flex items-center justify-between w-full lg:max-w-screen-lg">
         <Link to="/">
-          <span className="border">logo Img.</span>
+          <span className="border">
+            <FontAwesomeIcon className="mx-1" icon={faBookOpen} size='1x'></FontAwesomeIcon>
+            400JA-DIARY
+          </span>
         </Link>
         {props.isLogin ? pageLink() : <div></div>}
       </div>

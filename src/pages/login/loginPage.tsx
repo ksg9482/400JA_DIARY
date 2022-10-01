@@ -123,15 +123,19 @@ const Login = () => {
   //에러메시지 공간 필요함
   //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
   return (
-    <div className="border h-screen flex items-center justify-center flex-col bg-slate-500 min-w-max ">
+    <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
       {onModal? <FindPasswordModal modalHandle={modalHandle}/> : null}
-      <div className="border w-full h-full lg:max-w-screen-lg bg-white flex flex-col items-center justify-center">
-        <form className="border w-full h-1/4  flex flex-col items-center min-w-max">
+      <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
+      <div className="flex">
+          <div className="w-72"></div>
+          <div className="w-72"></div>
+      </div>
+        <form className="border  h-1/4  flex flex-col items-center min-w-max">
           <div className="border flex w-1/3 justify-between items-center mb-6 min-w-fit">
             <div className="border flex flex-col my-10 items-center mr-12 ">
               <input
-                className="input border mb-1"
+                className="border mb-1"
                 type="email"
                 name="email"
                 onChange={inputHandler("email")}
@@ -139,7 +143,7 @@ const Login = () => {
                 required
               />
               <input
-                className="input border"
+                className="border"
                 type="password"
                 name="password"
                 onChange={inputHandler("password")}
@@ -149,12 +153,12 @@ const Login = () => {
             </div>
             <div className="flex flex-col my-10">
               <button
-                className="border"
+                className="border mb-1 hover:bg-slate-300"
                 onClick={loginSubmitHandler(loginInfo)}
               >
                 로그인
               </button>
-              <button className="border" onClick={findPasswordHandle}>비밀번호 찾기</button>
+              <button className="border hover:bg-slate-300" onClick={findPasswordHandle}>비밀번호 찾기</button>
             </div>
             
           </div>

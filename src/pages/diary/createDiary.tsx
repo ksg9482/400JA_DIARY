@@ -134,7 +134,7 @@ const CreateDiary = (props: any) => {
   //key 값으로 구분해서 작동
   return (
     <form
-      className="border flex flex-col w-3/4 my-2 min-w-min bg-white px-5 max-w-screen-lg"
+      className="border flex flex-col w-3/4 my-2 py-2 min-w-min bg-white px-5 max-w-screen-lg"
       onSubmit={submitHandle}
     >
       <div className="flex">
@@ -143,9 +143,10 @@ const CreateDiary = (props: any) => {
       </div>
       <textarea
         id="diaryInputSubject"
-        className="border px-1 mt-2"
+        className="border px-1 mb-1"
         placeholder="제목을 적어주세요"
         rows={1}
+        maxLength={30}
         value={defaultInputForm.subject}
         onChange={(e) => {
           defaultInputHandler(diaryInputKey.subject, e);
@@ -155,7 +156,7 @@ const CreateDiary = (props: any) => {
       />
       <textarea
         id="diaryInputContent"
-        className="border overflow-y-scroll h-auto  px-1"
+        className="border overflow-y-scroll h-auto mb-1 px-1"
         placeholder="일기를 적어주세요"
         rows={6}
         maxLength={400}
@@ -166,7 +167,7 @@ const CreateDiary = (props: any) => {
         }}
         required
       />
-      <button className="border">일기 쓰기</button>
+      <button className="border hover:bg-slate-300">일기 쓰기</button>
     </form>
   );
 };

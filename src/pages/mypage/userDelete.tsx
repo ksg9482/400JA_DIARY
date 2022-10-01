@@ -40,7 +40,10 @@ const UserDeleteModal = (props: any) => {
     //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
     return (
         <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white w-1/3 h-1/3">
+            <div className="bg-white w-1/3 h-1/3 min-w-min max-w-sm">
+            <div className="flex">
+                    <div className="w-56"></div>
+                </div>
                 <div className="mb-6">
                     <div className="mb-6 px-1">
                         400JA-DIARY 회원을 탈퇴하시면 모든 유저정보가 삭제되고 복구할 수 없습니다. 회원을 탈퇴하시겠습니까?
@@ -53,8 +56,8 @@ const UserDeleteModal = (props: any) => {
                         <input className="border w-3/4" type="password" placeholder="비밀번호" onChange={inputHandle} /></div>
                     </div>
                 <div>
-                    <button className="mr-6" onClick={userDeleteCancle} >취소</button>
-                    <button onClick={userDeleteHandle} >회원탈퇴</button>
+                    <button className="mr-6 hover:bg-slate-200" onClick={userDeleteCancle} >취소</button>
+                    <button className="border-2 rounded-md border-white hover:border-red-500" onClick={userDeleteHandle} >회원탈퇴</button>
                 </div>
             </div>
 

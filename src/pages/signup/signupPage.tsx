@@ -111,15 +111,19 @@ const emptyCheck = () => {
   };
   //에러메시지 공간 필요함
   return (
-    <div className="border h-screen bg-slate-500 flex items-center justify-center flex-col mt-8 lg:mt-0 pt-8">
+    <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
-      <div className="w-full h-full lg:max-w-screen-lg bg-white  flex flex-col px-5 justify-center items-center">
+      <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
+      <div className="flex">
+          <div className="w-72"></div>
+          <div className="w-72"></div>
+        </div>
         <form
           //onSubmit={handleSubmit}
           className="grid gap-3 mt-5 w-3/4 mb-5"
         >
           <div className="w-full flex justify-between">
-            <span>Email</span>
+            <span className="text-left">Email</span>
             <input
               className="border w-3/4"
               type="email"
@@ -128,7 +132,7 @@ const emptyCheck = () => {
             />
           </div>
           <div className="w-full flex justify-between">
-            <span>Password</span>
+            <span className="text-left">Password</span>
             <input
               className="border w-3/4"
               type="password"
@@ -137,7 +141,7 @@ const emptyCheck = () => {
             />
           </div>
           <div className="w-full flex justify-between">
-            <span>Password Check</span>
+            <span className="text-left">Password Check</span>
             <input
               className="border w-3/4"
               type="password"
@@ -147,11 +151,11 @@ const emptyCheck = () => {
           </div>
           {errorMessage? errorMessage : <div>&nbsp;</div>}
           <div className="border flex justify-center w-full mt-10">
-            <div className="w-3/4 flex justify-between">
+            <div className="flex w-full flex-col-reverse justify-between sm:flex-row ">
               <Link to="/">
-                <button className="border">cancle</button>
+                <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">cancle</button>
               </Link>
-              <button className="border" onClick={handleSubmit}>
+              <button className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52" onClick={handleSubmit}>
                 sign up
               </button>
             </div>
