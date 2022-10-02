@@ -42,7 +42,7 @@ const SideBar = (props: any) => {
     */
     //하이드 버튼을 눌러서 넣고 빼고 할 수 있게
     const sideBarHandler = () => {
-        console.log(document.getElementById('sideBar'));
+        console.log('여기 다듬어야 함');
         document.getElementById('sideBar')?.classList.toggle('hidden')
         document.getElementById('sidebar-hide-button')?.classList.toggle('left-56')
         document.getElementById('sidebar-hide-button')?.classList.toggle('rounded-r-md')

@@ -12,13 +12,10 @@ const CreateDiary = (props: any) => {
     createDiaryHandle,
     diaryStateInit,
     diaryValidCheck,
+    currentDiary
   } = props;
-  //일기 작성 컴포넌트
 
-  // 페이지가 새로고침 되지 않게 preventDefault 적용.
   // 새로고침되지 않기 때문에 입력창을 초기화 하기 위해 별도의 함수 적용
-
-  //적합성 체크는 어디다?
 
   const submitHandle = (e: React.FormEvent<HTMLFormElement>) => {
     const diaryValid: boolean = diaryValidCheck();
@@ -26,9 +23,8 @@ const CreateDiary = (props: any) => {
       return;
     }
 
+    e.preventDefault(); //set이 안되는건 이벤트 전파가 안되서?
     createDiaryHandle();
-    //e.preventDefault(); //set이 안되는건 이벤트 전파가 안되서?
-    diaryStateInit();
     diaryInputValueInit();
   };
 
@@ -58,78 +54,16 @@ const CreateDiary = (props: any) => {
   };
 
   useEffect(() => {
-    const createDefaultValue = () => {
-      try {
-        const diaryInit = async () => {
-          const weeklyDiary: any = await axios.get(
-            `http://localhost:8080/api/diary/weekly`,
-            { withCredentials: true }
-          );
-          //이거 함수에 넣어서 객체로
-          //다이어리를 불러올수 없습니다 컴포넌트 만들고 이상 생기면 그거 보여줘야 됨
-          const diaryForm = weeklyDiary
-            ? weeklyDiary.data
-            : [
-                {
-                  id: "",
-                  subject: "",
-                  content: "",
-                  createAt: "",
-                },
-              ];
-          return diaryForm;
-        };
+    setDefaultInputForm({
+      subject: currentDiary.subject || '',
+      content: currentDiary.content || '',
+    });
 
-        diaryInit().then((resp) => {
-          const list = resp.list
-          const getKRDate = () => {
-            const date = new Date().toLocaleString("ko-KR", {
-              timeZone: "Asia/Seoul",
-            });
-            const dateSplitArr = date.split(". "); // 공백문자도 포함해 분리
-
-            return `${dateSplitArr[0]}-${dateSplitArr[1].padStart(
-              2,
-              "0"
-            )}-${dateSplitArr[2].padStart(2, "0")}`;
-          };
-
-          if(list.length <= 0){
-            list.push({
-              subject: '',
-              content: ''
-            })
-          }
-
-          const now = new Date(getKRDate());
-          const targetDate = new Date(list[0].date);
-          const nowDiary = list[0];
-          if (now <= targetDate) {
-            setDefaultInputForm({
-              subject: nowDiary.subject,
-              content: nowDiary.content,
-            });
-
-            diaryInputHandler("init", {
-              subject: nowDiary.subject,
-              content: nowDiary.content,
-            });
-          }
-          return { subject: "", content: "" };
-        });
-      } catch (error) {
-        return error;
-      }
-    };
-    createDefaultValue();
-    // const defaultValue = createDefaultValue();
-    // console.log(defaultValue)
-    // setDefaultInputForm({
-    //     subject:defaultValue.subject,
-    //     content:defaultValue.content
-    // })
-  }, []);
-
+    diaryInputHandler("init", {
+      subject: currentDiary.subject || '',
+      content: currentDiary.content || '',
+    });
+  },[])
   //일기 생성, 오늘 일기 페이지(트위터처럼 바로 위쪽은 작성창, 아래는 이미 작성된 일기)
   //key 값으로 구분해서 작동
   return (

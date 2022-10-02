@@ -25,6 +25,7 @@ const OAuth2RedirectHandler = (props: any) => {
             withCredentials: true,
           }
         );
+        
         oAuthNav();
         return;
       } catch (error) {

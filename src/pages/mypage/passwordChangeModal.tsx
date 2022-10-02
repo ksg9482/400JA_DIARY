@@ -39,7 +39,6 @@ const PasswordChangeModal = (props: any) => {
     const passwordChangeHandle = async (passwordInputObj: IpasswordInputObj) => {
         const check = emptyCheck()
         if (check) {
-            console.log(check)
             setErrorMessage(check.message)
             return;
         }
@@ -54,7 +53,6 @@ const PasswordChangeModal = (props: any) => {
             body,
             { withCredentials: true }
         );
-        console.log(passwordChange)
         if (passwordChange.status !== 200) {
             setErrorMessage('비밀번호 변경에 실패했습니다.')
             return;
