@@ -92,10 +92,8 @@ const Diary = () => {
   };
 
   const handleFollow = () => {
-    console.log('handleFollow')
-    console.log(scrollY)
-    setScrollY(window.pageYOffset); //스크롤 Y축 수
-    if (scrollY >150) {
+    setScrollY(window.pageYOffset);
+    if (scrollY > 150) {
       setBtnStatus(true);
     } else {
       setBtnStatus(false);
@@ -112,11 +110,11 @@ const Diary = () => {
   };
 
   const diaryValidCheck = (): boolean => {
-      if (subjectInputForm.length === 0 || contentInputForm.length === 0) {
-        return false;
-      }
-      return true;
-    };
+    if (subjectInputForm.length === 0 || contentInputForm.length === 0) {
+      return false;
+    }
+    return true;
+  };
 
   const diaryInputHandler = (
     key: string,
@@ -140,15 +138,9 @@ const Diary = () => {
     }
   };
 
-  const diaryStateInit = () => {
-    console.log("diaryStateInit");
-    setSubjectInputForm("");
-    setContentInputForm("");
-  };
 
   useEffect(() => {
     const watch = () => {
-      console.log('watch호출')
       window.addEventListener("scroll", handleFollow);
     };
 
@@ -173,11 +165,11 @@ const Diary = () => {
   const ScrollTopButton = () => {
     return (
       <button
-          className="border-2 border-slate-400 flex bottom-0 right-20 fixed "
-          onClick={scrollTop}
-        >
-          <FontAwesomeIcon icon={faArrowUp} color='#243c64' size='3x'></FontAwesomeIcon>
-        </button>
+        className="border-2 border-slate-400 flex bottom-0 right-20 fixed "
+        onClick={scrollTop}
+      >
+        <FontAwesomeIcon icon={faArrowUp} color='#243c64' size='3x'></FontAwesomeIcon>
+      </button>
     )
   }
 
@@ -193,7 +185,7 @@ const Diary = () => {
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
-          `http://localhost:8080/api/diary/weekly`,
+          `http://localhost:8080/api/diary`,
           { withCredentials: true }
         );
 
@@ -205,7 +197,14 @@ const Diary = () => {
           preventRef.current = true;
         }
         else {
-          console.log(weeklyDiary)
+          endRef.current = true;
+          setDiaries([{
+            id: '',
+            subject: '',
+            content: '',
+            date: ''
+          }])
+          preventRef.current = true;
         }
         setLoad(false);
       };
@@ -228,9 +227,6 @@ const Diary = () => {
         setDiaries(prev => [...prev, ...res.data.list]) //list로 안보내줌
         preventRef.current = true;
       }
-      else {
-        console.log(res)
-      }
       setLoad(false);
     }
 
@@ -238,35 +234,39 @@ const Diary = () => {
 
   useEffect(() => {
     if (page !== 1) getPost();
-  }, [page])
-  console.log(scrollY)
-  return (
-    <div className="border h-auto min-h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
-      <Helmet>Diary | 400JA-DIARY</Helmet>
-      <SideBar setFindResult={setFindResult} />
-      <CreateDiary
-        diaryInputHandler={diaryInputHandler}
-        createDiaryHandle={createDiaryHandle}
-        diaryStateInit={diaryStateInit}
-        diaryValidCheck={diaryValidCheck}
-      />
-      <div className="flex w-full justify-center items-center">
-        <div className="border w-3/4 min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
-          <div className="flex">
-            <div className="w-72"></div>
-            <div className="w-72"></div>
-          </div>
-          {load
-            ? LoadingSpin()
-            : <div className="w-full">
-              <Diarys diaries={diaries} />
-            </div>
-          }
-          <div id="diary-end" ref={obsRef}></div>
-        </div>
-        {btnStatus? ScrollTopButton() : null}
-      </div>
+  }, [page]);
 
+  return (
+    <div className="border h-auto min-h-screen flex bg-slate-500 items-center justify-center flex-col pt-7">
+      <Helmet>Diary | 400JA-DIARY</Helmet>
+      {load
+        ? <div className="top-1/2">{LoadingSpin()}</div>
+        : <div className="flex flex-col w-full h-auto">
+          <SideBar setFindResult={setFindResult} />
+          <div className="flex w-full justify-center">
+          <CreateDiary
+            diaryInputHandler={diaryInputHandler}
+            createDiaryHandle={createDiaryHandle}
+            diaryValidCheck={diaryValidCheck}
+            currentDiary={diaries[0]}
+          />
+          </div>
+          
+          <div className="flex w-full justify-center items-center">
+            <div className="border w-3/4 min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
+              <div className="flex">
+                <div className="w-72"></div>
+                <div className="w-72"></div>
+              </div>
+              <div className="w-full">
+                <Diarys diaries={diaries} />
+              </div>
+              <div id="diary-end" ref={obsRef}></div>
+            </div>
+            {btnStatus ? ScrollTopButton() : null}
+          </div>
+        </div>
+      }
     </div>
   );
 };

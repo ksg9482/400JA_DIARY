@@ -77,7 +77,6 @@ const Signup = () => {
   };
 
   const onCompleted = (): void => {
-    console.log('회원가입 네비')
     navigate("/");
   };
 const emptyCheck = () => {
@@ -94,11 +93,9 @@ const emptyCheck = () => {
       //e.preventDefault()
       const check = emptyCheck()
       if(check) {
-        console.log(check)
         setErrorMessage(check.message)
         return ;
       }
-      console.log('검증통과')
       validCheckHandle(signupInfo);
       await sendSignup();
       onCompleted();

@@ -21,11 +21,8 @@ const FindPasswordModal = (props: any) => {
                 { email: email },
                 { withCredentials: true }
             );
-            console.log(userValid)
-            //여기 주석이었음
             modalHandle()
             nav('/', { replace: true })
-            //여기 주석이었음
         } catch (error: any) {
             if (error.response.data.error === 'Password change fail') {
                 setErrorMessage('임시 비밀번호 발급에 실패하였습니다.')

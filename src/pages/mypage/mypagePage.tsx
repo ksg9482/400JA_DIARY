@@ -50,17 +50,6 @@ const Mypage = () => {
         { withCredentials: true }
       );
 
-      //이거 함수에 넣어서 객체로
-      //다이어리를 불러올수 없습니다 컴포넌트 만들고 이상 생기면 그거 보여줘야 됨
-      // const MypageForm = userData
-      //   ? userData.data
-      //   : [
-      //     {
-      //       email: "",
-      //       diaryCount: "",
-      //       type: ""
-      //     },
-      //   ];
       const MypageForm = userData.data;
       setUserdata(MypageForm);
       setLoad(false);
