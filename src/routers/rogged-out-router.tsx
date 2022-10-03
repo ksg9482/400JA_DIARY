@@ -6,6 +6,7 @@ import Diary from "pages/diary/diaryPage"; //테스트 끝나면 삭제
 import Header from "components/header";
 import Mypage from "pages/mypage/mypagePage";
 import OAuth2RedirectHandler from "pages/login/OAuth/OAuth2RedirectHandler";
+import NotFound from "pages/404";
 export const LoggedOutRouter = (props:any) => {
     const {oauthLoginIsTrue} = props
     //로그인 하지 않은 상태에서 가능한 라우터
@@ -17,7 +18,8 @@ export const LoggedOutRouter = (props:any) => {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/oauth/callback/*" element={<OAuth2RedirectHandler oauthLoginIsTrue={oauthLoginIsTrue}/>}></Route>
+                <Route path="/oauth/callback/*" element={<OAuth2RedirectHandler oauthLoginIsTrue={oauthLoginIsTrue}/>} />
+                <Route path="/*" element={<NotFound />} />
             </Routes>
         </Router>
     )

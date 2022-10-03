@@ -63,21 +63,21 @@ const PasswordChangeModal = (props: any) => {
     return (
         <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
             <div className="bg-white w-1/3 h-1/3 min-w-min max-w-sm">
-                <div className="flex">
+            <div className="flex mb-5">
                     <div className="w-56"></div>
                 </div>
-                <div className="mb-6">
-                    <div className="mb-6 px-1">
+                <div className="flex flex-col mb-6 sm:pb-1">
+                    <div className="mb-4 px-1 sm:pb-1">
                         비밀번호를 변경합니다.
                     </div>
-                    <div className="flex flex-col mt-6">
-                        <div className="flex justify-between items-center mt-6 px-1">
-                            <span>비밀번호</span>
-                            <input className="w-3/4 border" type="password" placeholder="Password" onChange={inputHandle("password")} />
+                    <div className="flex flex-col">
+                        <div className="flex flex-col justify-center items-start px-2 sm:mt-6 sm:flex-row sm:items-center">
+                            <span className="mb-1 sm:mb-0 sm:mr-3">비밀번호</span>
+                            <input className="border w-full sm:w-3/4" type="password" placeholder="Password" onChange={inputHandle("password")} />
                         </div>
-                        <div className="flex justify-between items-center mt-6 px-1">
-                            <span className="">비밀번호 변경</span>
-                            <input className="w-3/4 border" type="password" placeholder="Password Change" onChange={inputHandle("passwordChange")} />
+                        <div className="flex flex-col justify-center items-start px-2 sm:mt-6 sm:flex-row sm:items-center">
+                            <span className="mb-1 sm:mb-0 sm:mr-3">비밀번호 변경</span>
+                            <input className="border w-full sm:w-3/4" type="password" placeholder="Password Change" onChange={inputHandle("passwordChange")} />
                         </div>
                     </div>
                 </div>

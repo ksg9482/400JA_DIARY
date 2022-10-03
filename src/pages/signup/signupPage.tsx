@@ -90,7 +90,7 @@ const emptyCheck = () => {
 }
   const handleSubmit = async (e:React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     try {
-      //e.preventDefault()
+      e.preventDefault()
       const check = emptyCheck()
       if(check) {
         setErrorMessage(check.message)
@@ -113,45 +113,43 @@ const emptyCheck = () => {
       <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
       <div className="flex">
           <div className="w-72"></div>
-          <div className="w-72"></div>
         </div>
-        <form
-          //onSubmit={handleSubmit}
-          className="grid gap-3 mt-5 w-3/4 mb-5"
-        >
-          <div className="w-full flex justify-between">
+        <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5" >
+          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
             <span className="text-left">Email</span>
             <input
-              className="border w-3/4"
+              className="border w-full sm:w-3/4"
               type="email"
               placeholder="email"
               onChange={inputHandler("email")}
             />
           </div>
-          <div className="w-full flex justify-between">
+          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
             <span className="text-left">Password</span>
             <input
-              className="border w-3/4"
+              className="border w-full sm:w-3/4"
               type="password"
               placeholder="Password"
               onChange={inputHandler("password")}
             />
           </div>
-          <div className="w-full flex justify-between">
+          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between items-start sm:items-center">
             <span className="text-left">Password Check</span>
             <input
-              className="border w-3/4"
+              className="border w-full sm:w-3/4 h-6"
               type="password"
               placeholder="Password check"
               onChange={inputHandler("passwordCheck")}
             />
           </div>
-          {errorMessage? errorMessage : <div>&nbsp;</div>}
-          <div className="border flex justify-center w-full mt-10">
+          {errorMessage? <div className="border-b-2">{errorMessage}</div> : <div className="border-b-2">&nbsp;</div>}
+          <div className="flex justify-center w-full mt-5">
             <div className="flex w-full flex-col-reverse justify-between sm:flex-row ">
+                <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">
               <Link to="/">
-                <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">cancle</button>
+                  <div className="w-full">cancle</div> 
               </Link>
+                  </button>
               <button className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52" onClick={handleSubmit}>
                 sign up
               </button>

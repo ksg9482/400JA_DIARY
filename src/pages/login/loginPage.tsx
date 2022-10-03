@@ -123,17 +123,17 @@ const Login = () => {
   //에러메시지 공간 필요함
   //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
   return (
-    <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
+    <div className=" h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
       {onModal? <FindPasswordModal modalHandle={modalHandle}/> : null}
-      <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
+      <div className=" w-3/4 h-full min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
       <div className="flex">
           <div className="w-72"></div>
-          <div className="w-72"></div>
       </div>
-        <form className="border  h-1/4  flex flex-col items-center min-w-max">
-          <div className="border flex w-1/3 justify-between items-center mb-6 min-w-fit">
-            <div className="border flex flex-col my-10 items-center mr-12 ">
+      <div className="text-8xl border-t-2 border-b-2 pb-2">400JA DIARY</div>
+        <form className="h-1/6 flex flex-col justify-center items-center min-w-max border-b-2">
+          <div className=" flex w-1/3 justify-between items-center min-w-fit">
+            <div className=" flex flex-col my-5 items-center mr-8 sm:mr-12 ">
               <input
                 className="border mb-1"
                 type="email"
@@ -151,7 +151,7 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="flex flex-col my-10">
+            <div className="flex flex-col my-5">
               <button
                 className="border mb-1 hover:bg-slate-300"
                 onClick={loginSubmitHandler(loginInfo)}
@@ -165,20 +165,21 @@ const Login = () => {
           {errorMessage? errorMessage : <div>&nbsp;</div>}
         </form>
 
-        <div className="border flex flex-col items-center justify-between w-1/3 min-w-max my-4">
-          <Link to="/signup" className="text-blue-400">
-            아직 회원으로 등록하지 않으셨나요? 회원가입
+        <Link to="/signup" className="text-blue-400 mb-3">
+            <span>회원으로 등록하지 않으셨나요? </span> 
+            <span>회원가입</span>
           </Link>
-        </div>
-        <div className="border flex flex-col items-center justify-between w-1/3">
+        <div className="flex sm:flex-row items-center justify-center sm:w-4/5 flex-col">
           <button
-            className="border mb-1"
+            className="border flex items-center w-52 sm:w-40 min-w-fit px-1 mr-0 sm:mr-3 mb-2 sm:mb-0  bg-slate-100 rounded-md"
             onClick={socialLoginHandler("google")}
           >
-            google
+            <img className="w-9 h-9 mr-6 sm:mr-2" src="Social-google.png" alt="social" />
+            <span className="whitespace-nowrap">GOOGLE 로그인</span>
           </button>
-          <button className="border" onClick={socialLoginHandler("kakao")}>
-            kakao
+          <button className="border flex  items-center w-52 sm:w-40 min-w-fit px-1 bg-yellow-300 rounded-md" onClick={socialLoginHandler("kakao")}>
+          <img className="w-9 h-9 mr-7 sm:mr-1" src="Social-kakao.png" alt="social" />
+            <span className="whitespace-nowrap">KAKAO 로그인</span>
           </button>
         </div>
       </div>

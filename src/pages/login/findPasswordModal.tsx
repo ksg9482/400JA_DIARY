@@ -39,19 +39,15 @@ const FindPasswordModal = (props: any) => {
     return (
         <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
             <div className="bg-white w-1/3 h-1/3 pt-1 min-w-min max-w-sm">
-                <div className="flex">
-                    <div className="w-56"></div>
+                <div className="flex mb-5">
+                    <div className="w-64"></div>
                 </div>
                 <div className="flex flex-col mb-6 sm:pb-1">
-                    <div className="mb-6 px-1 ">
-                        <text className="sm:pb-1">
-                            입력하신 이메일로 임시 비밀번호가 발송됩니다.
-                        </text>
+                    <div className="mb-4 px-1 sm:pb-1">
+                        입력하신 이메일로 임시 비밀번호가 발송됩니다.
                     </div>
-                    <div className="mb-6 px-1">
-                        <text>
-                            로그인 후 반드시 비밀번호를 수정해 주세요.
-                        </text>
+                    <div className="mb-5 px-1">
+                        로그인 후 반드시 비밀번호를 수정해 주세요.
                     </div>
                     <div className="flex flex-col">
                         <div className="flex flex-col justify-center items-start px-2 sm:mt-6 sm:flex-row sm:items-center">
