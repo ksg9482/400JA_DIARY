@@ -193,25 +193,15 @@ const Diary = () => {
           `http://localhost:8080/api/diary`,
           { withCredentials: true }
         );
-
+        const diaryLength = weeklyDiary.data.list.length;
         if (weeklyDiary.data) {
           if (weeklyDiary.data.end) {
             endRef.current = true;
           }
-          if (weeklyDiary.data.list.length <= 0) {
-            setDiaries([
-              {
-                id: "",
-                subject: "",
-                content: "",
-                date: "",
-              },
-            ]);
-          } else {
-            setDiaries([...weeklyDiary.data.list]);
-          }
 
+          if (0 < diaryLength ) setDiaries([...weeklyDiary.data.list]);
           preventRef.current = true;
+          
         } else {
           endRef.current = true;
           setDiaries([
@@ -232,7 +222,7 @@ const Diary = () => {
       return;
     } else {
       const res = await axios.post(
-        `http://localhost:8080/api/diary/diary`,
+        `http://localhost:8080/api/diary/nextDiary`,
         { lastDiaryId: lastDiaryId },
         { withCredentials: true }
       );
