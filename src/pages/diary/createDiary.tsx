@@ -12,7 +12,7 @@ const CreateDiary = (props: any) => {
     createDiaryHandle,
     diaryStateInit,
     diaryValidCheck,
-    currentDiary
+    currentDiary,
   } = props;
 
   // 새로고침되지 않기 때문에 입력창을 초기화 하기 위해 별도의 함수 적용
@@ -54,16 +54,17 @@ const CreateDiary = (props: any) => {
   };
 
   useEffect(() => {
+    console.log(currentDiary);
     setDefaultInputForm({
-      subject: currentDiary.subject || '',
-      content: currentDiary.content || '',
+      subject: currentDiary.subject || "",
+      content: currentDiary.content || "",
     });
 
     diaryInputHandler("init", {
-      subject: currentDiary.subject || '',
-      content: currentDiary.content || '',
+      subject: currentDiary.subject || "",
+      content: currentDiary.content || "",
     });
-  },[])
+  }, []);
   //일기 생성, 오늘 일기 페이지(트위터처럼 바로 위쪽은 작성창, 아래는 이미 작성된 일기)
   //key 값으로 구분해서 작동
   return (

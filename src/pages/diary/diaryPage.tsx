@@ -46,12 +46,12 @@ const Diary = () => {
     if (result.end) {
       endRef.current = true;
     }
-    setDiaries([...result.list])
+    setDiaries([...result.list]);
     preventRef.current = true;
-
-  }
+  };
   const createDiaryHandle = async () => {
     //인수로 내용을 받아야 하나?
+    //엔터를 </br>식으로 받아서 줄 바꿈 위치를 저장해야 한다.
     try {
       const getKRDate = () => {
         const date = new Date().toLocaleString("ko-KR", {
@@ -138,7 +138,6 @@ const Diary = () => {
     }
   };
 
-
   useEffect(() => {
     const watch = () => {
       window.addEventListener("scroll", handleFollow);
@@ -153,14 +152,14 @@ const Diary = () => {
     };
   });
 
-  const obsHandle = ((entries: any) => {
+  const obsHandle = (entries: any) => {
     const target = entries[0];
 
     if (!endRef.current && target.isIntersecting && preventRef.current) {
       preventRef.current = false;
-      setPage(prev => prev + 1);
+      setPage((prev) => prev + 1);
     }
-  })
+  };
 
   const ScrollTopButton = () => {
     return (
@@ -168,16 +167,22 @@ const Diary = () => {
         className="border-2 border-slate-400 flex bottom-0 right-20 fixed "
         onClick={scrollTop}
       >
-        <FontAwesomeIcon icon={faArrowUp} color='#243c64' size='3x'></FontAwesomeIcon>
+        <FontAwesomeIcon
+          icon={faArrowUp}
+          color="#243c64"
+          size="3x"
+        ></FontAwesomeIcon>
       </button>
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(obsHandle, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
-    return () => { observer.disconnect(); }
-  }, [])
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const getPost = useCallback(async () => {
     //setLoad(true);
@@ -193,17 +198,30 @@ const Diary = () => {
           if (weeklyDiary.data.end) {
             endRef.current = true;
           }
-          setDiaries([...weeklyDiary.data.list])
+          if (weeklyDiary.data.list.length <= 0) {
+            setDiaries([
+              {
+                id: "",
+                subject: "",
+                content: "",
+                date: "",
+              },
+            ]);
+          } else {
+            setDiaries([...weeklyDiary.data.list]);
+          }
+
           preventRef.current = true;
-        }
-        else {
+        } else {
           endRef.current = true;
-          setDiaries([{
-            id: '',
-            subject: '',
-            content: '',
-            date: ''
-          }])
+          setDiaries([
+            {
+              id: "",
+              subject: "",
+              content: "",
+              date: "",
+            },
+          ]);
           preventRef.current = true;
         }
         setLoad(false);
@@ -212,25 +230,23 @@ const Diary = () => {
       diaryInit();
 
       return;
-    }
-    else {
+    } else {
       const res = await axios.post(
         `http://localhost:8080/api/diary/diary`,
         { lastDiaryId: lastDiaryId },
         { withCredentials: true }
-      )
+      );
 
       if (res.data) {
         if (res.data.end) {
           endRef.current = true;
         }
-        setDiaries(prev => [...prev, ...res.data.list]) //list로 안보내줌
+        setDiaries((prev) => [...prev, ...res.data.list]); //list로 안보내줌
         preventRef.current = true;
       }
       setLoad(false);
     }
-
-  }, [page])
+  }, [page]);
 
   useEffect(() => {
     if (page !== 1) getPost();
@@ -239,19 +255,20 @@ const Diary = () => {
   return (
     <div className="border h-auto min-h-screen flex bg-slate-500 items-center justify-center flex-col pt-7">
       <Helmet>Diary | 400JA-DIARY</Helmet>
-      {load
-        ? <div className="top-1/2">{LoadingSpin()}</div>
-        : <div className="flex flex-col w-full h-auto">
+      {load ? (
+        <div className="top-1/2">{LoadingSpin()}</div>
+      ) : (
+        <div className="flex flex-col w-full h-auto">
           <SideBar setFindResult={setFindResult} />
           <div className="flex w-full justify-center">
-          <CreateDiary
-            diaryInputHandler={diaryInputHandler}
-            createDiaryHandle={createDiaryHandle}
-            diaryValidCheck={diaryValidCheck}
-            currentDiary={diaries[0]}
-          />
+            <CreateDiary
+              diaryInputHandler={diaryInputHandler}
+              createDiaryHandle={createDiaryHandle}
+              diaryValidCheck={diaryValidCheck}
+              currentDiary={diaries[0]}
+            />
           </div>
-          
+
           <div className="flex w-full justify-center items-center">
             <div className="border w-3/4 min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
               <div className="flex">
@@ -266,7 +283,7 @@ const Diary = () => {
             {btnStatus ? ScrollTopButton() : null}
           </div>
         </div>
-      }
+      )}
     </div>
   );
 };
