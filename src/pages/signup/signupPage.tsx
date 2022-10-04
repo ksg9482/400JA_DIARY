@@ -18,8 +18,7 @@ const Signup = () => {
     email: false,
     password: false,
   });
-  const [errorMessage,setErrorMessage] = useState('');
-  
+  const [errorMessage, setErrorMessage] = useState("");
 
   const inputHandler =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +62,7 @@ const Signup = () => {
     //error 처리 개선!!!
     const userSignup = await axios.post(
       `http://localhost:8080/api/auth/signup`,
-      {email:body.email, password:body.password},
+      { email: body.email, password: body.password },
       { withCredentials: true }
     );
     if (userSignup.status === 500) {
@@ -79,31 +78,37 @@ const Signup = () => {
   const onCompleted = (): void => {
     navigate("/");
   };
-const emptyCheck = () => {
-  if(signupInfo.email === '' || signupInfo.password === ''|| signupInfo.passwordCheck === ''){
-    return {message:'각 항목을 채워주세요.'}
-  }
-  if(signupInfo.password !== signupInfo.passwordCheck) {
-    return {message:'비밀번호와 비밀번호 확인이 같지 않습니다.'}
-  }
-  return ;
-}
-  const handleSubmit = async (e:React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const emptyCheck = () => {
+    if (
+      signupInfo.email === "" ||
+      signupInfo.password === "" ||
+      signupInfo.passwordCheck === ""
+    ) {
+      return { message: "각 항목을 채워주세요." };
+    }
+    if (signupInfo.password !== signupInfo.passwordCheck) {
+      return { message: "비밀번호와 비밀번호 확인이 같지 않습니다." };
+    }
+    return;
+  };
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     try {
-      //e.preventDefault()
-      const check = emptyCheck()
-      if(check) {
-        setErrorMessage(check.message)
-        return ;
+      e.preventDefault();
+      const check = emptyCheck();
+      if (check) {
+        return setErrorMessage(check.message);
+        //return ;
       }
       validCheckHandle(signupInfo);
       await sendSignup();
       onCompleted();
     } catch (error: any) {
       if (error.message === "Already Email") {
-        alert("이미 가입된 이메일 입니다.");
+        return setErrorMessage("이미 가입된 이메일입니다");
       }
-      return ;
+      //return ;
     }
   };
   //에러메시지 공간 필요함
@@ -111,53 +116,57 @@ const emptyCheck = () => {
     <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
       <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-      <div className="flex">
-          <div className="w-72"></div>
+        <div className="flex">
           <div className="w-72"></div>
         </div>
-        <form
-          //onSubmit={handleSubmit}
-          className="grid gap-3 mt-5 w-3/4 mb-5"
-        >
-          <div className="w-full flex justify-between">
-            <span className="text-left">Email</span>
+        <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5">
+          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
+            <span className="text-left w-28">이메일</span>
             <input
-              className="border w-3/4"
+              className="border w-full sm:w-3/4"
               type="email"
               placeholder="email"
               onChange={inputHandler("email")}
             />
           </div>
-          <div className="w-full flex justify-between">
-            <span className="text-left">Password</span>
+          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
+            <span className="text-left w-28">비밀번호</span>
             <input
-              className="border w-3/4"
+              className="border w-full sm:w-3/4"
               type="password"
               placeholder="Password"
               onChange={inputHandler("password")}
             />
           </div>
-          <div className="w-full flex justify-between">
-            <span className="text-left">Password Check</span>
+          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between items-start sm:items-center">
+            <span className="text-left w-28">비밀번호 확인</span>
             <input
-              className="border w-3/4"
+              className="border w-full sm:w-3/4 h-6"
               type="password"
               placeholder="Password check"
               onChange={inputHandler("passwordCheck")}
             />
           </div>
-          {errorMessage? errorMessage : <div>&nbsp;</div>}
-          <div className="border flex justify-center w-full mt-10">
+          {errorMessage ? (
+            <div className="border-b-2">{errorMessage}</div>
+          ) : (
+            <div className="border-b-2">&nbsp;</div>
+          )}
+          <div className="flex justify-center w-full mt-5">
             <div className="flex w-full flex-col-reverse justify-between sm:flex-row ">
-              <Link to="/">
-                <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">cancle</button>
-              </Link>
-              <button className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52" onClick={handleSubmit}>
-                sign up
+              <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">
+                <Link to="/">
+                  <div className="w-full">취소</div>
+                </Link>
+              </button>
+              <button
+                className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
+                onClick={handleSubmit}
+              >
+                회원가입
               </button>
             </div>
           </div>
-          
         </form>
       </div>
     </div>
