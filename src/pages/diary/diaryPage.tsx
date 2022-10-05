@@ -49,20 +49,21 @@ const Diary = () => {
     setDiaries([...result.list]);
     preventRef.current = true;
   };
+  const getKRDate = () => {
+    const date = new Date().toLocaleString("ko-KR", {
+      timeZone: "Asia/Seoul",
+    });
+    const dateSplitArr = date.split(". "); // 공백문자도 포함해 분리
+    const year = dateSplitArr[0].padStart(2, "0");
+    const month = dateSplitArr[1].padStart(2, "0");
+    const day = dateSplitArr[2].padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
   const createDiaryHandle = async () => {
     //인수로 내용을 받아야 하나?
     //엔터를 </br>식으로 받아서 줄 바꿈 위치를 저장해야 한다.
     try {
-      const getKRDate = () => {
-        const date = new Date().toLocaleString("ko-KR", {
-          timeZone: "Asia/Seoul",
-        });
-        const dateSplitArr = date.split(". "); // 공백문자도 포함해 분리
-        const year = dateSplitArr[0].padStart(2, "0");
-        const month = dateSplitArr[1].padStart(2, "0");
-        const day = dateSplitArr[2].padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      };
+      
       const dateKR = getKRDate();
       const body = { subject: subjectInputForm, content: contentInputForm };
       const createdDiary = {
@@ -176,6 +177,12 @@ const Diary = () => {
     );
   };
 
+  const isCurrentDiary = () => {
+    const nowDate = new Date(getKRDate());
+    const targetDate = new Date(diaries[0].date);
+    const isCurrentDiary = nowDate <= targetDate;
+    return isCurrentDiary
+  }
   useEffect(() => {
     const observer = new IntersectionObserver(obsHandle, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
@@ -255,12 +262,14 @@ const Diary = () => {
               diaryInputHandler={diaryInputHandler}
               createDiaryHandle={createDiaryHandle}
               diaryValidCheck={diaryValidCheck}
-              currentDiary={diaries[0]}
+              // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
+              //10/4 < 10/5
+              currentDiary={isCurrentDiary() ?  diaries[0] : null}
             />
           </div>
 
           <div className="flex w-full justify-center items-center">
-            <div className="border w-3/4 min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
+            <div className="border w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
               <div className="flex">
                 <div className="w-72"></div>
                 <div className="w-72"></div>

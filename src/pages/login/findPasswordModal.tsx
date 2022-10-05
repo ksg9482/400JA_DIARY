@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { getEventListeners } from "events";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const FindPasswordModal = (props: any) => {
   //유저 정보 삭제 페이지.
@@ -7,8 +8,16 @@ const FindPasswordModal = (props: any) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { modalHandle } = props;
   const nav = useNavigate();
+  
+  const escKey = (e: KeyboardEvent) => {
+    if(e.key === 'Escape') {
+      passwordFindCancle()
+    }
+  }
+
   const passwordFindCancle = () => {
     modalHandle();
+    window.removeEventListener('keydown', escKey)
   };
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInput(e.target.value);
@@ -32,6 +41,7 @@ const FindPasswordModal = (props: any) => {
     }
   };
 
+  window.addEventListener('keydown', escKey)
   //일반가입이면 단순 데이터 삭제
   //소셜 로그인이면 소셜 끊기?
   //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)

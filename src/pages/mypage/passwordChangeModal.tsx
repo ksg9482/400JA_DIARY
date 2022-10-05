@@ -16,8 +16,15 @@ const PasswordChangeModal = (props: any) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { modalHandle } = props;
 
-  const passwordFindCancle = () => {
+  const escKey = (e: KeyboardEvent) => {
+    if(e.key === 'Escape') {
+      passwordChangeCancle()
+    }
+  }
+
+  const passwordChangeCancle = () => {
     modalHandle();
+    window.removeEventListener('keydown', escKey)
   };
   const inputHandle =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +63,7 @@ const PasswordChangeModal = (props: any) => {
     }
     modalHandle();
   };
+  window.addEventListener('keydown', escKey)
 
   return (
     <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
@@ -95,7 +103,7 @@ const PasswordChangeModal = (props: any) => {
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button
             className="hover:bg-slate-300 w-28"
-            onClick={passwordFindCancle}
+            onClick={passwordChangeCancle}
           >
             취소
           </button>

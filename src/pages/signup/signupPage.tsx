@@ -111,14 +111,13 @@ const Signup = () => {
       //return ;
     }
   };
+
   //에러메시지 공간 필요함
   return (
-    <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
+    <div className="h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
-      <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-        <div className="flex">
-          <div className="w-72"></div>
-        </div>
+      <div className="w-full h-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
+        
         <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5">
           <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
             <span className="text-left w-28">이메일</span>
@@ -152,20 +151,16 @@ const Signup = () => {
           ) : (
             <div className="border-b-2">&nbsp;</div>
           )}
-          <div className="flex justify-center w-full mt-5">
-            <div className="flex w-full flex-col-reverse justify-between sm:flex-row ">
-              <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">
-                <Link to="/">
-                  <div className="w-full">취소</div>
-                </Link>
-              </button>
-              <button
-                className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
-                onClick={handleSubmit}
-              >
-                회원가입
-              </button>
-            </div>
+          <div className="mt-5 flex w-full flex-col-reverse justify-between sm:flex-row ">
+            <Link className="box-border w-full hover:bg-slate-300 sm:w-52 sm:mr-6" to="/">
+              <div className="border w-full ">취소</div>
+            </Link>
+            <button
+              className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
+              onClick={handleSubmit}
+            >
+              회원가입
+            </button>
           </div>
         </form>
       </div>

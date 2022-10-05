@@ -54,28 +54,27 @@ const CreateDiary = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(currentDiary);
     setDefaultInputForm({
-      subject: currentDiary.subject || "",
-      content: currentDiary.content || "",
+      subject: currentDiary?.subject || "",
+      content: currentDiary?.content || "",
     });
 
     diaryInputHandler("init", {
-      subject: currentDiary.subject || "",
-      content: currentDiary.content || "",
+      subject: currentDiary?.subject || "",
+      content: currentDiary?.content || "",
     });
   }, []);
   //일기 생성, 오늘 일기 페이지(트위터처럼 바로 위쪽은 작성창, 아래는 이미 작성된 일기)
   //key 값으로 구분해서 작동
   return (
     <form
-      className="border flex flex-col w-3/4 my-2 py-2 min-w-min bg-white px-5 max-w-screen-lg"
+      className="border flex flex-col w-full my-2 py-2 min-w-min bg-white px-5 max-w-screen-lg"
       onSubmit={submitHandle}
     >
-      <div className="flex">
+      {/* <div className="flex">
         <div className="w-72"></div>
         <div className="w-72"></div>
-      </div>
+      </div> */}
       <textarea
         id="diaryInputSubject"
         className="border px-1 mb-1"
