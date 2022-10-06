@@ -61,10 +61,11 @@ const Diary = () => {
   };
   const createDiaryHandle = async () => {
     //인수로 내용을 받아야 하나?
-    //엔터를 </br>식으로 받아서 줄 바꿈 위치를 저장해야 한다.
     try {
-      
       const dateKR = getKRDate();
+      if(contentInputForm === diaries[0].content && subjectInputForm === diaries[0].subject) {
+        return ;
+      }
       const body = { subject: subjectInputForm, content: contentInputForm };
       const createdDiary = {
         id: "temp-Id",
@@ -250,14 +251,15 @@ const Diary = () => {
   }, [page]);
 
   return (
-    <div className="border h-auto min-h-screen flex bg-slate-500 items-center justify-center flex-col pt-7">
+    <div className="h-full min-h-screen flex bg-slate-500 items-center  flex-col pt-7">
       <Helmet>Diary | 400JA-DIARY</Helmet>
       {load ? (
-        <div className="top-1/2">{LoadingSpin()}</div>
+        <div className="absolute top-1/2">{LoadingSpin()}</div>
       ) : (
-        <div className="flex flex-col w-full h-auto">
+        <div className="flex flex-col w-full h-full">
           <SideBar setFindResult={setFindResult} />
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center items-center my-2">
+            <div className="w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
             <CreateDiary
               diaryInputHandler={diaryInputHandler}
               createDiaryHandle={createDiaryHandle}
@@ -266,10 +268,11 @@ const Diary = () => {
               //10/4 < 10/5
               currentDiary={isCurrentDiary() ?  diaries[0] : null}
             />
+            </div>
           </div>
 
-          <div className="flex w-full justify-center items-center">
-            <div className="border w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
+          <div className="flex h-full w-full justify-center items-center">
+            <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
               <div className="flex">
                 <div className="w-72"></div>
                 <div className="w-72"></div>
