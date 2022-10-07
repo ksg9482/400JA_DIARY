@@ -24,11 +24,11 @@ const SideBar = (props: any) => {
           return;
         }
         document
-          .getElementById("searchbox-keyword")
-          ?.classList.toggle("border-slate-600");
+          .getElementById("searchbox-gradient")
+          ?.classList.toggle("bg-gradient-to-l");
         document
-          .getElementById("searchbox-date")
-          ?.classList.toggle("border-slate-600");
+          .getElementById("searchbox-gradient")
+          ?.classList.toggle("bg-gradient-to-r");
         setSearchBox(<KeywordSearch setFindResult={setFindResult} />);
         return;
       }
@@ -37,11 +37,11 @@ const SideBar = (props: any) => {
           return;
         }
         document
-          .getElementById("searchbox-keyword")
-          ?.classList.toggle("border-slate-600");
+          .getElementById("searchbox-gradient")
+          ?.classList.toggle("bg-gradient-to-r");
         document
-          .getElementById("searchbox-date")
-          ?.classList.toggle("border-slate-600");
+          .getElementById("searchbox-gradient")
+          ?.classList.toggle("bg-gradient-to-l");
         setSearchBox(<DateSearch setFindResult={setFindResult} />);
         return;
       }
@@ -68,25 +68,25 @@ const SideBar = (props: any) => {
       ?.classList.toggle("border-l-2");
     document
       .getElementById("sidebar-hide-button")
-      ?.classList.toggle("border-l-slate-600");
+      ?.classList.toggle("border-l-[#855958]");
   };
   return (
     <div className="flex w-full">
       <aside
         id="sideBar"
-        className="fixed top-auto left-0 z-auto float-none overflow-auto w-64 h-full border-2 border-slate-500 bg-slate-400 box-border hidden"
+        className="fixed top-auto left-0 z-auto float-none overflow-auto w-64 h-full border-r-2 border-[#855958] bg-[#E3D8C5] box-border hidden"
       >
-        <div className="pt-14 pb-28 flex justify-center">
+        <div id="searchbox-gradient" className=" bg-gradient-to-r from-[#753d3c] to-[#E3D8C5] mt-14 mb-28 gap-1 px-1 py-1 w-full flex justify-center ">
           <button
             id="searchbox-keyword"
-            className="border hover:bg-slate-300 border-slate-600 mr-3"
+            className="w-1/2 bg-[#E3D8C5] hover:bg-slate-300 border-slate-500"
             onClick={searchBoxChange(constants.keyWord)}
           >
             키워드 검색
           </button>
           <button
             id="searchbox-date"
-            className="border hover:bg-slate-300"
+            className="w-1/2 bg-[#E3D8C5] hover:bg-slate-300"
             onClick={searchBoxChange(constants.date)}
           >
             날짜 검색
@@ -96,7 +96,7 @@ const SideBar = (props: any) => {
       </aside>
       <button
         id="sidebar-hide-button"
-        className="fixed top-2/3 z-auto inline-block w-8 h-24 border-t-2 border-b-2 border-r-2 border-t-slate-600 border-b-slate-600 border-r-slate-600 rounded-r-md outline-none hover:bg-slate-300 bg-slate-400"
+        className="fixed top-2/3 z-auto inline-block w-8 h-24 border-t-2 border-b-2 border-r-2 border-t-[#855958] border-b-[#855958] border-r-[#855958] rounded-r-md outline-none hover:bg-[#dfcaa4] bg-[#E3D8C5]"
         onClick={sideBarHandler}
       >
         <FontAwesomeIcon icon={faSearch} size="1x"></FontAwesomeIcon>

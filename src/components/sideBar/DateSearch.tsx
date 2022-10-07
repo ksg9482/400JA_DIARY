@@ -43,9 +43,11 @@ const DateSearch = (props:any) => {
     //createDateList(now)
     return (
         <form id="searchForm-date" className="flex flex-col px-2">
-            <div className="border">날짜 검색</div> 
-            <input className="border" type="date" id="date-search" min={"2022-01-01"} max={now}/>
-            <button className="border hover:bg-slate-300" onClick={findByDate}>검색</button>
+            <div className="border border-slate-500 flex flex-col">
+            <div>날짜 검색</div> 
+            <input className="border-y border-slate-500" type="date" id="date-search" min={"2022-01-01"} max={now}/>
+            <button className="hover:bg-slate-300" onClick={findByDate}>검색</button>
+            </div>
             <div>{errorMessage}</div>
         </form>
     )

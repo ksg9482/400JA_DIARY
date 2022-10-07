@@ -66,7 +66,7 @@ const PasswordChangeModal = (props: any) => {
   window.addEventListener('keydown', escKey)
 
   return (
-    <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
+    <div className="fixed bg-slate-400 top-0 h-full w-full bg-opacity-50 flex justify-center items-center">
       <div className="bg-white w-1/3 min-w-min max-w-sm">
         <div className="flex mb-5">
           <div className="w-64"></div>

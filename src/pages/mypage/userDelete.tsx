@@ -48,7 +48,7 @@ const UserDeleteModal = (props: any) => {
   //소셜 로그인이면 소셜 끊기?
   //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
   return (
-    <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
+    <div className="fixed bg-slate-400 top-0 h-full w-full bg-opacity-50 flex justify-center items-center">
       <div className="bg-white w-1/3 min-w-min max-w-sm">
         <div className="flex mb-5">
           <div className="w-64"></div>

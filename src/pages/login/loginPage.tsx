@@ -126,11 +126,13 @@ const Login = () => {
   //소셜 로그인은 컴포넌트 따로 만들어서 관리하는게 안전
 
   return (
-    <div className=" h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
+    <div className=" h-screen flex bg-[#E3D8C5] items-center justify-center flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
       {onModal ? <FindPasswordModal modalHandle={modalHandle} /> : null}
-      <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-        <div className="text-8xl border-t-2 border-b-2 pb-2">400JA DIARY</div>
+      <div className="h-full sm:h-5/6 w-full bg-intro-notebook flex justify-center border-y-2 border-[#855958]">
+      <div className=" w-10/12 sm:w-8/12 bg-white bg-opacity-70  flex flex-col px-5 justify-center items-center">
+        <h1 className="whitespace-nowrap">하루 400자, 쉽고 편하게 당신의 하루를 정리해 보세요</h1>
+        <div className="text-6xl lg:text-8xl border-t-2 border-b-2 pb-2">400JA DIARY</div>
         <form className=" flex flex-col justify-center items-center min-w-max border-b-2">
           <div className=" flex flex-col justify-between items-center sm:flex-row">
             <div className=" flex flex-col mt-5 mb-3 items-center sm:mr-12 ">
@@ -177,7 +179,7 @@ const Login = () => {
           <span>회원으로 등록하지 않으셨나요? </span>
           <span>회원가입</span>
         </Link>
-        <div className="flex sm:flex-row items-center justify-center sm:w-4/5 flex-col">
+        <div className="flex sm:flex-row items-center justify-center sm:w-4/5 flex-col mb-1">
           <button
             className="border flex items-center w-52 sm:w-40 min-w-fit px-1 mr-0 sm:mr-3 mb-2 sm:mb-0  bg-slate-100 rounded-md"
             onClick={socialLoginHandler("google")}
@@ -202,6 +204,8 @@ const Login = () => {
           </button>
         </div>
       </div>
+      </div>
+      
     </div>
   );
 };

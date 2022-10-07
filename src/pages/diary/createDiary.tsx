@@ -68,7 +68,7 @@ const CreateDiary = (props: any) => {
   //key 값으로 구분해서 작동
   
   return (
-    <div className="border-2 border-slate-500 flex justify-center items-center w-full">
+    <div className="border-2 border-[#855958] bg-white flex justify-center items-center w-full rounded-md">
       <div className="flex justify-center items-center w-full">
       <form
         className="flex flex-col w-10/12 gap-2 py-1 min-w-min max-w-screen-lg justify-center items-center"

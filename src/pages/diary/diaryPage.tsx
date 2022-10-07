@@ -63,8 +63,8 @@ const Diary = () => {
     //인수로 내용을 받아야 하나?
     try {
       const dateKR = getKRDate();
-      if(contentInputForm === diaries[0].content && subjectInputForm === diaries[0].subject) {
-        return ;
+      if (contentInputForm === diaries[0].content && subjectInputForm === diaries[0].subject) {
+        return;
       }
       const body = { subject: subjectInputForm, content: contentInputForm };
       const createdDiary = {
@@ -166,12 +166,12 @@ const Diary = () => {
   const ScrollTopButton = () => {
     return (
       <button
-        className="border-2 border-slate-400 flex bottom-0 right-20 fixed "
+        className="border-2 border-[#332121] flex bottom-0 right-28 fixed "
         onClick={scrollTop}
       >
         <FontAwesomeIcon
           icon={faArrowUp}
-          color="#243c64"
+          color="#332121"
           size="3x"
         ></FontAwesomeIcon>
       </button>
@@ -207,9 +207,9 @@ const Diary = () => {
             endRef.current = true;
           }
 
-          if (0 < diaryLength ) setDiaries([...weeklyDiary.data.list]);
+          if (0 < diaryLength) setDiaries([...weeklyDiary.data.list]);
           preventRef.current = true;
-          
+
         } else {
           endRef.current = true;
           setDiaries([
@@ -251,28 +251,28 @@ const Diary = () => {
   }, [page]);
 
   return (
-    <div className="h-full min-h-screen flex bg-slate-500 items-center  flex-col pt-7">
+    <div className="h-full min-h-screen flex bg-[#E3D8C5] items-center  flex-col pt-7">
       <Helmet>Diary | 400JA-DIARY</Helmet>
       {load ? (
         <div className="absolute top-1/2">{LoadingSpin()}</div>
       ) : (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col items-center w-full h-full">
           <SideBar setFindResult={setFindResult} />
+          <div className="w-11/12 bg-intro-notebook bg-fixed border-x-2 border-[#855958]">
           <div className="flex w-full justify-center items-center my-2">
-            <div className="w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
-            <CreateDiary
-              diaryInputHandler={diaryInputHandler}
-              createDiaryHandle={createDiaryHandle}
-              diaryValidCheck={diaryValidCheck}
-              // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
-              //10/4 < 10/5
-              currentDiary={isCurrentDiary() ?  diaries[0] : null}
-            />
+            <div className="w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 bg-opacity-50 rounded-md">
+              <CreateDiary
+                diaryInputHandler={diaryInputHandler}
+                createDiaryHandle={createDiaryHandle}
+                diaryValidCheck={diaryValidCheck}
+                // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
+                //10/4 < 10/5
+                currentDiary={isCurrentDiary() ? diaries[0] : null}
+              />
             </div>
           </div>
-
-          <div className="flex h-full w-full justify-center items-center">
-            <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
+          <div className="flex h-full w-full justify-center items-center ">
+            <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 bg-opacity-50 rounded-md">
               <div className="flex">
                 <div className="w-72"></div>
                 <div className="w-72"></div>
@@ -284,6 +284,8 @@ const Diary = () => {
             </div>
             {btnStatus ? ScrollTopButton() : null}
           </div>
+          </div>
+          
         </div>
       )}
     </div>

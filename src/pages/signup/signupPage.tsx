@@ -114,10 +114,10 @@ const Signup = () => {
 
   //에러메시지 공간 필요함
   return (
-    <div className="h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
+    <div className="h-screen flex bg-[#E3D8C5] items-center justify-center flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
-      <div className="w-full h-full bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-        
+      <div className=" h-5/6 w-full bg-intro-notebook flex justify-center border-y-2 border-[#855958]">
+      <div className="w-8/12 bg-white flex flex-col px-5 justify-center items-center">
         <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5">
           <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
             <span className="text-left w-28">이메일</span>
@@ -164,6 +164,8 @@ const Signup = () => {
           </div>
         </form>
       </div>
+      </div>
+      
     </div>
   );
 };
