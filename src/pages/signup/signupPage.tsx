@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { emailPattern } from "components/common";
 interface IsignupInfoState {
   email: string;
   password: string;
@@ -36,9 +37,8 @@ const Signup = () => {
 
   const validCheckHandle = (signupInfo: IsignupInfoState): void => {
     const emailCheck = () => {
-      const emailValidPattern =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return emailValidPattern.exec(signupInfo.email);
+      
+      return emailPattern.exec(signupInfo.email);
     };
 
     const samePasswordCheck = () => {
@@ -105,26 +105,26 @@ const Signup = () => {
       await sendSignup();
       onCompleted();
     } catch (error: any) {
-      if (error.message === "Already Email") {
+      if (error.message === "Email Already Exists") {
         return setErrorMessage("이미 가입된 이메일입니다");
       }
       //return ;
     }
   };
+
   //에러메시지 공간 필요함
   return (
-    <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
+    <div className="h-screen flex bg-[#E3D8C5] items-center justify-center flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
-      <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-        <div className="flex">
-          <div className="w-72"></div>
-        </div>
+      <div className=" h-5/6 w-full bg-intro-notebook flex justify-center border-y-2 border-[#855958]">
+      <div className="w-8/12 bg-white flex flex-col px-5 justify-center items-center">
         <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5">
           <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
             <span className="text-left w-28">이메일</span>
             <input
               className="border w-full sm:w-3/4"
               type="email"
+              pattern={emailPattern+""}
               placeholder="email"
               onChange={inputHandler("email")}
             />
@@ -148,27 +148,25 @@ const Signup = () => {
             />
           </div>
           {errorMessage ? (
-            <div className="border-b-2">{errorMessage}</div>
+            <div className="border-b-2 text-red-500 text-sm">{errorMessage}</div>
           ) : (
-            <div className="border-b-2">&nbsp;</div>
+            <div className="border-b-2 text-sm">&nbsp;</div>
           )}
-          <div className="flex justify-center w-full mt-5">
-            <div className="flex w-full flex-col-reverse justify-between sm:flex-row ">
-              <button className="border w-full hover:bg-slate-300 sm:w-52 sm:mr-6">
-                <Link to="/">
-                  <div className="w-full">취소</div>
-                </Link>
-              </button>
-              <button
-                className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
-                onClick={handleSubmit}
-              >
-                회원가입
-              </button>
-            </div>
+          <div className="mt-5 flex w-full flex-col-reverse justify-between sm:flex-row ">
+            <Link className="box-border w-full hover:bg-slate-300 sm:w-52 sm:mr-6" to="/">
+              <div className="border w-full ">취소</div>
+            </Link>
+            <button
+              className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
+              onClick={handleSubmit}
+            >
+              회원가입
+            </button>
           </div>
         </form>
       </div>
+      </div>
+      
     </div>
   );
 };

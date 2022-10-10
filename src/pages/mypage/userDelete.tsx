@@ -7,8 +7,16 @@ const UserDeleteModal = (props: any) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { modalHandle } = props;
   const nav = useNavigate();
+
+  const escKey = (e: KeyboardEvent) => {
+    if(e.key === 'Escape') {
+      userDeleteCancle()
+    }
+  }
+
   const userDeleteCancle = () => {
     modalHandle();
+    window.removeEventListener('keydown', escKey)
   };
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
@@ -35,12 +43,12 @@ const UserDeleteModal = (props: any) => {
     nav("/", { replace: true });
     location.reload();
   };
-
+  window.addEventListener('keydown', escKey)
   //일반가입이면 단순 데이터 삭제
   //소셜 로그인이면 소셜 끊기?
   //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
   return (
-    <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
+    <div className="fixed bg-slate-400 top-0 h-full w-full bg-opacity-50 flex justify-center items-center">
       <div className="bg-white w-1/3 min-w-min max-w-sm">
         <div className="flex mb-5">
           <div className="w-64"></div>
@@ -68,7 +76,7 @@ const UserDeleteModal = (props: any) => {
           </div>
         </div>
 
-        {errorMessage ? errorMessage : <div>&nbsp;</div>}
+        {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
 
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button

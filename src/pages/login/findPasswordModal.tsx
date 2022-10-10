@@ -1,5 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { emailPattern } from "components/common";
+import { getEventListeners } from "events";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const FindPasswordModal = (props: any) => {
   //유저 정보 삭제 페이지.
@@ -7,36 +9,51 @@ const FindPasswordModal = (props: any) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { modalHandle } = props;
   const nav = useNavigate();
+  
+  const escKey = (e: KeyboardEvent) => {
+    if(e.key === 'Escape') {
+      passwordFindCancle()
+    }
+  }
+
   const passwordFindCancle = () => {
     modalHandle();
+    window.removeEventListener('keydown', escKey)
   };
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInput(e.target.value);
   };
   const passwordFindHandle = async (email: string) => {
     try {
-      setErrorMessage("등록되지 않은 사용자 입니다.");
+      if(!email){
+        return setErrorMessage("이메일을 입력해 주세요");
+      }
       const userValid = await axios.post(
         `http://localhost:8080/api/auth/findPassword`,
         { email: email },
         { withCredentials: true }
       );
+      
       modalHandle();
       nav("/", { replace: true });
     } catch (error: any) {
-      if (error.response.data.error === "Password change fail") {
-        setErrorMessage("임시 비밀번호 발급에 실패하였습니다.");
-        return;
+      const errorMessage = error.response.data.errors.message;
+      
+      if (errorMessage === "User not registered") {
+        return setErrorMessage("등록되지 않은 사용자 입니다");
       }
-      return error;
+      
+      //errorMessage: "Password change fail"
+      return setErrorMessage("임시 비밀번호 발급에 실패하였습니다.");
     }
   };
 
+  window.addEventListener('keydown', escKey)
   //일반가입이면 단순 데이터 삭제
   //소셜 로그인이면 소셜 끊기?
   //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
   return (
-    <div className="fixed bg-slate-400 h-full w-full bg-opacity-50 flex justify-center items-center">
+    <div className="fixed bg-slate-400 top-0 h-full w-full bg-opacity-50 flex justify-center items-center">
       <div className="bg-white w-1/3 pt-1 min-w-min max-w-sm">
         <div className="flex mb-5">
           <div className="w-64"></div>
@@ -54,17 +71,16 @@ const FindPasswordModal = (props: any) => {
                 이메일
               </span>
               <input
-                className="border w-full sm:w-3/4"
-                type="text"
+                className="border w-full sm:w-3/4 mb-2"
+                type="email"
+                pattern={emailPattern+""}
                 placeholder="이메일"
                 onChange={inputHandle}
               />
             </div>
           </div>
+        {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
         </div>
-
-        {errorMessage ? errorMessage : <div>&nbsp;</div>}
-
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button
             className=" hover:bg-slate-300 w-28"

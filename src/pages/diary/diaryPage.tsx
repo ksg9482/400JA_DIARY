@@ -49,21 +49,23 @@ const Diary = () => {
     setDiaries([...result.list]);
     preventRef.current = true;
   };
+  const getKRDate = () => {
+    const date = new Date().toLocaleString("ko-KR", {
+      timeZone: "Asia/Seoul",
+    });
+    const dateSplitArr = date.split(". "); // 공백문자도 포함해 분리
+    const year = dateSplitArr[0].padStart(2, "0");
+    const month = dateSplitArr[1].padStart(2, "0");
+    const day = dateSplitArr[2].padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
   const createDiaryHandle = async () => {
     //인수로 내용을 받아야 하나?
-    //엔터를 </br>식으로 받아서 줄 바꿈 위치를 저장해야 한다.
     try {
-      const getKRDate = () => {
-        const date = new Date().toLocaleString("ko-KR", {
-          timeZone: "Asia/Seoul",
-        });
-        const dateSplitArr = date.split(". "); // 공백문자도 포함해 분리
-        const year = dateSplitArr[0].padStart(2, "0");
-        const month = dateSplitArr[1].padStart(2, "0");
-        const day = dateSplitArr[2].padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      };
       const dateKR = getKRDate();
+      if (contentInputForm === diaries[0].content && subjectInputForm === diaries[0].subject) {
+        return;
+      }
       const body = { subject: subjectInputForm, content: contentInputForm };
       const createdDiary = {
         id: "temp-Id",
@@ -164,18 +166,24 @@ const Diary = () => {
   const ScrollTopButton = () => {
     return (
       <button
-        className="border-2 border-slate-400 flex bottom-0 right-20 fixed "
+        className="border-2 border-[#332121] flex bottom-0 right-28 fixed "
         onClick={scrollTop}
       >
         <FontAwesomeIcon
           icon={faArrowUp}
-          color="#243c64"
+          color="#332121"
           size="3x"
         ></FontAwesomeIcon>
       </button>
     );
   };
 
+  const isCurrentDiary = () => {
+    const nowDate = new Date(getKRDate());
+    const targetDate = new Date(diaries[0].date);
+    const isCurrentDiary = nowDate <= targetDate;
+    return isCurrentDiary
+  }
   useEffect(() => {
     const observer = new IntersectionObserver(obsHandle, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
@@ -199,9 +207,9 @@ const Diary = () => {
             endRef.current = true;
           }
 
-          if (0 < diaryLength ) setDiaries([...weeklyDiary.data.list]);
+          if (0 < diaryLength) setDiaries([...weeklyDiary.data.list]);
           preventRef.current = true;
-          
+
         } else {
           endRef.current = true;
           setDiaries([
@@ -243,24 +251,28 @@ const Diary = () => {
   }, [page]);
 
   return (
-    <div className="border h-auto min-h-screen flex bg-slate-500 items-center justify-center flex-col pt-7">
+    <div className="h-full min-h-screen flex bg-[#E3D8C5] items-center  flex-col pt-7">
       <Helmet>Diary | 400JA-DIARY</Helmet>
       {load ? (
-        <div className="top-1/2">{LoadingSpin()}</div>
+        <div className="absolute top-1/2">{LoadingSpin()}</div>
       ) : (
-        <div className="flex flex-col w-full h-auto">
+        <div className="flex flex-col items-center w-full h-full">
           <SideBar setFindResult={setFindResult} />
-          <div className="flex w-full justify-center">
-            <CreateDiary
-              diaryInputHandler={diaryInputHandler}
-              createDiaryHandle={createDiaryHandle}
-              diaryValidCheck={diaryValidCheck}
-              currentDiary={diaries[0]}
-            />
+          <div className="w-11/12 bg-intro-notebook bg-fixed border-x-2 border-[#855958]">
+          <div className="flex w-full justify-center items-center my-2">
+            <div className="w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 bg-opacity-50 rounded-md">
+              <CreateDiary
+                diaryInputHandler={diaryInputHandler}
+                createDiaryHandle={createDiaryHandle}
+                diaryValidCheck={diaryValidCheck}
+                // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
+                //10/4 < 10/5
+                currentDiary={isCurrentDiary() ? diaries[0] : null}
+              />
+            </div>
           </div>
-
-          <div className="flex w-full justify-center items-center">
-            <div className="border w-3/4 min-w-min bg-white max-w-screen-lg flex flex-col px-5 items-center py-2">
+          <div className="flex h-full w-full justify-center items-center ">
+            <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 bg-opacity-50 rounded-md">
               <div className="flex">
                 <div className="w-72"></div>
                 <div className="w-72"></div>
@@ -272,6 +284,8 @@ const Diary = () => {
             </div>
             {btnStatus ? ScrollTopButton() : null}
           </div>
+          </div>
+          
         </div>
       )}
     </div>

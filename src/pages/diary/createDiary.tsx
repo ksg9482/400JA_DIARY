@@ -25,20 +25,20 @@ const CreateDiary = (props: any) => {
 
     e.preventDefault(); //set이 안되는건 이벤트 전파가 안되서?
     createDiaryHandle();
-    diaryInputValueInit();
+    //diaryInputValueInit();
   };
 
-  const diaryInputValueInit = () => {
-    const diaryInputId = ["diaryInputSubject", "diaryInputContent"];
-    diaryInputId.forEach((id) => {
-      const targetElement: HTMLInputElement | null = document.querySelector(
-        `#${id}`
-      );
-      if (targetElement) {
-        targetElement.value = "";
-      }
-    });
-  };
+  // const diaryInputValueInit = () => {
+  //   const diaryInputId = ["diaryInputSubject", "diaryInputContent"];
+  //   diaryInputId.forEach((id) => {
+  //     const targetElement: HTMLInputElement | null = document.querySelector(
+  //       `#${id}`
+  //     );
+  //     if (targetElement) {
+  //       targetElement.value = "";
+  //     }
+  //   });
+  // };
 
   const defaultInputHandler = (
     key: string,
@@ -54,56 +54,56 @@ const CreateDiary = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(currentDiary);
     setDefaultInputForm({
-      subject: currentDiary.subject || "",
-      content: currentDiary.content || "",
+      subject: currentDiary?.subject || "",
+      content: currentDiary?.content || "",
     });
 
     diaryInputHandler("init", {
-      subject: currentDiary.subject || "",
-      content: currentDiary.content || "",
+      subject: currentDiary?.subject || "",
+      content: currentDiary?.content || "",
     });
   }, []);
   //일기 생성, 오늘 일기 페이지(트위터처럼 바로 위쪽은 작성창, 아래는 이미 작성된 일기)
   //key 값으로 구분해서 작동
+  
   return (
-    <form
-      className="border flex flex-col w-3/4 my-2 py-2 min-w-min bg-white px-5 max-w-screen-lg"
-      onSubmit={submitHandle}
-    >
-      <div className="flex">
-        <div className="w-72"></div>
-        <div className="w-72"></div>
+    <div className="border-2 border-[#855958] bg-white flex justify-center items-center w-full rounded-md">
+      <div className="flex justify-center items-center w-full">
+      <form
+        className="flex flex-col w-10/12 gap-2 py-1 min-w-min max-w-screen-lg justify-center items-center"
+        onSubmit={submitHandle}
+      >
+        <textarea
+          id="diaryInputSubject"
+          className="border px-1 w-full"
+          placeholder="제목을 적어주세요"
+          rows={1}
+          maxLength={30}
+          value={defaultInputForm.subject}
+          onChange={(e) => {
+            defaultInputHandler(diaryInputKey.subject, e);
+            diaryInputHandler(diaryInputKey.subject, e);
+          }}
+          required
+        />
+        <textarea
+          id="diaryInputContent"
+          className="border w-full overflow-y-scroll h-auto px-1"
+          placeholder="일기를 적어주세요"
+          rows={6}
+          maxLength={400}
+          value={defaultInputForm.content}
+          onChange={(e) => {
+            defaultInputHandler(diaryInputKey.content, e);
+            diaryInputHandler(diaryInputKey.content, e);
+          }}
+          required
+        />
+        <button className="border w-full hover:bg-slate-300">일기 쓰기</button>
+      </form>
       </div>
-      <textarea
-        id="diaryInputSubject"
-        className="border px-1 mb-1"
-        placeholder="제목을 적어주세요"
-        rows={1}
-        maxLength={30}
-        value={defaultInputForm.subject}
-        onChange={(e) => {
-          defaultInputHandler(diaryInputKey.subject, e);
-          diaryInputHandler(diaryInputKey.subject, e);
-        }}
-        required
-      />
-      <textarea
-        id="diaryInputContent"
-        className="border overflow-y-scroll h-auto mb-1 px-1"
-        placeholder="일기를 적어주세요"
-        rows={6}
-        maxLength={400}
-        value={defaultInputForm.content}
-        onChange={(e) => {
-          defaultInputHandler(diaryInputKey.content, e);
-          diaryInputHandler(diaryInputKey.content, e);
-        }}
-        required
-      />
-      <button className="border hover:bg-slate-300">일기 쓰기</button>
-    </form>
+    </div>
   );
 };
 

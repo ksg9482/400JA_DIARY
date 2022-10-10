@@ -62,14 +62,11 @@ const Mypage = () => {
 
   }, [onModal])
   return (
-    <div className="border h-screen flex bg-slate-500 items-center justify-start flex-col pt-7">
+    <div className="border h-screen flex bg-[#E3D8C5] items-center justify-center flex-col pt-7">
       <Helmet>Diary | 400JA-DIARY</Helmet>
       {onModal ? modalPage : null}
-      <div className="border w-3/4 h-full  min-w-min bg-white max-w-screen-lg flex flex-col px-5 justify-center items-center">
-      <div className="flex">
-          <div className="w-72"></div>
-          <div className="w-72"></div>
-        </div>
+      <div className=" h-5/6 w-full bg-intro-notebook flex justify-center border-y-2 border-[#855958]">
+      <div className="w-8/12 h-full bg-white flex flex-col px-5 justify-center items-center">
         {load 
         ? LoadingSpin() 
         :<div>
@@ -88,6 +85,8 @@ const Mypage = () => {
         
 
       </div>
+      </div>
+      
     </div>
   );
 };

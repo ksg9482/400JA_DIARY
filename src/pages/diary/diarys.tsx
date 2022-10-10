@@ -21,7 +21,7 @@ const Diarys = (props: any) => {
   //일기 모아보기. map으로 뿌린다.
   //전체보기, 년별로 보기, 월별로 보기, 주별로 보기에도 같은 양식으로.
   return (
-    <div className="border-2 border-slate-500 my-11 flex flex-col">
+    <div className="border-2 border-[#855958] my-11 flex flex-col bg-white rounded-md">
       {diaries.map((diaryContent: IdiaryContent) => (
         <DiaryCompoenet diaryContent={diaryContent} key={diaryContent.id} />
       ))}
