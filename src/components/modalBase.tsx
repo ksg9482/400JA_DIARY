@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { emailPattern } from "./common";
 const FindPasswordModal = (props: any) => {
     //유저 정보 삭제 페이지.
     const [emailInput, setEmailInput] = useState('');
@@ -49,12 +50,12 @@ const FindPasswordModal = (props: any) => {
                     <div className="flex flex-col mt-6">
                         <div className="flex justify-between items-center mt-6 px-1">
                             <span className="">이메일</span>
-                            <input type="text" placeholder="이메일" onChange={inputHandle} />                        
+                            <input type="email" pattern={emailPattern+""} placeholder="이메일" onChange={inputHandle} />                        
                         </div>
                     </div>
                 </div>
 
-                {errorMessage ? errorMessage : <div>&nbsp;</div>}
+                {errorMessage ? <div className="text-sm text-red-500">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
 
                 <div>
                     <button className="mr-6" onClick={passwordFindCancle} >취소</button>

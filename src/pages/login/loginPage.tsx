@@ -1,4 +1,5 @@
 import axios from "axios";
+import { emailPattern } from "components/common";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
@@ -140,6 +141,7 @@ const Login = () => {
                 className="border mb-1"
                 type="email"
                 name="email"
+                pattern={emailPattern+""}
                 onChange={inputHandler("email")}
                 placeholder="email"
                 required
@@ -169,7 +171,7 @@ const Login = () => {
             </div>
           </div>
           {errorMessage ? (
-            <div className="pb-2 text-red-500">{errorMessage}</div>
+            <div className="pb-2 text-sm text-red-500">{errorMessage}</div>
           ) : (
             <div className="pb-2">&nbsp;</div>
           )}

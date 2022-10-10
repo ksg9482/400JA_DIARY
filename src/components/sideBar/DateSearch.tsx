@@ -48,7 +48,7 @@ const DateSearch = (props:any) => {
             <input className="border-y border-slate-500" type="date" id="date-search" min={"2022-01-01"} max={now}/>
             <button className="hover:bg-slate-300" onClick={findByDate}>검색</button>
             </div>
-            <div>{errorMessage}</div>
+            <div className="text-sm text-red-500  mt-1">{errorMessage}</div>
         </form>
     )
 }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { emailPattern } from "components/common";
 interface IsignupInfoState {
   email: string;
   password: string;
@@ -36,9 +37,8 @@ const Signup = () => {
 
   const validCheckHandle = (signupInfo: IsignupInfoState): void => {
     const emailCheck = () => {
-      const emailValidPattern =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return emailValidPattern.exec(signupInfo.email);
+      
+      return emailPattern.exec(signupInfo.email);
     };
 
     const samePasswordCheck = () => {
@@ -105,7 +105,7 @@ const Signup = () => {
       await sendSignup();
       onCompleted();
     } catch (error: any) {
-      if (error.message === "Already Email") {
+      if (error.message === "Email Already Exists") {
         return setErrorMessage("이미 가입된 이메일입니다");
       }
       //return ;
@@ -124,6 +124,7 @@ const Signup = () => {
             <input
               className="border w-full sm:w-3/4"
               type="email"
+              pattern={emailPattern+""}
               placeholder="email"
               onChange={inputHandler("email")}
             />
@@ -147,9 +148,9 @@ const Signup = () => {
             />
           </div>
           {errorMessage ? (
-            <div className="border-b-2">{errorMessage}</div>
+            <div className="border-b-2 text-red-500 text-sm">{errorMessage}</div>
           ) : (
-            <div className="border-b-2">&nbsp;</div>
+            <div className="border-b-2 text-sm">&nbsp;</div>
           )}
           <div className="mt-5 flex w-full flex-col-reverse justify-between sm:flex-row ">
             <Link className="box-border w-full hover:bg-slate-300 sm:w-52 sm:mr-6" to="/">

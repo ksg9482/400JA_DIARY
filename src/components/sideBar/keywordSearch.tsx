@@ -40,7 +40,7 @@ const KeywordSearch = (props: any) => {
             <input className="border-y border-slate-500" type="text" onChange={inputHandle} placeholder="키워드를 입력해주세요" />
             <button className="hover:bg-slate-300" onClick={findByKeyword}>검색</button>
             </div>
-            <div className="mt-1">{errorMessage}</div>
+            <div className="text-sm text-red-500 mt-1">{errorMessage}</div>
         </form>
     )
 }

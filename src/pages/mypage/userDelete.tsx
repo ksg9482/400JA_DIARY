@@ -76,7 +76,7 @@ const UserDeleteModal = (props: any) => {
           </div>
         </div>
 
-        {errorMessage ? errorMessage : <div>&nbsp;</div>}
+        {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
 
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button

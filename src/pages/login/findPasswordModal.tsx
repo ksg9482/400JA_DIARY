@@ -1,4 +1,5 @@
 import axios from "axios";
+import { emailPattern } from "components/common";
 import { getEventListeners } from "events";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,20 +25,26 @@ const FindPasswordModal = (props: any) => {
   };
   const passwordFindHandle = async (email: string) => {
     try {
-      setErrorMessage("등록되지 않은 사용자 입니다.");
+      if(!email){
+        return setErrorMessage("이메일을 입력해 주세요");
+      }
       const userValid = await axios.post(
         `http://localhost:8080/api/auth/findPassword`,
         { email: email },
         { withCredentials: true }
       );
+      
       modalHandle();
       nav("/", { replace: true });
     } catch (error: any) {
-      if (error.response.data.error === "Password change fail") {
-        setErrorMessage("임시 비밀번호 발급에 실패하였습니다.");
-        return;
+      const errorMessage = error.response.data.errors.message;
+      
+      if (errorMessage === "User not registered") {
+        return setErrorMessage("등록되지 않은 사용자 입니다");
       }
-      return error;
+      
+      //errorMessage: "Password change fail"
+      return setErrorMessage("임시 비밀번호 발급에 실패하였습니다.");
     }
   };
 
@@ -64,17 +71,16 @@ const FindPasswordModal = (props: any) => {
                 이메일
               </span>
               <input
-                className="border w-full sm:w-3/4"
-                type="text"
+                className="border w-full sm:w-3/4 mb-2"
+                type="email"
+                pattern={emailPattern+""}
                 placeholder="이메일"
                 onChange={inputHandle}
               />
             </div>
           </div>
+        {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
         </div>
-
-        {errorMessage ? errorMessage : <div>&nbsp;</div>}
-
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button
             className=" hover:bg-slate-300 w-28"
