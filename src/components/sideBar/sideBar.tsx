@@ -1,15 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearchLocation, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import DateSearch from "./DateSearch";
 import KeywordSearch from "./keywordSearch";
 
 const SideBar = (props: any) => {
   const { setFindResult } = props;
-  const [sideBarHandle, setSideBarHandle] = useState(
-    "fixed top-auto left-0 z-auto float-none overflow-auto w-64 h-full bg-slate-400 box-border web hidden"
-  );
   const constants = {
     keyWord: "keyWord",
     date: "date",
@@ -17,18 +14,21 @@ const SideBar = (props: any) => {
   const [searchBox, setSearchBox] = useState(
     <KeywordSearch setFindResult={setFindResult} />
   );
+  const toggleHandle = (elementId:string, classNameArr:string[]) => {
+    classNameArr.forEach((targetClassname) => {
+      document.getElementById(elementId)?.classList.toggle(targetClassname);
+    });
+    return {message:'toggle complete'};
+  };
+
   const searchBoxChange =
     (key: string) => (e: React.MouseEvent<HTMLSpanElement>) => {
       if (key === constants.keyWord) {
         if (document.getElementById("searchForm-keyword")) {
           return;
         }
-        document
-          .getElementById("searchbox-gradient")
-          ?.classList.toggle("bg-gradient-to-l");
-        document
-          .getElementById("searchbox-gradient")
-          ?.classList.toggle("bg-gradient-to-r");
+        const gradientLtoR = ["bg-gradient-to-l", "bg-gradient-to-r"];
+        toggleHandle("searchbox-gradient", gradientLtoR);
         setSearchBox(<KeywordSearch setFindResult={setFindResult} />);
         return;
       }
@@ -36,45 +36,26 @@ const SideBar = (props: any) => {
         if (document.getElementById("searchForm-date")) {
           return;
         }
-        document
-          .getElementById("searchbox-gradient")
-          ?.classList.toggle("bg-gradient-to-r");
-        document
-          .getElementById("searchbox-gradient")
-          ?.classList.toggle("bg-gradient-to-l");
+        const gradientRtoL = ["bg-gradient-to-r", "bg-gradient-to-l"];
+        toggleHandle("searchbox-gradient", gradientRtoL);
         setSearchBox(<DateSearch setFindResult={setFindResult} />);
         return;
       }
     };
-  // 키워드 검색
-  // 날짜로 찾기
-  // 열기-접기 기능
-  /*
-    선택: 키워드 / 날짜
-    */
-  //하이드 버튼을 눌러서 넣고 빼고 할 수 있게
+
+  
+
   const sideBarHandler = () => {
-    console.log("여기 다듬어야 함");
-    document.getElementById("sideBar")?.classList.toggle("hidden");
-    document.getElementById("sidebar-hide-button")?.classList.toggle("left-56");
-    document
-      .getElementById("sidebar-hide-button")
-      ?.classList.toggle("rounded-r-md");
-    document
-      .getElementById("sidebar-hide-button")
-      ?.classList.toggle("rounded-l-md");
-    document
-      .getElementById("sidebar-hide-button")
-      ?.classList.toggle("border-l-2");
-    document
-      .getElementById("sidebar-hide-button")
-      ?.classList.toggle("border-l-[#855958]");
+    const sideBarButtonOnOff = ["left-56", "rounded-r-md", "rounded-l-md", "border-l-2", "border-l-[#855958]"];
+    toggleHandle("sideBar", ["hidden"]);
+    toggleHandle("sidebar-hide-button", sideBarButtonOnOff);
   };
+
   return (
     <div className="flex w-full">
       <aside
         id="sideBar"
-        className="fixed top-auto left-0 z-auto float-none overflow-auto w-64 h-full border-r-2 border-[#855958] bg-[#E3D8C5] box-border hidden"
+        className="fixed top-7 left-0 z-auto float-none overflow-auto w-64 h-full border-r-2 border-[#855958] bg-[#E3D8C5] box-border hidden"
       >
         <div id="searchbox-gradient" className=" bg-gradient-to-r from-[#753d3c] to-[#E3D8C5] mt-14 mb-28 gap-1 px-1 py-1 w-full flex justify-center ">
           <button

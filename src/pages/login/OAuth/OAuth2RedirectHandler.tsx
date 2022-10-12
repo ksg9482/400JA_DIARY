@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import OauthErrorModal from "./OauthErrorModal";
 
 const OAuth2RedirectHandler = (props: any) => {
-  //소셜로그인 상태관리는 어떻게? 상위에서 보내줘야 하는데?
-  //리다이렉트창 노출될 수 있으니 로딩창 만들어서 넣기
-  //카카오인지 구글인지 알수 있어야 한다.
-  const {oauthLoginIsTrue} = props
+  const [onModal, setOnModal] = useState(false);
+  const {oauthLoginIsTrue} = props;
   const navigate = useNavigate();
   const oauthPath = new URL(window.location.href).pathname.split("/");
 
@@ -26,8 +25,8 @@ const OAuth2RedirectHandler = (props: any) => {
           }
         );
         
-        oAuthNav();
-        return;
+        
+        return oAuthNav();
       } catch (error) {
         return error;
       }
@@ -46,9 +45,17 @@ const OAuth2RedirectHandler = (props: any) => {
             withCredentials: true,
           }
         );
-        oAuthNav();
-        return;
-      } catch (error) {
+       
+        return oAuthNav();
+      } catch (error:any) {
+        const errorMessage = error.response.data.errors.message;
+        const OauthErrorMessage = [
+          'Kakao Oauth fail', 
+          'Google Oauth fail'
+        ];
+        if(OauthErrorMessage.includes(errorMessage)) {
+          return setOnModal(true);
+        }
         return error;
       }
     }
@@ -57,7 +64,9 @@ const OAuth2RedirectHandler = (props: any) => {
     handle();
   }, []);
 
-  return <div></div>;
+  return <div>
+    {onModal ? <OauthErrorModal /> : null}
+  </div>;
 };
 
 export default OAuth2RedirectHandler;
