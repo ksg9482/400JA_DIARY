@@ -133,12 +133,12 @@ const Login = () => {
       <div className="h-full sm:h-5/6 w-full bg-intro-notebook flex justify-center border-y-2 border-[#855958]">
       <div className=" w-10/12 sm:w-8/12 bg-white bg-opacity-70  flex flex-col px-5 justify-center items-center">
         <h1 className="whitespace-nowrap">하루 400자, 쉽고 편하게 당신의 하루를 정리해 보세요</h1>
-        <div className="text-6xl lg:text-8xl border-t-2 border-b-2 pb-2">400JA DIARY</div>
-        <form className=" flex flex-col justify-center items-center min-w-max border-b-2">
+        <div className="text-6xl lg:text-8xl border-t-2 border-b-2 border-slate-400 pb-2">400JA DIARY</div>
+        <form className=" flex flex-col justify-center items-center min-w-max border-b-2 border-slate-400">
           <div className=" flex flex-col justify-between items-center sm:flex-row">
             <div className=" flex flex-col mt-5 mb-3 items-center sm:mr-12 ">
               <input
-                className="border mb-1"
+                className="border border-slate-400 mb-1"
                 type="email"
                 name="email"
                 pattern={emailPattern+""}
@@ -147,7 +147,7 @@ const Login = () => {
                 required
               />
               <input
-                className="border"
+                className="border border-slate-400"
                 type="password"
                 name="password"
                 onChange={inputHandler("password")}
@@ -157,13 +157,13 @@ const Login = () => {
             </div>
             <div className="flex flex-row w-full justify-between sm:flex-col mb-3 sm:mt-5 sm:mb-3">
               <button
-                className="border sm:mb-1 hover:bg-slate-300"
+                className="border border-slate-400 sm:mb-1 hover:bg-slate-300"
                 onClick={loginSubmitHandler(loginInfo)}
               >
                 로그인
               </button>
               <button
-                className="border hover:bg-slate-300"
+                className="border border-slate-400 hover:bg-slate-300"
                 onClick={findPasswordHandle}
               >
                 비밀번호 찾기
@@ -177,7 +177,7 @@ const Login = () => {
           )}
         </form>
 
-        <Link to="/signup" className="text-blue-400 mb-3 ">
+        <Link to="/signup" className="text-blue-500 mb-3 ">
           <span>회원으로 등록하지 않으셨나요? </span>
           <span>회원가입</span>
         </Link>
