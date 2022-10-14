@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "config";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const UserDeleteModal = (props: any) => {
@@ -14,6 +15,10 @@ const UserDeleteModal = (props: any) => {
     }
   }
 
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+  
   const userDeleteCancle = () => {
     modalHandle();
     window.removeEventListener('keydown', escKey)
@@ -41,7 +46,7 @@ const UserDeleteModal = (props: any) => {
     }
     const userDeleteSequence = async () => {
       const passwordCheck: any = await axios.post(
-        `http://localhost:8080/api/user/valid`,
+        `${PROTOCOL}://${HOST}:${PORT}/api/user/valid`,
         { password: passwordInput },
         { withCredentials: true }
       );
@@ -49,7 +54,7 @@ const UserDeleteModal = (props: any) => {
         setErrorMessage("비밀번호가 잘못 되었습니다.");
       }
       const userdelete: any = await axios.delete(
-        `http://localhost:8080/api/user`,
+        `${PROTOCOL}://${HOST}:${PORT}/api/user`,
         { withCredentials: true }
       );
 

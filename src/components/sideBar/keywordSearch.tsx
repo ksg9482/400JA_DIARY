@@ -1,10 +1,15 @@
 import axios from "axios";
+import config from "config";
 import React, { useEffect, useState } from "react";
 
 const KeywordSearch = (props: any) => {
     const { setFindResult } = props;
     const [searchInput, setSearchInput] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
 
     const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(e.target.value);
@@ -17,7 +22,7 @@ const KeywordSearch = (props: any) => {
             return;
         }
         const findResult = await axios.get(
-            `http://localhost:8080/api/diary/search/keyword?keyword=${searchInput}`,
+            `${PROTOCOL}://${HOST}:${PORT}/api/diary/search/keyword?keyword=${searchInput}`,
             { withCredentials: true }
         );
         const diaryForm = 0 < findResult.data.list.length

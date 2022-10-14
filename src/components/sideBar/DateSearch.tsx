@@ -1,9 +1,15 @@
 import axios from "axios";
+import config from "config";
 import React, { useEffect, useState } from "react";
 
 const DateSearch = (props:any) => {
     const {setFindResult} = props;
     const [errorMessage, setErrorMessage] = useState('');
+    
+    const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+
     const now = new Date().toISOString().split('T')[0]//.split('-').map((str) => { return parseInt(str) })
     // const createDateList = (now: any) => {
     //     const nowYear = now[0];
@@ -22,7 +28,7 @@ const DateSearch = (props:any) => {
         }
         //diary/search/date?date=2022-08-09
         const findResult = await axios.get(
-            `http://localhost:8080/api/diary/search/date?date=${targetDate.value}`,
+            `${PROTOCOL}://${HOST}:${PORT}/api/diary/search/date?date=${targetDate.value}`,
             { withCredentials: true }
             );
 

@@ -3,15 +3,20 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faUser, faRightFromBracket, faBookOpen, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
+import config from "config";
 type headerProps = {
   isLogin: boolean;
 };
 const Header = (props: headerProps) => {
   const navigate = useNavigate()
   //const [screenX, setScreenX] = useState(window.innerWidth)
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+  
   const logOutHandle = async () => {
     const userLogout = await axios.get(
-      `http://localhost:8080/api/user/logout`,
+      `${PROTOCOL}://${HOST}:${PORT}/api/user/logout`,
       { withCredentials: true }
     );
     navigate('/', { replace: true })
