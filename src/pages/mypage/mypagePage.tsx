@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LoadingSpin } from "components/loading";
+import config from "config";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import PasswordChangeModal from "./passwordChangeModal";
@@ -20,6 +21,10 @@ const Mypage = () => {
     setOnModal(onModal => !onModal)
   }
   const [modalPage, setModalPage] = useState(<UserDeleteModal modalHandle={modalHandle} />);
+
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
 
   const setModalPage2 = (key: string) => {
     if (key === 'userDelete') {
@@ -46,7 +51,7 @@ const Mypage = () => {
   useEffect(() => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
-        `http://localhost:8080/api/user/me`,
+        `${PROTOCOL}://${HOST}:${PORT}/api/user/me`,
         { withCredentials: true }
       );
 

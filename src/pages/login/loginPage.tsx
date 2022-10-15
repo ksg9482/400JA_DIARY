@@ -16,6 +16,10 @@ interface loginInfoState {
   password: string;
 }
 
+const PROTOCOL = config.SERVER_PROTOCOL;
+const HOST = config.SERVER_HOST;
+const PORT = config.SERVER_PORT;
+
 const Login = () => {
   const [loginInfo, setLoginInfo] = useState<loginInfoState>({
     email: "",
@@ -44,7 +48,7 @@ const Login = () => {
           }
           const body = { email: loginInfo.email, password: loginInfo.password };
           const userLogin = await axios.post(
-            `http://localhost:8080/api/auth/login`,
+            `${PROTOCOL}://${HOST}:${PORT}/api/auth/login`,
             body,
             { withCredentials: true }
           );
@@ -53,10 +57,8 @@ const Login = () => {
           location.reload();
           return userInfo;
         } catch (error: any) {
-          console.log(error);
-          if (error.response.data.error === "User not registered") {
-            setErrorMessage("가입되지 않은 사용자 입니다");
-            return;
+          if (error.response.status === 404) {
+            return setErrorMessage("가입되지 않은 사용자 입니다");
           }
           return error;
         }
@@ -112,7 +114,7 @@ const Login = () => {
   // async (e: React.MouseEvent<HTMLSpanElement /*이거 바뀜 */>) => {
   //     //함수로 나눠 관리해도 리다이렉트가 제대로 되나?
   //   const kakaoOAuth = `https://kauth.kakao.com/oauth/authorize?client_id=${config.KAKAO_REST_API_KEY}&redirect_uri=${config.KAKAO_REDIRECT_URI}&response_type=code`;
-  //   const GOOGLE = process.env.GOOGLE || "http://localhost:8080/google";
+  //   const GOOGLE = process.env.GOOGLE || "${PROTOCOL}://${HOST}:${PORT}/google";
   //   if (key === "kakao") {
   //     window.location.href = kakaoOAuth;
   //   } else if (key === "google") {

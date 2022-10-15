@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import CreateDiary from "./createDiary";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { diaryInputKey } from "../../constants";
+import config from "../../config";
 import axios from "axios";
 import Diarys from "./diarys";
 import SideBar from "components/sideBar/sideBar";
@@ -20,7 +21,9 @@ const Diary = () => {
   //위로가기 버튼
   //onClick 말고 이벤트 리스너가 나을까?
   //제목은 없애는게 좋을지도
-
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
   //todo 일기 쓰기 로직 수정, 소셜로그인, 회원가입, 비번변경
 
   const [subjectInputForm, setSubjectInputForm] = useState("");
@@ -76,10 +79,11 @@ const Diary = () => {
         date: dateKR,
       };
       const sendDiary: any = await axios.post(
-        `http://localhost:8080/api/diary`,
+        `${PROTOCOL}://${HOST}:${PORT}/api/diary`,
         body,
         { withCredentials: true }
       );
+      //이거 실패하면 실패했다고 모달 나오게
       if (!sendDiary) {
         throw new Error("Create diary fail");
       }
@@ -128,11 +132,12 @@ const Diary = () => {
   };
 
   const getPost = useCallback(async () => {
+
     const lastDiaryId = diaries[diaries.length - 1].id;
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
-          `http://localhost:8080/api/diary`,
+          `${PROTOCOL}://${HOST}:${PORT}/api/diary`,
           { withCredentials: true }
         );
         const diaryLength = weeklyDiary.data.list.length;
@@ -164,7 +169,7 @@ const Diary = () => {
       return;
     } else {
       const res = await axios.post(
-        `http://localhost:8080/api/diary/nextDiary`,
+        `${PROTOCOL}://${HOST}:${PORT}/api/diary/nextDiary`,
         { lastDiaryId: lastDiaryId },
         { withCredentials: true }
       );
@@ -299,3 +304,13 @@ const Diary = () => {
 };
 
 export default Diary;
+
+/*
+정순 역순은 어떻게?
+1. 프론트엔드에서 배열을 뒤집는다 -> 다시 요청을 안해도 되니 빠르다. 하지만 배열이 많아질수록 성능저하.
+2. 백엔드에 정,역 여부를 받도록 수정 -> 다시 요청 보내야 하니 그만큼 느리다. 그러나 어쨌건 다시 읽으므로 성능은 비슷
+	이때는 get으로 처음 받아올 때를 개조. 정순역순을 쿼리로 보내면 그거에 따라 정렬 변화.
+
+3.아니면 프론트엔드에서 1주일 치만 뒤집음. 백엔드에선 lastDiaryId를 gt로 입력.(역순이 기본-> 이건 lt임.)
+스크롤 해서 내리면 '이후' 날짜부터 받음. 이게 퍼포먼스랑 그나마 타협하는 방식일 듯?
+*/

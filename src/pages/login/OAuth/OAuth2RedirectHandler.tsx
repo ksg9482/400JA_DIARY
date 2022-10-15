@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import OauthErrorModal from "./OauthErrorModal";
+import config from "config";
 
 const OAuth2RedirectHandler = (props: any) => {
   const [onModal, setOnModal] = useState(false);
   const {oauthLoginIsTrue} = props;
   const navigate = useNavigate();
   const oauthPath = new URL(window.location.href).pathname.split("/");
+
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
 
   async function handle() {
     const oAuthNav = () => {
@@ -19,7 +24,7 @@ const OAuth2RedirectHandler = (props: any) => {
       try {
         const code = new URL(window.location.href).searchParams.get("code");
         const sendCode = await axios.get(
-          `http://localhost:8080/api/auth/kakao?code=${code}`,
+          `${PROTOCOL}://${HOST}:${PORT}/api/auth/kakao?code=${code}`,
           {
             withCredentials: true,
           }
@@ -39,7 +44,7 @@ const OAuth2RedirectHandler = (props: any) => {
         );
         const accessToken = parsedHash.get("access_token");
         const sendCode = await axios.post(
-          `http://localhost:8080/api/auth/google`,
+          `${PROTOCOL}://${HOST}:${PORT}/api/auth/google`,
           { accessToken },
           {
             withCredentials: true,
@@ -48,15 +53,16 @@ const OAuth2RedirectHandler = (props: any) => {
        
         return oAuthNav();
       } catch (error:any) {
-        const errorMessage = error.response.data.errors.message;
-        const OauthErrorMessage = [
-          'Kakao Oauth fail', 
-          'Google Oauth fail'
-        ];
-        if(OauthErrorMessage.includes(errorMessage)) {
-          return setOnModal(true);
-        }
-        return error;
+        return setOnModal(true);
+        // const errorMessage = error.response.data.error.message;
+        // const OauthErrorMessage = [
+        //   'Kakao Oauth fail', 
+        //   'Google Oauth fail'
+        // ];
+        // if(OauthErrorMessage.includes(errorMessage)) {
+        //   return setOnModal(true);
+        // }
+        // return error;
       }
     }
   }

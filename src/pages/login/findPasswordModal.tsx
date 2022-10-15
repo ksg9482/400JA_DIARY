@@ -1,5 +1,6 @@
 import axios from "axios";
 import { emailPattern } from "components/common";
+import config from "config";
 import { getEventListeners } from "events";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,10 @@ const FindPasswordModal = (props: any) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { modalHandle } = props;
   const nav = useNavigate();
+  
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
   
   const escKey = (e: KeyboardEvent) => {
     if(e.key === 'Escape') {
@@ -29,7 +34,7 @@ const FindPasswordModal = (props: any) => {
         return setErrorMessage("이메일을 입력해 주세요");
       }
       const userValid = await axios.post(
-        `http://localhost:8080/api/auth/findPassword`,
+        `${PROTOCOL}://${HOST}:${PORT}/api/auth/findPassword`,
         { email: email },
         { withCredentials: true }
       );
@@ -37,13 +42,9 @@ const FindPasswordModal = (props: any) => {
       modalHandle();
       nav("/", { replace: true });
     } catch (error: any) {
-      const errorMessage = error.response.data.errors.message;
-      
-      if (errorMessage === "User not registered") {
-        return setErrorMessage("등록되지 않은 사용자 입니다");
-      }
-      
-      //errorMessage: "Password change fail"
+      if (error.response.status === 404) {
+        return setErrorMessage("가입되지 않은 사용자 입니다");
+      };
       return setErrorMessage("임시 비밀번호 발급에 실패하였습니다.");
     }
   };

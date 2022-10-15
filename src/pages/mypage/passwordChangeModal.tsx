@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "config";
 import React, { useState } from "react";
 
 interface IpasswordInputObj {
@@ -16,6 +17,10 @@ const PasswordChangeModal = (props: any) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { modalHandle } = props;
 
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+  
   const escKey = (e: KeyboardEvent) => {
     if(e.key === 'Escape') {
       passwordChangeCancle()
@@ -53,7 +58,7 @@ const PasswordChangeModal = (props: any) => {
 
     const body = passwordInputObj;
     const passwordChange: any = await axios.patch(
-      `http://localhost:8080/api/user/password`,
+      `${PROTOCOL}://${HOST}:${PORT}/api/user/password`,
       body,
       { withCredentials: true }
     );

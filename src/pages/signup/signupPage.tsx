@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { emailPattern } from "components/common";
+import config from "config";
 interface IsignupInfoState {
   email: string;
   password: string;
@@ -21,6 +22,10 @@ const Signup = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+  
   const inputHandler =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setSignupInfo({ ...signupInfo, [key]: e.target.value });
@@ -61,7 +66,7 @@ const Signup = () => {
 
     //error 처리 개선!!!
     const userSignup = await axios.post(
-      `http://localhost:8080/api/auth/signup`,
+      `${PROTOCOL}://${HOST}:${PORT}/api/auth/signup`,
       { email: body.email, password: body.password },
       { withCredentials: true }
     );
@@ -105,7 +110,7 @@ const Signup = () => {
       await sendSignup();
       onCompleted();
     } catch (error: any) {
-      if (error.message === "Email Already Exists") {
+      if (error.response.status === 409) {
         return setErrorMessage("이미 가입된 이메일입니다");
       }
       //return ;
