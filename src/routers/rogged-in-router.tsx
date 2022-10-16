@@ -6,8 +6,6 @@ import Header from "components/header";
 import NotFound from "pages/404";
 
 export const LoggedInRouter = () => {
-    //로그인 해야 가능한 라우터
-    //다이어리가 기본 페이지
     return (
         <Router>
             <Header isLogin={true}/>
@@ -17,5 +15,5 @@ export const LoggedInRouter = () => {
                 <Route path="/*" element={<NotFound />} />
             </Routes>
         </Router>
-    )
-}
+    );
+};

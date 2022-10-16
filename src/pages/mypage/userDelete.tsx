@@ -3,38 +3,35 @@ import config from "config";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const UserDeleteModal = (props: any) => {
-  //유저 정보 삭제 페이지.
-  const [passwordInput, setPasswordInput] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const { modalHandle } = props;
-  const nav = useNavigate();
-
-  const escKey = (e: KeyboardEvent) => {
-    if(e.key === 'Escape') {
-      userDeleteCancle()
-    }
-  }
-
   const PROTOCOL = config.SERVER_PROTOCOL;
   const HOST = config.SERVER_HOST;
   const PORT = config.SERVER_PORT;
-  
+
+  const { modalHandle } = props;
+
+  const [passwordInput, setPasswordInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const nav = useNavigate();
+
+  const escKey = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      userDeleteCancle();
+    };
+  };
   const userDeleteCancle = () => {
     modalHandle();
     window.removeEventListener('keydown', escKey)
   };
+
   const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
   };
+
   const emptyCheck = () => {
-    if (
-      passwordInput === "" 
-    ) {
+    if (passwordInput.length <= 0) {
       return { message: "비밀번호를 입력해주세요." };
     }
-    // if(passwordInputObj.password !== passwordInputObj.passwordCheck) {
-    //   return {message:'비밀번호와 비밀번호 확인이 같지 않습니다.'}
-    // }
     return false;
   };
 
@@ -57,7 +54,6 @@ const UserDeleteModal = (props: any) => {
         `${PROTOCOL}://${HOST}:${PORT}/api/user`,
         { withCredentials: true }
       );
-
       return "userDelete";
     };
     await userDeleteSequence();
@@ -65,10 +61,9 @@ const UserDeleteModal = (props: any) => {
     nav("/", { replace: true });
     location.reload();
   };
-  window.addEventListener('keydown', escKey)
-  //일반가입이면 단순 데이터 삭제
-  //소셜 로그인이면 소셜 끊기?
-  //삭제하고 유저 정보 삭제되었다 알리기(이용에 감사드립니다 등)
+
+  window.addEventListener('keydown', escKey);
+
   return (
     <div className="fixed bg-slate-400 top-0 h-full w-full bg-opacity-50 flex justify-center items-center">
       <div className="bg-white w-1/3 min-w-min max-w-sm rounded-sm">
@@ -96,9 +91,8 @@ const UserDeleteModal = (props: any) => {
               />
             </div>
           </div>
-        {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
+          {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
         </div>
-
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button
             className="border hover:bg-slate-300 w-28"

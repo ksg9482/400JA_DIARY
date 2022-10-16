@@ -10,21 +10,10 @@ import SideBar from "components/sideBar/sideBar";
 import { LoadingSpin } from "components/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Diary = () => {
-  interface IdiaryValidCheck {
-    subject: string;
-    content: string;
-  }
-  //일기 생성, 일기 모아보기, 오늘 일기 페이지
-
-  //오늘의 일기(위)
-  //일기 컨테이너(아래)
-  //위로가기 버튼
-  //onClick 말고 이벤트 리스너가 나을까?
-  //제목은 없애는게 좋을지도
+  
   const PROTOCOL = config.SERVER_PROTOCOL;
   const HOST = config.SERVER_HOST;
   const PORT = config.SERVER_PORT;
-  //todo 일기 쓰기 로직 수정, 소셜로그인, 회원가입, 비번변경
 
   const [subjectInputForm, setSubjectInputForm] = useState("");
   const [contentInputForm, setContentInputForm] = useState("");
@@ -38,11 +27,10 @@ const Diary = () => {
       date: "",
     },
   ]);
-
   const [load, setLoad] = useState(true);
   const [page, setPage] = useState(0);
 
-  //무한 스크롤 상태
+  //무한 스크롤
   const preventRef = useRef(true); //옵저버 중복실행 방지. 
   const obsRef = useRef(null); //옵저버 element
   const endRef = useRef(false); //모든 글 로드여부
@@ -50,10 +38,13 @@ const Diary = () => {
   const setFindResult = (result: any) => {
     if (result.end) {
       endRef.current = true;
+      return ;
     }
     setDiaries([...result.list]);
     preventRef.current = true;
+    return ;
   };
+
   const getKRDate = () => {
     const date = new Date().toLocaleString("ko-KR", {
       timeZone: "Asia/Seoul",
@@ -69,7 +60,7 @@ const Diary = () => {
     try {
       const dateKR = getKRDate();
       if (contentInputForm === diaries[0].content && subjectInputForm === diaries[0].subject) {
-        return;
+        return ;
       };
 
       const body = { subject: subjectInputForm, content: contentInputForm };
@@ -83,24 +74,22 @@ const Diary = () => {
         body,
         { withCredentials: true }
       );
-      //이거 실패하면 실패했다고 모달 나오게
+      
       if (!sendDiary) {
         throw new Error("Create diary fail");
       }
       if (createdDiary.date === diaries[0].date) {
-        setDiaries([createdDiary, ...diaries.slice(1)]);
+        return setDiaries([createdDiary, ...diaries.slice(1)]);
       } else {
-        setDiaries([createdDiary, ...diaries]);
+        return setDiaries([createdDiary, ...diaries]);
       }
 
-      // create 보내기
-      // 새로 일주일치 적용해서 캐시에 넣고 뿌리기
     } catch (error) {
       return error;
     }
   };
 
-  
+
 
   const diaryValidCheck = (): boolean => {
     if (subjectInputForm.length === 0 || contentInputForm.length === 0) {
@@ -117,16 +106,16 @@ const Diary = () => {
       const initValue: any = e;
       setSubjectInputForm(initValue.subject);
       setContentInputForm(initValue.content);
-      return;
+      return ;
     } else {
       if (key === diaryInputKey.subject) {
         setSubjectInputForm(e.target.value);
         setContentInputForm(contentInputForm);
-        return;
+        return ;
       } else if (key === diaryInputKey.content) {
         setSubjectInputForm(subjectInputForm);
         setContentInputForm(e.target.value);
-        return;
+        return ;
       }
     }
   };
@@ -166,7 +155,7 @@ const Diary = () => {
 
       diaryInit();
 
-      return;
+      return ;
     } else {
       const res = await axios.post(
         `${PROTOCOL}://${HOST}:${PORT}/api/diary/nextDiary`,
@@ -184,14 +173,14 @@ const Diary = () => {
       setLoad(false);
     }
   }, [page]);
-  
+
   const isCurrentDiary = () => {
     const nowDate = new Date(getKRDate());
     const targetDate = new Date(diaries[0].date);
     const isCurrentDiary = nowDate <= targetDate;
     return isCurrentDiary
   };
-  
+
   const obsHandle = (entries: any) => {
     const target = entries[0];
     //옵저버 중복실행 방지
@@ -257,12 +246,12 @@ const Diary = () => {
 
   useEffect(() => {
     //end가 true면 무한스크롤이 잠기기 때문에 page가 갱신되지 않는다.
-    getPost(); 
+    getPost();
   }, [page]);
- 
+
   return (
     <div className="h-full min-h-screen flex bg-[#E3D8C5] items-center justify-center flex-col pt-7">
-    
+
       <Helmet>Diary | 400JA-DIARY</Helmet>
       {load ? (
         <div className="absolute top-1/2">{LoadingSpin()}</div>
@@ -270,33 +259,33 @@ const Diary = () => {
         <div className="flex flex-col items-center w-full h-full">
           <SideBar setFindResult={setFindResult} />
           <div className="w-11/12 bg-intro-notebook bg-fixed border-2 border-[#855958]">
-          <div className="flex w-full justify-center items-center my-2">
-            <div className="w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 bg-opacity-50 rounded-md">
-              <CreateDiary
-                diaryInputHandler={diaryInputHandler}
-                createDiaryHandle={createDiaryHandle}
-                diaryValidCheck={diaryValidCheck}
-                // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
-                //10/4 < 10/5
-                currentDiary={isCurrentDiary() ? diaries[0] : null}
-              />
-            </div>
-          </div>
-          <div className="flex h-full w-full justify-center items-center ">
-            <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 mb-2 bg-opacity-50 rounded-md">
-              <div className="flex">
-                <div className="w-72"></div>
-                <div className="w-72"></div>
-              </div>
-              <div className="w-full">
-                <Diarys diaries={diaries} />
-                <div id="diary-end" ref={obsRef}></div>
+            <div className="flex w-full justify-center items-center my-2">
+              <div className="w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 bg-opacity-50 rounded-md">
+                <CreateDiary
+                  diaryInputHandler={diaryInputHandler}
+                  createDiaryHandle={createDiaryHandle}
+                  diaryValidCheck={diaryValidCheck}
+                  // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
+                  //10/4 < 10/5
+                  currentDiary={isCurrentDiary() ? diaries[0] : null}
+                />
               </div>
             </div>
-            {btnStatus ? ScrollTopButton() : null}
+            <div className="flex h-full w-full justify-center items-center ">
+              <div className="h-full w-full bg-white max-w-screen-lg flex flex-col px-5 items-center py-2 mb-2 bg-opacity-50 rounded-md">
+                <div className="flex">
+                  <div className="w-72"></div>
+                  <div className="w-72"></div>
+                </div>
+                <div className="w-full">
+                  <Diarys diaries={diaries} />
+                  <div id="diary-end" ref={obsRef}></div>
+                </div>
+              </div>
+              {btnStatus ? ScrollTopButton() : null}
+            </div>
           </div>
-          </div>
-          
+
         </div>
       )}
     </div>
@@ -304,13 +293,3 @@ const Diary = () => {
 };
 
 export default Diary;
-
-/*
-정순 역순은 어떻게?
-1. 프론트엔드에서 배열을 뒤집는다 -> 다시 요청을 안해도 되니 빠르다. 하지만 배열이 많아질수록 성능저하.
-2. 백엔드에 정,역 여부를 받도록 수정 -> 다시 요청 보내야 하니 그만큼 느리다. 그러나 어쨌건 다시 읽으므로 성능은 비슷
-	이때는 get으로 처음 받아올 때를 개조. 정순역순을 쿼리로 보내면 그거에 따라 정렬 변화.
-
-3.아니면 프론트엔드에서 1주일 치만 뒤집음. 백엔드에선 lastDiaryId를 gt로 입력.(역순이 기본-> 이건 lt임.)
-스크롤 해서 내리면 '이후' 날짜부터 받음. 이게 퍼포먼스랑 그나마 타협하는 방식일 듯?
-*/

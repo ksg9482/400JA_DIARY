@@ -8,29 +8,29 @@ interface IpasswordInputObj {
 }
 
 const PasswordChangeModal = (props: any) => {
-  //유저 정보 삭제 페이지.
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+
+  const { modalHandle } = props;
+
   const [passwordInputObj, setPasswordInputObj] = useState({
     password: "",
     passwordChange: "",
   });
-
   const [errorMessage, setErrorMessage] = useState("");
-  const { modalHandle } = props;
 
-  const PROTOCOL = config.SERVER_PROTOCOL;
-  const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
-  
+
   const escKey = (e: KeyboardEvent) => {
-    if(e.key === 'Escape') {
+    if (e.key === 'Escape') {
       passwordChangeCancle()
     }
   }
-
   const passwordChangeCancle = () => {
     modalHandle();
     window.removeEventListener('keydown', escKey)
   };
+
   const inputHandle =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setPasswordInputObj({ ...passwordInputObj, [key]: e.target.value });
@@ -43,9 +43,6 @@ const PasswordChangeModal = (props: any) => {
     ) {
       return { message: "각 항목을 채워주세요." };
     }
-    // if(passwordInputObj.password !== passwordInputObj.passwordCheck) {
-    //   return {message:'비밀번호와 비밀번호 확인이 같지 않습니다.'}
-    // }
     return false;
   };
 
@@ -102,9 +99,8 @@ const PasswordChangeModal = (props: any) => {
               />
             </div>
           </div>
-        {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
+          {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
         </div>
-
         <div className="flex justify-center gap-6 mb-4 px-4">
           <button
             className="border hover:bg-slate-300 w-28"

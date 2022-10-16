@@ -25,21 +25,21 @@ const SideBar = (props: any) => {
     (key: string) => (e: React.MouseEvent<HTMLSpanElement>) => {
       if (key === constants.keyWord) {
         if (document.getElementById("searchForm-keyword")) {
-          return;
+          return ;
         }
         const gradientLtoR = ["bg-gradient-to-l", "bg-gradient-to-r"];
         toggleHandle("searchbox-gradient", gradientLtoR);
         setSearchBox(<KeywordSearch setFindResult={setFindResult} />);
-        return;
+        return ;
       }
       if (key === constants.date) {
         if (document.getElementById("searchForm-date")) {
-          return;
+          return ;
         }
         const gradientRtoL = ["bg-gradient-to-r", "bg-gradient-to-l"];
         toggleHandle("searchbox-gradient", gradientRtoL);
         setSearchBox(<DateSearch setFindResult={setFindResult} />);
-        return;
+        return ;
       }
     };
 
