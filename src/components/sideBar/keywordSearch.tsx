@@ -16,10 +16,9 @@ const KeywordSearch = (props: any) => {
     }
     const findByKeyword = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        console.log(searchInput)
         if (!searchInput) {
             setErrorMessage('키워드를 입력하지 않았습니다.')
-            return;
+            return ;
         }
         const findResult = await axios.get(
             `${PROTOCOL}://${HOST}:${PORT}/api/diary/search/keyword?keyword=${searchInput}`,

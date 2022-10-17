@@ -7,18 +7,18 @@ import Header from "components/header";
 import Mypage from "pages/mypage/mypagePage";
 import OAuth2RedirectHandler from "pages/login/OAuth/OAuth2RedirectHandler";
 import NotFound from "pages/404";
-export const LoggedOutRouter = (props:any) => {
-    const {oauthLoginIsTrue} = props
-    //로그인 하지 않은 상태에서 가능한 라우터
-    //Header 만들어서 넣어야 함
-    //로그인이 기본 페이지. 아니면 인트로페이지 만들고 옆쪽에 로그인 기능 있게??
+import EmailVerify from "pages/verify/emailVerifyPage";
+export const LoggedOutRouter = (props: any) => {
+    const { oauthLoginIsTrue } = props;
+
     return (
         <Router>
-            <Header isLogin={false} />{/*테스트 끝나면 false*/}
+            <Header isLogin={false} />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/oauth/callback/*" element={<OAuth2RedirectHandler oauthLoginIsTrue={oauthLoginIsTrue}/>} />
+                <Route path="/oauth/callback/*" element={<OAuth2RedirectHandler oauthLoginIsTrue={oauthLoginIsTrue} />} />
+                <Route path="/verify/code" element={<EmailVerify />} />
                 <Route path="/*" element={<NotFound />} />
             </Routes>
         </Router>

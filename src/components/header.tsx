@@ -21,7 +21,7 @@ const Header = (props: headerProps) => {
     );
     navigate('/', { replace: true })
     location.reload()
-    return;
+    return ;
   };
   const pageLink = (/*widthSize:number*/) => {
     return (

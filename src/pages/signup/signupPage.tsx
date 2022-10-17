@@ -11,6 +11,10 @@ interface IsignupInfoState {
   passwordCheck: string;
 }
 const Signup = () => {
+  const PROTOCOL = config.SERVER_PROTOCOL;
+  const HOST = config.SERVER_HOST;
+  const PORT = config.SERVER_PORT;
+
   const [signupInfo, setSignupInfo] = useState<IsignupInfoState>({
     email: "",
     password: "",
@@ -22,27 +26,15 @@ const Signup = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
-  const PROTOCOL = config.SERVER_PROTOCOL;
-  const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
-  
+  const navigate = useNavigate();
+
   const inputHandler =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setSignupInfo({ ...signupInfo, [key]: e.target.value });
     };
 
-  const navigate = useNavigate();
-  //이메일 중복확인 - 정합성검사(이메일 형식 맞는지)
-  //비밀번호 - 정합성검사
-  //비밀번호 확인 - 정합성 검사, 서로 맞는지
-  //회원가입
-
-  //본인인증 메일
-  //본인인증 했으면 웰컴 메일
-
   const validCheckHandle = (signupInfo: IsignupInfoState): void => {
     const emailCheck = () => {
-      
       return emailPattern.exec(signupInfo.email);
     };
 
@@ -64,7 +56,6 @@ const Signup = () => {
       passwordCheck: signupInfo.passwordCheck,
     };
 
-    //error 처리 개선!!!
     const userSignup = await axios.post(
       `${PROTOCOL}://${HOST}:${PORT}/api/auth/signup`,
       { email: body.email, password: body.password },
@@ -83,6 +74,7 @@ const Signup = () => {
   const onCompleted = (): void => {
     navigate("/");
   };
+
   const emptyCheck = () => {
     if (
       signupInfo.email === "" ||
@@ -104,7 +96,6 @@ const Signup = () => {
       const check = emptyCheck();
       if (check) {
         return setErrorMessage(check.message);
-        //return ;
       }
       validCheckHandle(signupInfo);
       await sendSignup();
@@ -113,65 +104,63 @@ const Signup = () => {
       if (error.response.status === 409) {
         return setErrorMessage("이미 가입된 이메일입니다");
       }
-      //return ;
+      return;
     }
   };
 
-  //에러메시지 공간 필요함
   return (
     <div className="h-screen flex bg-[#E3D8C5] items-center justify-center flex-col pt-7">
       <Helmet>Login | 400JA-DIARY</Helmet>
       <div className=" h-5/6 w-full bg-intro-notebook flex justify-center border-y-2 border-[#855958]">
-      <div className="w-8/12 bg-white flex flex-col px-5 justify-center items-center">
-        <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5">
-          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
-            <span className="text-left w-28">이메일</span>
-            <input
-              className="border w-full sm:w-3/4"
-              type="email"
-              pattern={emailPattern+""}
-              placeholder="email"
-              onChange={inputHandler("email")}
-            />
-          </div>
-          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
-            <span className="text-left w-28">비밀번호</span>
-            <input
-              className="border w-full sm:w-3/4"
-              type="password"
-              placeholder="Password"
-              onChange={inputHandler("password")}
-            />
-          </div>
-          <div className="w-full flex flex-col sm:flex-row gap-1 justify-between items-start sm:items-center">
-            <span className="text-left w-28">비밀번호 확인</span>
-            <input
-              className="border w-full sm:w-3/4 h-6"
-              type="password"
-              placeholder="Password check"
-              onChange={inputHandler("passwordCheck")}
-            />
-          </div>
-          {errorMessage ? (
-            <div className="border-b-2 text-red-500 text-sm">{errorMessage}</div>
-          ) : (
-            <div className="border-b-2 text-sm">&nbsp;</div>
-          )}
-          <div className="mt-5 flex w-full flex-col-reverse justify-between sm:flex-row ">
-            <Link className="box-border w-full hover:bg-slate-300 sm:w-52 sm:mr-6" to="/">
-              <div className="border w-full ">취소</div>
-            </Link>
-            <button
-              className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
-              onClick={handleSubmit}
-            >
-              회원가입
-            </button>
-          </div>
-        </form>
+        <div className="w-8/12 bg-white flex flex-col px-5 justify-center items-center">
+          <form className="flex flex-col gap-3 mt-5 w-3/4 mb-5">
+            <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
+              <span className="text-left w-28">이메일</span>
+              <input
+                className="border w-full sm:w-3/4"
+                type="email"
+                pattern={emailPattern + ""}
+                placeholder="email"
+                onChange={inputHandler("email")}
+              />
+            </div>
+            <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
+              <span className="text-left w-28">비밀번호</span>
+              <input
+                className="border w-full sm:w-3/4"
+                type="password"
+                placeholder="Password"
+                onChange={inputHandler("password")}
+              />
+            </div>
+            <div className="w-full flex flex-col sm:flex-row gap-1 justify-between items-start sm:items-center">
+              <span className="text-left w-28">비밀번호 확인</span>
+              <input
+                className="border w-full sm:w-3/4 h-6"
+                type="password"
+                placeholder="Password check"
+                onChange={inputHandler("passwordCheck")}
+              />
+            </div>
+            {errorMessage ? (
+              <div className="border-b-2 text-red-500 text-sm">{errorMessage}</div>
+            ) : (
+              <div className="border-b-2 text-sm">&nbsp;</div>
+            )}
+            <div className="mt-5 flex w-full flex-col-reverse justify-between sm:flex-row ">
+              <Link className="box-border w-full hover:bg-slate-300 sm:w-52 sm:mr-6" to="/">
+                <div className="border w-full ">취소</div>
+              </Link>
+              <button
+                className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"
+                onClick={handleSubmit}
+              >
+                회원가입
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      </div>
-      
     </div>
   );
 };
