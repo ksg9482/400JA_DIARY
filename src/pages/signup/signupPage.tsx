@@ -143,13 +143,13 @@ const Signup = () => {
               />
             </div>
             {errorMessage ? (
-              <div className="border-b-2 text-red-500 text-sm">{errorMessage}</div>
+              <div className="border-b-2 text-red-500 text-sm text-center">{errorMessage}</div>
             ) : (
               <div className="border-b-2 text-sm">&nbsp;</div>
             )}
             <div className="mt-5 flex w-full flex-col-reverse justify-between sm:flex-row ">
               <Link className="box-border w-full hover:bg-slate-300 sm:w-52 sm:mr-6" to="/">
-                <div className="border w-full ">취소</div>
+                <div className="border w-full text-center">취소</div>
               </Link>
               <button
                 className="border w-full hover:bg-slate-300 mb-4 sm:mb-0 sm:w-52"

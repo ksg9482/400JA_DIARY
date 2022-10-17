@@ -68,22 +68,22 @@ const Login = () => {
   const socialLoginHandler =
     (key: string) =>
       async (e: React.MouseEvent<HTMLSpanElement>) => {
-        const kakaoOAuth = () => {
+        const kakaoOAuth = (config:any) => {
           const kakaoHost = "kauth.kakao.com";
           const kakaoParametor = {
-            client_id: config.KAKAO_REST_API_KEY,
+            clientid: config.KAKAO_REST_API_KEY,
             redirect_uri: config.KAKAO_REDIRECT_URI,
           };
           const kakaoOAuthURL =
             `https://${kakaoHost}/oauth/authorize?` +
-            `client_id=${kakaoParametor.client_id}` +
+            `clientid=${kakaoParametor.clientid}` +
             `&redirect_uri=${kakaoParametor.redirect_uri}` +
             `&response_type=code`;
 
           window.location.href = kakaoOAuthURL;
         };
 
-        const googleOAuth = () => {
+        const googleOAuth = (config:any) => {
           const googleHost = "accounts.google.com";
           const googleParametor = {
             client_id: config.GOOGLE_CLIENT_ID,
@@ -91,19 +91,18 @@ const Login = () => {
             scope_email: "https://www.googleapis.com/auth/userinfo.email",
           };
           const googleOAuthURL =
-            `https://${googleHost}/o/oauth2/v2/auth` +
-            `?client_id=${googleParametor.client_id}` +
-            `&redirect_uri=${googleParametor.redirect_uri}` +
-            `&response_type=token` +
-            `&scope=${googleParametor.scope_email}`;
-
-          window.location.href = googleOAuthURL;
+            `https://${googleHost}/o/oauth2/v2/auth?` +
+            `client_id=${googleParametor.client_id}&` +
+            `redirect_uri=${googleParametor.redirect_uri}&` +
+            `response_type=token&` +
+            `scope=${googleParametor.scope_email}`;
+            window.location.href = googleOAuthURL;
         };
 
         if (key === "kakao") {
-          kakaoOAuth();
+          kakaoOAuth(config);
         } else if (key === "google") {
-          googleOAuth();
+          googleOAuth(config);
         }
       };
 
@@ -152,7 +151,7 @@ const Login = () => {
               </div>
             </div>
             {errorMessage ? (
-              <div className="pb-2 text-sm text-red-500">{errorMessage}</div>
+              <div className="pb-2 text-sm text-red-500 text-center">{errorMessage}</div>
             ) : (
               <div className="pb-2">&nbsp;</div>
             )}

@@ -84,7 +84,7 @@ const FindPasswordModal = (props: any) => {
               />
             </div>
           </div>
-          {errorMessage ? <div className="text-sm text-red-500 ">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
+          {errorMessage ? <div className="text-sm text-red-500 text-center">{errorMessage}</div> : <div className="text-sm">&nbsp;</div>}
         </div>
 
         <div className="flex justify-center gap-6 mb-4 px-4">
