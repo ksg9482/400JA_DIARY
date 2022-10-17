@@ -1,9 +1,6 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import AppRouter from "./routers/router";
-import { LoggedInRouter } from "./routers/rogged-in-router";
-import { LoggedOutRouter } from "./routers/rogged-out-router";
 //헬멧 적용해야 함
 const getJwtToken = () => {
   //jwt가 undefinded로 오는 오류 발생. 발급이 안되도록 해야함. 토큰이 만들어지지 않았는데 jwt이름으로 옴. 정보 잘못되면 거절하는 안전장치 추가 
