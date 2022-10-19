@@ -11,9 +11,9 @@ interface IsignupInfoState {
   passwordCheck: string;
 }
 const Signup = () => {
-  const PROTOCOL = config.SERVER_PROTOCOL;
+  
   const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
+  
 
   const [signupInfo, setSignupInfo] = useState<IsignupInfoState>({
     email: "",
@@ -57,7 +57,7 @@ const Signup = () => {
     };
 
     const userSignup = await axios.post(
-      `${PROTOCOL}://${HOST}:${PORT}/api/auth/signup`,
+      `${HOST}/api/auth/signup`,
       { email: body.email, password: body.password },
       { withCredentials: true }
     );

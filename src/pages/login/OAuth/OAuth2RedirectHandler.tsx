@@ -5,9 +5,9 @@ import OauthErrorModal from "./OauthErrorModal";
 import config from "config";
 
 const OAuth2RedirectHandler = (props: any) => {
-  const PROTOCOL = config.SERVER_PROTOCOL;
+  
   const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
+  
 
   const {oauthLoginIsTrue} = props;
   const [onModal, setOnModal] = useState(false);
@@ -25,7 +25,7 @@ const OAuth2RedirectHandler = (props: any) => {
       try {
         const code = new URL(window.location.href).searchParams.get("code");
         const sendCode = await axios.get(
-          `${PROTOCOL}://${HOST}:${PORT}/api/auth/kakao?code=${code}`,
+          `${HOST}/api/auth/kakao?code=${code}`,
           { withCredentials: true }
         );
         return oAuthNav();
@@ -45,7 +45,7 @@ const OAuth2RedirectHandler = (props: any) => {
         }
        
         const sendCode = await axios.post(
-          `${PROTOCOL}://${HOST}:${PORT}/api/auth/google`,
+          `${HOST}/api/auth/google`,
           { accessToken: getGoogleAccessToken() },
           { withCredentials: true }
         );

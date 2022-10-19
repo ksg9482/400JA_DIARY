@@ -7,9 +7,9 @@ import PasswordChangeModal from "./passwordChangeModal";
 import UserDeleteModal from "./userDelete";
 
 const Mypage = () => {
-  const PROTOCOL = config.SERVER_PROTOCOL;
+  
   const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
+  
 
   const [userData, setUserdata] = useState({
     email: "",
@@ -38,7 +38,7 @@ const Mypage = () => {
   useEffect(() => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
-        `${PROTOCOL}://${HOST}:${PORT}/api/user/me`,
+        `${HOST}/api/user/me`,
         { withCredentials: true }
       );
 

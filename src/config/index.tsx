@@ -1,7 +1,5 @@
 export default {
-    SERVER_PROTOCOL: 'http',
-    SERVER_HOST: process.env.REACT_APP_SERVER_HOST || 'localhost',
-    SERVER_PORT: process.env.REACT_APP_SERVER_PORT || '8080',
+    SERVER_HOST: process.env.REACT_APP_SERVER_HOST || 'http://localhost:8080',
 
     KAKAO_REST_API_KEY: process.env.REACT_APP_KAKAO_REST_API_KEY,
     KAKAO_REDIRECT_URI: process.env.REACT_APP_KAKAO_REDIRECT_URI,

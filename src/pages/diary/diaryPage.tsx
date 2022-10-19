@@ -11,9 +11,9 @@ import { LoadingSpin } from "components/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Diary = () => {
   
-  const PROTOCOL = config.SERVER_PROTOCOL;
+  
   const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
+  
 
   const [subjectInputForm, setSubjectInputForm] = useState("");
   const [contentInputForm, setContentInputForm] = useState("");
@@ -70,7 +70,7 @@ const Diary = () => {
         date: dateKR,
       };
       const sendDiary: any = await axios.post(
-        `${PROTOCOL}://${HOST}:${PORT}/api/diary`,
+        `${HOST}/api/diary`,
         body,
         { withCredentials: true }
       );
@@ -126,7 +126,7 @@ const Diary = () => {
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
-          `${PROTOCOL}://${HOST}:${PORT}/api/diary`,
+          `${HOST}/api/diary`,
           { withCredentials: true }
         );
         const diaryLength = weeklyDiary.data.list.length;
@@ -158,7 +158,7 @@ const Diary = () => {
       return ;
     } else {
       const res = await axios.post(
-        `${PROTOCOL}://${HOST}:${PORT}/api/diary/nextDiary`,
+        `${HOST}/api/diary/nextDiary`,
         { lastDiaryId: lastDiaryId },
         { withCredentials: true }
       );

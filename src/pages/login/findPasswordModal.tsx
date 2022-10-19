@@ -4,9 +4,9 @@ import config from "config";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const FindPasswordModal = (props: any) => {
-  const PROTOCOL = config.SERVER_PROTOCOL;
+  
   const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
+  
 
   const { modalHandle } = props;
 
@@ -43,7 +43,7 @@ const FindPasswordModal = (props: any) => {
       };
 
       const userValid = await axios.post(
-        `${PROTOCOL}://${HOST}:${PORT}/api/auth/findPassword`,
+        `${HOST}/api/auth/findPassword`,
         { email: email },
         { withCredentials: true }
       );

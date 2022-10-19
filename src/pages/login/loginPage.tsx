@@ -10,9 +10,9 @@ interface loginInfoState {
   password: string;
 }
 
-const PROTOCOL = config.SERVER_PROTOCOL;
+
 const HOST = config.SERVER_HOST;
-const PORT = config.SERVER_PORT;
+
 
 const Login = () => {
   const [loginInfo, setLoginInfo] = useState<loginInfoState>({
@@ -44,7 +44,7 @@ const Login = () => {
           }
           const body = { email: loginInfo.email, password: loginInfo.password };
           const userLogin = await axios.post(
-            `${PROTOCOL}://${HOST}:${PORT}/api/auth/login`,
+            `${HOST}/api/auth/login`,
             body,
             { withCredentials: true }
           );

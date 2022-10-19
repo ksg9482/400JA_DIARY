@@ -8,9 +8,9 @@ interface IpasswordInputObj {
 }
 
 const PasswordChangeModal = (props: any) => {
-  const PROTOCOL = config.SERVER_PROTOCOL;
+  
   const HOST = config.SERVER_HOST;
-  const PORT = config.SERVER_PORT;
+  
 
   const { modalHandle } = props;
 
@@ -55,7 +55,7 @@ const PasswordChangeModal = (props: any) => {
 
     const body = passwordInputObj;
     const passwordChange: any = await axios.patch(
-      `${PROTOCOL}://${HOST}:${PORT}/api/user/password`,
+      `${HOST}/api/user/password`,
       body,
       { withCredentials: true }
     );
