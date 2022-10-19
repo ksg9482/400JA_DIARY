@@ -16,7 +16,7 @@ const Header = (props: headerProps) => {
   
   const logOutHandle = async () => {
     const userLogout = await axios.get(
-      `${HOST}/api/user/logout`,
+      `${HOST}/user/logout`,
       { withCredentials: true }
     );
     navigate('/', { replace: true })

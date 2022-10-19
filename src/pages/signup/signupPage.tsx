@@ -57,7 +57,7 @@ const Signup = () => {
     };
 
     const userSignup = await axios.post(
-      `${HOST}/api/auth/signup`,
+      `${HOST}/auth/signup`,
       { email: body.email, password: body.password },
       { withCredentials: true }
     );

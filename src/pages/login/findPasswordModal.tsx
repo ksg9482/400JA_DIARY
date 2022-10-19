@@ -43,7 +43,7 @@ const FindPasswordModal = (props: any) => {
       };
 
       const userValid = await axios.post(
-        `${HOST}/api/auth/findPassword`,
+        `${HOST}/auth/findPassword`,
         { email: email },
         { withCredentials: true }
       );

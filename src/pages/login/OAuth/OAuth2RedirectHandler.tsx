@@ -25,7 +25,7 @@ const OAuth2RedirectHandler = (props: any) => {
       try {
         const code = new URL(window.location.href).searchParams.get("code");
         const sendCode = await axios.get(
-          `${HOST}/api/auth/kakao?code=${code}`,
+          `${HOST}/auth/kakao?code=${code}`,
           { withCredentials: true }
         );
         return oAuthNav();
@@ -45,7 +45,7 @@ const OAuth2RedirectHandler = (props: any) => {
         }
        
         const sendCode = await axios.post(
-          `${HOST}/api/auth/google`,
+          `${HOST}/auth/google`,
           { accessToken: getGoogleAccessToken() },
           { withCredentials: true }
         );

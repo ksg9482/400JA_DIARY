@@ -28,7 +28,7 @@ const DateSearch = (props:any) => {
         }
         //diary/search/date?date=2022-08-09
         const findResult = await axios.get(
-            `${HOST}/api/diary/search/date?date=${targetDate.value}`,
+            `${HOST}/diary/search/date?date=${targetDate.value}`,
             { withCredentials: true }
             );
 
