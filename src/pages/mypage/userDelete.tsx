@@ -43,7 +43,7 @@ const UserDeleteModal = (props: any) => {
     }
     const userDeleteSequence = async () => {
       const passwordCheck: any = await axios.post(
-        `${HOST}/user/valid`,
+        `${HOST}/api/user/valid`,
         { password: passwordInput },
         { withCredentials: true }
       );
@@ -51,7 +51,7 @@ const UserDeleteModal = (props: any) => {
         setErrorMessage("비밀번호가 잘못 되었습니다.");
       }
       const userdelete: any = await axios.delete(
-        `${HOST}/user`,
+        `${HOST}/api/user`,
         { withCredentials: true }
       );
       return "userDelete";

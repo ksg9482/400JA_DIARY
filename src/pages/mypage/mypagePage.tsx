@@ -38,7 +38,7 @@ const Mypage = () => {
   useEffect(() => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
-        `${HOST}/user/me`,
+        `${HOST}/api/user/me`,
         { withCredentials: true }
       );
 

@@ -70,7 +70,7 @@ const Diary = () => {
         date: dateKR,
       };
       const sendDiary: any = await axios.post(
-        `${HOST}/diary`,
+        `${HOST}/api/diary`,
         body,
         { withCredentials: true }
       );
@@ -126,7 +126,7 @@ const Diary = () => {
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
-          `${HOST}/diary`,
+          `${HOST}/api/diary`,
           { withCredentials: true }
         );
         const diaryLength = weeklyDiary.data.list.length;
@@ -158,7 +158,7 @@ const Diary = () => {
       return ;
     } else {
       const res = await axios.post(
-        `${HOST}/diary/nextDiary`,
+        `${HOST}/api/diary/nextDiary`,
         { lastDiaryId: lastDiaryId },
         { withCredentials: true }
       );

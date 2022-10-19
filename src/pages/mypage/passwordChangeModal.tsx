@@ -55,7 +55,7 @@ const PasswordChangeModal = (props: any) => {
 
     const body = passwordInputObj;
     const passwordChange: any = await axios.patch(
-      `${HOST}/user/password`,
+      `${HOST}/api/user/password`,
       body,
       { withCredentials: true }
     );

@@ -44,7 +44,7 @@ const Login = () => {
           }
           const body = { email: loginInfo.email, password: loginInfo.password };
           const userLogin = await axios.post(
-            `${HOST}/auth/login`,
+            `${HOST}/api/auth/login`,
             body,
             { withCredentials: true }
           );
