@@ -10,23 +10,16 @@ const DateSearch = (props:any) => {
   const HOST = config.SERVER_HOST;
   
 
-    const now = new Date().toISOString().split('T')[0]//.split('-').map((str) => { return parseInt(str) })
-    // const createDateList = (now: any) => {
-    //     const nowYear = now[0];
-    //     const nowMonth = now[1];
-    //     const nowDay = now[2];
-    //     //while 돌리면서 -1씩? 31부터 1까지 돌리면 날짜 배열 얻을 수 있다.
-    //     const dateLists = {}
-    //     return ;
-    // }
+    const now = new Date().toISOString().split('T')[0];
+    
     const findByDate = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         const targetDate:any = document.getElementById('date-search');
         if(!targetDate.value) {
             setErrorMessage('날짜를 입력하지 않았습니다.')
             return ;
-        }
-        //diary/search/date?date=2022-08-09
+        };
+        
         const findResult = await axios.get(
             `${HOST}/api/diary/search/date?date=${targetDate.value}`,
             { withCredentials: true }
@@ -46,7 +39,7 @@ const DateSearch = (props:any) => {
         return diaryForm
     }
 
-    //createDateList(now)
+    
     return (
         <form id="searchForm-date" className="flex flex-col px-2">
             <div className="border border-slate-500 flex flex-col">
