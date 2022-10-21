@@ -36,12 +36,11 @@ const Diary = () => {
   const endRef = useRef(false); //모든 글 로드여부
 
   const setFindResult = (result: any) => {
-    if (result.end) {
-      endRef.current = true;
-      return ;
-    }
     setDiaries([...result.list]);
     preventRef.current = true;
+    if (result.end) {
+      endRef.current = true;
+    }
     return ;
   };
 
@@ -63,7 +62,7 @@ const Diary = () => {
         return ;
       };
 
-      const body = { subject: subjectInputForm, content: contentInputForm };
+      const body = { subject: subjectInputForm, content: contentInputForm, token:window.localStorage.getItem('jwt') };
       const createdDiary = {
         id: "temp-Id",
         ...body,
@@ -125,8 +124,9 @@ const Diary = () => {
     const lastDiaryId = diaries[diaries.length - 1].id;
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
-        const weeklyDiary: any = await axios.get(
-          `${HOST}/api/diary`,
+        const weeklyDiary: any = await axios.post(
+          `${HOST}/api/diary/getDiary`,
+          { token:window.localStorage.getItem('jwt') },
           { withCredentials: true }
         );
         const diaryLength = weeklyDiary.data.list.length;
@@ -159,7 +159,7 @@ const Diary = () => {
     } else {
       const res = await axios.post(
         `${HOST}/api/diary/nextDiary`,
-        { lastDiaryId: lastDiaryId },
+        { lastDiaryId: lastDiaryId, token:window.localStorage.getItem('jwt') },
         { withCredentials: true }
       );
 

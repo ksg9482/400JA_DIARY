@@ -44,7 +44,7 @@ const FindPasswordModal = (props: any) => {
 
       const userValid = await axios.post(
         `${HOST}/api/auth/findPassword`,
-        { email: email },
+        { email: email, token:window.localStorage.getItem('jwt') },
         { withCredentials: true }
       );
 

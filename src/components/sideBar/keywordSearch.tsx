@@ -20,8 +20,9 @@ const KeywordSearch = (props: any) => {
             setErrorMessage('키워드를 입력하지 않았습니다.')
             return ;
         }
-        const findResult = await axios.get(
+        const findResult = await axios.post(
             `${HOST}/api/diary/search/keyword?keyword=${searchInput}`,
+            { token:window.localStorage.getItem('jwt') },
             { withCredentials: true }
         );
         const diaryForm = 0 < findResult.data.list.length

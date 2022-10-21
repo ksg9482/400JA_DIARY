@@ -27,8 +27,9 @@ const DateSearch = (props:any) => {
             return ;
         }
         //diary/search/date?date=2022-08-09
-        const findResult = await axios.get(
+        const findResult = await axios.post(
             `${HOST}/api/diary/search/date?date=${targetDate.value}`,
+            { token:window.localStorage.getItem('jwt') },
             { withCredentials: true }
             );
 

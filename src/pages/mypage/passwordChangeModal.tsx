@@ -56,7 +56,7 @@ const PasswordChangeModal = (props: any) => {
     const body = passwordInputObj;
     const passwordChange: any = await axios.patch(
       `${HOST}/api/user/password`,
-      body,
+      {...body, token:window.localStorage.getItem('jwt')},
       { withCredentials: true }
     );
     if (passwordChange.status !== 200) {

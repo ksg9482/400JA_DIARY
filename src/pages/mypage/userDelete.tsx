@@ -44,19 +44,21 @@ const UserDeleteModal = (props: any) => {
     const userDeleteSequence = async () => {
       const passwordCheck: any = await axios.post(
         `${HOST}/api/user/valid`,
-        { password: passwordInput },
+        { password: passwordInput, token:window.localStorage.getItem('jwt') },
         { withCredentials: true }
       );
       if (passwordCheck.data !== true) {
         setErrorMessage("비밀번호가 잘못 되었습니다.");
       }
-      const userdelete: any = await axios.delete(
-        `${HOST}/api/user`,
+      const userdelete: any = await axios.post(
+        `${HOST}/api/user/delete`,
+        { token:window.localStorage.getItem('jwt') },
         { withCredentials: true }
       );
       return "userDelete";
     };
     await userDeleteSequence();
+    window.localStorage.removeItem('jwt');
     modalHandle();
     nav("/", { replace: true });
     location.reload();

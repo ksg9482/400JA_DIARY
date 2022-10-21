@@ -15,10 +15,12 @@ const Header = (props: headerProps) => {
   
   
   const logOutHandle = async () => {
-    const userLogout = await axios.get(
+    const userLogout = await axios.post(
       `${HOST}/api/user/logout`,
+      { token:window.localStorage.getItem('jwt') },
       { withCredentials: true }
     );
+    window.localStorage.removeItem('jwt');
     navigate('/', { replace: true })
     location.reload()
     return ;

@@ -37,8 +37,9 @@ const Mypage = () => {
 
   useEffect(() => {
     const mypageInit = async () => {
-      const userData: any = await axios.get(
-        `${HOST}/api/user/me`,
+      const userData: any = await axios.post(
+        `${HOST}/api/user/getMe`,
+        { token:window.localStorage.getItem('jwt') },
         { withCredentials: true }
       );
 
