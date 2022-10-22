@@ -27,4 +27,4 @@ const Diarys = (props: any) => {
   );
 };
 
-export default Diarys;
+export default React.memo(Diarys);//스크롤 때문에 계속 리랜더링 되는 것 방지

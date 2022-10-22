@@ -74,7 +74,7 @@ const PasswordChangeModal = (props: any) => {
           <div className="w-64"></div>
         </div>
         <div className="flex flex-col mb-6 sm:pb-1">
-          <div className="mb-4 px-1 sm:pb-1">비밀번호를 변경합니다.</div>
+          <div className="mb-4 px-1 sm:pb-1 text-center">비밀번호를 변경합니다.</div>
           <div className="flex flex-col mb-2">
             <div className="flex flex-col justify-center items-start px-2 sm:mt-6 sm:flex-row sm:items-center">
               <span className="mb-1 sm:mb-0 sm:mr-3 whitespace-nowrap w-28 flex justify-start">

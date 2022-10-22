@@ -30,19 +30,19 @@ const Header = (props: headerProps) => {
       <div className="w-5/12 flex flex-col min-w-min">
         <div className=" flex justify-between gap-3">
           <Link className="border box-border px-1 w-24" to="/">
-            <span className="text-base  ">
+            <span className="text-base flex justify-center items-center">
               <FontAwesomeIcon className="mr-1" icon={faPencil} size='1x'></FontAwesomeIcon>
               Diary
             </span>
           </Link>
           <Link className="border box-border px-1 w-24" to="/mypage">
-            <span className="text-base ">
+            <span className="text-base flex justify-center items-center">
               <FontAwesomeIcon className="mr-1" icon={faUser} size='1x'></FontAwesomeIcon>
               Mypage
             </span>
           </Link>
           <button className="border box-border px-1 w-24" onClick={logOutHandle}>
-            <span className="text-base" >
+            <span className="text-base flex justify-center items-center" >
               <FontAwesomeIcon className="mr-1" icon={faRightFromBracket} size='1x'></FontAwesomeIcon>
               LogOut
             </span>
@@ -62,7 +62,7 @@ const Header = (props: headerProps) => {
       400JA-DIARY
     </span>
   </Link>
-        {props.isLogin ? pageLink(/*screenX*/) : <div></div>}
+        {props.isLogin ? pageLink() : <div></div>}
       </div>
     </header>
   );

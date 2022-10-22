@@ -30,7 +30,7 @@ const DiaryComponent = (props: any) => {
                     </span>
                     <div className="my-2 flex gap-1 flex-col w-10/12 px-1" >
                         <div className="border flex w-full justify-between items-center">
-                            <div className="mr-2">{diaryContent.subject}</div>
+                            <div className="mr-2">{diaryContent.subject === " " ? "　" : diaryContent.subject}</div>
                         </div>
                         <div className="flex border break-words w-full min-h-min">
                             <div className="h-44 w-0"></div>

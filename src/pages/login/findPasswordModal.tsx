@@ -67,7 +67,7 @@ const FindPasswordModal = (props: any) => {
           <div className="w-64"></div>
         </div>
         <div className="flex flex-col mb-6 sm:pb-1">
-          <div className="mb-4 px-1 sm:pb-1">
+          <div className="mb-4 px-1 sm:pb-1 text-center">
             입력하신 이메일로 인증 코드가 발송됩니다.
           </div>
           <div className="flex flex-col mb-2">

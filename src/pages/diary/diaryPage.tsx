@@ -119,7 +119,7 @@ const Diary = () => {
     }
   };
 
-  const getPost = useCallback(async () => {
+  const getPost = async () => {
 
     const lastDiaryId = diaries[diaries.length - 1].id;
     if (lastDiaryId.length <= 0) {
@@ -166,13 +166,13 @@ const Diary = () => {
       if (res.data) {
         if (res.data.end) {
           endRef.current = true;
-        }
-        setDiaries((prev) => [...prev, ...res.data.list]); //list로 안보내줌
+        };
+        setDiaries((prev) => [...prev, ...res.data.list]);
         preventRef.current = true;
-      }
-      setLoad(false);
-    }
-  }, [page]);
+      };
+    };
+    return ;
+  };
 
   const isCurrentDiary = () => {
     const nowDate = new Date(getKRDate());
