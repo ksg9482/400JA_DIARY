@@ -3,7 +3,6 @@ import React from "react";
 const DiaryComponent = (props: any) => {
     const diaryContent = props.diaryContent;
     const dateArr = diaryContent.date.split('-');
-    
     const isEmpty = (diaryContent: any) => {
         return diaryContent.id.length <= 0 && diaryContent.subject.length <= 0 && diaryContent.content.length <= 0 && diaryContent.date.length <= 0;
     }
@@ -30,12 +29,13 @@ const DiaryComponent = (props: any) => {
                     </span>
                     <div className="my-2 flex gap-1 flex-col w-10/12 px-1" >
                         <div className="border flex w-full justify-between items-center">
-                            <div className="mr-2">{diaryContent.subject}</div>
+                            <div className="mr-2">{diaryContent.subject === " " ? "　" : diaryContent.subject}</div>
                         </div>
                         <div className="flex border break-words w-full min-h-min">
                             <div className="h-44 w-0"></div>
                             <div className="flex flex-col w-full">
                                 {diaryContent.content.split('\n').map((textLine: string, i: number) => {
+                                   
                                     if (textLine.length <= 0) {
                                         return <div className="text-left px-1" key={i}>&nbsp;</div>
                                     }

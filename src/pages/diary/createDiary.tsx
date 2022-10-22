@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { diaryInputKey } from "../../constants";
 
 const CreateDiary = (props: any) => {
   const {
@@ -32,11 +31,11 @@ const CreateDiary = (props: any) => {
     key: string,
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    if (key === diaryInputKey.subject) {
+    if (key === 'subject') {
       return setDefaultInputForm({ ...defaultInputForm, [key]: e.target.value });
     }
 
-    if (key === diaryInputKey.content) {
+    if (key === 'content') {
       return setDefaultInputForm({ ...defaultInputForm, [key]: e.target.value });
     }
   };
@@ -68,10 +67,9 @@ const CreateDiary = (props: any) => {
             maxLength={30}
             value={defaultInputForm.subject}
             onChange={(e) => {
-              defaultInputHandler(diaryInputKey.subject, e);
-              diaryInputHandler(diaryInputKey.subject, e);
+              defaultInputHandler('subject', e);
+              diaryInputHandler('subject', e);
             }}
-
             required
           />
           <textarea
@@ -82,8 +80,8 @@ const CreateDiary = (props: any) => {
             maxLength={400}
             value={defaultInputForm.content}
             onChange={(e) => {
-              defaultInputHandler(diaryInputKey.content, e);
-              diaryInputHandler(diaryInputKey.content, e);
+              defaultInputHandler('content', e);
+              diaryInputHandler('content', e);
             }}
             required
           />

@@ -16,7 +16,7 @@ const Diarys = (props: any) => {
       date: ' '
     });
   };
-  
+ 
   return (
     <div className="border-2 border-[#855958] my-11 flex flex-col bg-white rounded-md">
       {diaries.map((diaryContent: DiaryContent) => (
@@ -27,4 +27,4 @@ const Diarys = (props: any) => {
   );
 };
 
-export default Diarys;
+export default React.memo(Diarys);//스크롤 때문에 계속 리랜더링 되는 것 방지
