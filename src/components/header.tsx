@@ -9,7 +9,6 @@ type headerProps = {
 };
 const Header = (props: headerProps) => {
   const navigate = useNavigate()
-  //const [screenX, setScreenX] = useState(window.innerWidth)
   
   const HOST = config.SERVER_HOST;
   
@@ -23,7 +22,7 @@ const Header = (props: headerProps) => {
     location.reload()
     return ;
   };
-  const pageLink = (/*widthSize:number*/) => {
+  const pageLink = () => {
     return (
       <div className="w-5/12 flex flex-col min-w-min">
         <div className=" flex justify-between gap-3">
