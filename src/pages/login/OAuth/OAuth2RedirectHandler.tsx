@@ -5,21 +5,21 @@ import OauthErrorModal from "./OauthErrorModal";
 import config from "config";
 
 const OAuth2RedirectHandler = (props: any) => {
-  
-  const HOST = config.SERVER_HOST;
-  
 
-  const {oauthLoginIsTrue} = props;
+  const HOST = config.SERVER_HOST;
+
+
+  const { oauthLoginIsTrue } = props;
   const [onModal, setOnModal] = useState(false);
 
   const navigate = useNavigate();
   const oauthPath = new URL(window.location.href).pathname.split("/");
 
-  
+
   async function handle() {
     const oAuthNav = () => {
       oauthLoginIsTrue()
-      navigate("/",{replace:true, state:{isLoginTrue:true}});
+      navigate("/", { replace: true, state: { isLoginTrue: true } });
     }
     if (oauthPath.includes("kakao")) {
       try {
@@ -28,6 +28,7 @@ const OAuth2RedirectHandler = (props: any) => {
           `${HOST}/api/auth/kakao?code=${code}`,
           { withCredentials: true }
         );
+        window.localStorage.setItem('jwt', sendCode.data.token);
         return oAuthNav();
       } catch (error) {
         return error;
@@ -43,15 +44,15 @@ const OAuth2RedirectHandler = (props: any) => {
           const accessToken = parsedHash.get("access_token");
           return accessToken;
         }
-       
+
         const sendCode = await axios.post(
           `${HOST}/api/auth/google`,
           { accessToken: getGoogleAccessToken() },
           { withCredentials: true }
         );
-       
+        window.localStorage.setItem('jwt', sendCode.data.token);
         return oAuthNav();
-      } catch (error:any) {
+      } catch (error: any) {
         return setOnModal(true);
       }
     }
