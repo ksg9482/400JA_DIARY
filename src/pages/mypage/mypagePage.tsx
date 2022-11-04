@@ -19,7 +19,7 @@ const Mypage = () => {
   const [onModal, setOnModal] = useState(false);
   const [load, setLoad] = useState(true);
   const [modalPage, setModalPage] = useState(<UserDeleteModal modalHandle={modalHandle} />);
-
+  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
   function modalHandle() {
     setOnModal(onModal => !onModal)
   }
@@ -39,7 +39,7 @@ const Mypage = () => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
         `${HOST}/api/user/me`,
-        { withCredentials: true }
+        { withCredentials: true, headers:{ jwt: token } }
       );
 
       const MypageForm = userData.data;
@@ -62,14 +62,14 @@ const Mypage = () => {
           {load
             ? LoadingSpin()
             : <div>
-              <div className="mb-4">
+              <div className="mb-4  flex flex-col justify-center items-center">
                 <div>{userData.email}님의 마이페이지 입니다.</div>
                 <div>
                   오늘까지 총<span>{userData.diaryCount}</span>개 일기를 쓰셨습니다.
                 </div>
               </div>
               <div>
-                {userData.type === 'BASIC' ? <div className="mb-5 hover:bg-slate-300 cursor-default" onClick={() => setModalPage2('passwordChange')}>비밀번호 변경</div> : <div className="mb-5 bg-slate-300">소셜로그인은 비밀번호를 변경할 수 없습니다</div>}
+                {userData.type === 'BASIC' ? <div className="mb-5 hover:bg-slate-300 cursor-default text-center" onClick={() => setModalPage2('passwordChange')}>비밀번호 변경</div> : <div className="mb-5 bg-slate-300">소셜로그인은 비밀번호를 변경할 수 없습니다</div>}
                 <div className="hover:bg-slate-200 cursor-default text-center" onClick={() => setModalPage2('userDelete')}>회원 탈퇴</div>
               </div>
             </div>

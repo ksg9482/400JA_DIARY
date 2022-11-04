@@ -34,14 +34,20 @@ const Diary = () => {
   const preventRef = useRef(true); //옵저버 중복실행 방지. 
   const obsRef = useRef(null); //옵저버 element
   const endRef = useRef(false); //모든 글 로드여부
-
+  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
   const setFindResult = (result: any) => {
-    if (result.end) {
-      endRef.current = true;
-      return ;
-    }
+    // if (result.end) {
+    //   endRef.current = true;
+    //   return ;
+    // }
+    // setDiaries([...result.list]);
+    // preventRef.current = true;
+    // return ;
     setDiaries([...result.list]);
     preventRef.current = true;
+    if (result.end) {
+      endRef.current = true;
+    }
     return ;
   };
 
@@ -56,7 +62,6 @@ const Diary = () => {
     return `${year}-${month}-${day}`;
   };
   const createDiaryHandle = async () => {
-    //인수로 내용을 받아야 하나?
     try {
       const dateKR = getKRDate();
       if (contentInputForm === diaries[0].content && subjectInputForm === diaries[0].subject) {
@@ -69,10 +74,11 @@ const Diary = () => {
         ...body,
         date: dateKR,
       };
+      
       const sendDiary: any = await axios.post(
         `${HOST}/api/diary`,
         body,
-        { withCredentials: true }
+        { withCredentials: true, headers:{ jwt: token } }
       );
       
       if (!sendDiary) {
@@ -127,7 +133,7 @@ const Diary = () => {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
           `${HOST}/api/diary`,
-          { withCredentials: true }
+          { withCredentials: true, headers:{ jwt: token } }
         );
         const diaryLength = weeklyDiary.data.list.length;
         if (weeklyDiary.data) {
@@ -160,14 +166,14 @@ const Diary = () => {
       const res = await axios.post(
         `${HOST}/api/diary/nextDiary`,
         { lastDiaryId: lastDiaryId },
-        { withCredentials: true }
+        { withCredentials: true, headers:{ jwt: token } }
       );
 
       if (res.data) {
         if (res.data.end) {
           endRef.current = true;
         }
-        setDiaries((prev) => [...prev, ...res.data.list]); //list로 안보내줌
+        setDiaries((prev) => [...prev, ...res.data.list]); 
         preventRef.current = true;
       }
       setLoad(false);
@@ -265,8 +271,6 @@ const Diary = () => {
                   diaryInputHandler={diaryInputHandler}
                   createDiaryHandle={createDiaryHandle}
                   diaryValidCheck={diaryValidCheck}
-                  // 오늘 날짜 아니면 안보내거나 받아도 무시해야 함
-                  //10/4 < 10/5
                   currentDiary={isCurrentDiary() ? diaries[0] : null}
                 />
               </div>
