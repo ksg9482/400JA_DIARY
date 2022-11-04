@@ -19,6 +19,7 @@ const PasswordChangeModal = (props: any) => {
     passwordChange: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
 
 
   const escKey = (e: KeyboardEvent) => {
@@ -57,7 +58,7 @@ const PasswordChangeModal = (props: any) => {
     const passwordChange: any = await axios.patch(
       `${HOST}/api/user/password`,
       body,
-      { withCredentials: true }
+      { withCredentials: true, headers:{ jwt: token } }
     );
     if (passwordChange.status !== 200) {
       setErrorMessage("비밀번호 변경에 실패했습니다.");

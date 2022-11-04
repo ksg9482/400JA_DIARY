@@ -19,7 +19,7 @@ const Mypage = () => {
   const [onModal, setOnModal] = useState(false);
   const [load, setLoad] = useState(true);
   const [modalPage, setModalPage] = useState(<UserDeleteModal modalHandle={modalHandle} />);
-
+  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
   function modalHandle() {
     setOnModal(onModal => !onModal)
   }
@@ -39,7 +39,7 @@ const Mypage = () => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
         `${HOST}/api/user/me`,
-        { withCredentials: true }
+        { withCredentials: true, headers:{ jwt: token } }
       );
 
       const MypageForm = userData.data;

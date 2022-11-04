@@ -48,7 +48,8 @@ const Login = () => {
             body,
             { withCredentials: true }
           );
-          const userInfo = userLogin.data;
+          window.localStorage.setItem('jwt', userLogin.data.token);
+          const userInfo = userLogin.data.user;
           navigate("/", { replace: true });
           location.reload();
           return userInfo;

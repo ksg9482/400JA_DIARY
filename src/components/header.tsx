@@ -8,18 +8,21 @@ type headerProps = {
   isLogin: boolean;
 };
 const Header = (props: headerProps) => {
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
   
   const HOST = config.SERVER_HOST;
-  
+  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
+
   
   const logOutHandle = async () => {
     const userLogout = await axios.get(
       `${HOST}/api/user/logout`,
-      { withCredentials: true }
+      { withCredentials: true, headers:{ jwt: token } }
     );
-    navigate('/', { replace: true })
-    location.reload()
+    localStorage.removeItem('jwt');
+    navigate('/', { replace: true });
+    location.reload();
     return ;
   };
   const pageLink = () => {

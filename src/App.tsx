@@ -3,11 +3,10 @@ import "./App.css";
 import AppRouter from "./routers/router";
 
 const getJwtToken = () => {
- 
-  if(document.cookie === 'jwt=undefined') {
+  if(localStorage.getItem('jwt') === 'undefined') {
     return false;
   }
-  return document.cookie.split("=")[1];
+  return localStorage.getItem('jwt')!;
 };
 const isLoggedIn = getJwtToken() ? true : false; 
 

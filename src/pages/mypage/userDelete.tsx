@@ -11,6 +11,7 @@ const UserDeleteModal = (props: any) => {
 
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
 
   const nav = useNavigate();
 
@@ -52,12 +53,13 @@ const UserDeleteModal = (props: any) => {
       }
       const userdelete: any = await axios.delete(
         `${HOST}/api/user`,
-        { withCredentials: true }
+        { withCredentials: true, headers:{ jwt: token } }
       );
       return "userDelete";
     };
     await userDeleteSequence();
     modalHandle();
+    localStorage.removeItem('jwt');
     nav("/", { replace: true });
     location.reload();
   };
