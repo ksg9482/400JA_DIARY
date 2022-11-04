@@ -5,10 +5,8 @@ import React, { useEffect, useState } from "react";
 const DateSearch = (props: any) => {
     const { setFindResult } = props;
     const [errorMessage, setErrorMessage] = useState('');
-
-
+    
     const HOST = config.SERVER_HOST;
-
 
     const now = new Date().toISOString().split('T')[0];
     const token: string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
@@ -18,9 +16,9 @@ const DateSearch = (props: any) => {
         const targetDate: any = document.getElementById('date-search');
         if (!targetDate.value) {
             setErrorMessage('날짜를 입력하지 않았습니다.')
-            return;
-        }
-        //diary/search/date?date=2022-08-09
+            return ;
+        };
+        
         const findResult = await axios.get(
             `${HOST}/api/diary/search/date?date=${targetDate.value}`,
             { withCredentials: true, headers: { jwt: token } }
@@ -40,7 +38,7 @@ const DateSearch = (props: any) => {
         return diaryForm
     }
 
-    //createDateList(now)
+    
     return (
         <form id="searchForm-date" className="flex flex-col px-2">
             <div className="border border-slate-500 flex flex-col">

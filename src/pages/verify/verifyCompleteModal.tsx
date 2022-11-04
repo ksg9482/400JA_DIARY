@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 const VerifyCompleteModal = (props: any) => {
 
   const { modalHandle, success } = props;
+  const nav = useNavigate();
   const closePage = async () => {
     modalHandle();
-
+    nav('/',{replace:true})
   };
   const SuccessMessage = () => {
     return (
@@ -21,7 +23,7 @@ const VerifyCompleteModal = (props: any) => {
   const FailMessage = () => {
     return (
       <div className="flex flex-col mb-6 sm:pb-1 text-center">
-        <div className="mb-4 px-1 sm:pb-1">
+        <div className="mb-4 px-1 sm:pb-1 text-center">
           임시 비밀번호 발급에 실패했습니다.
         </div>
         <div className="mb-5 px-1 text-center">

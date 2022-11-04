@@ -8,6 +8,7 @@ type headerProps = {
   isLogin: boolean;
 };
 const Header = (props: headerProps) => {
+
   const navigate = useNavigate()
   
   const HOST = config.SERVER_HOST;
@@ -34,8 +35,8 @@ const Header = (props: headerProps) => {
               Diary
             </span>
           </Link>
-          <Link className="border box-border px-1 w-24" to="/mypage">
-            <span className="text-base flex justify-center items-center">
+          <Link className="border box-border px-1 w-24 flex justify-center items-center" to="/mypage">
+            <span className="text-base ">
               <FontAwesomeIcon className="mr-1" icon={faUser} size='1x'></FontAwesomeIcon>
               Mypage
             </span>

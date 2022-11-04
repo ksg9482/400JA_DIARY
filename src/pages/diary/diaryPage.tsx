@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import CreateDiary from "./createDiary";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { diaryInputKey } from "../../constants";
 import config from "../../config";
 import axios from "axios";
 import Diarys from "./diarys";
@@ -36,13 +35,6 @@ const Diary = () => {
   const endRef = useRef(false); //모든 글 로드여부
   const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
   const setFindResult = (result: any) => {
-    // if (result.end) {
-    //   endRef.current = true;
-    //   return ;
-    // }
-    // setDiaries([...result.list]);
-    // preventRef.current = true;
-    // return ;
     setDiaries([...result.list]);
     preventRef.current = true;
     if (result.end) {
@@ -114,11 +106,11 @@ const Diary = () => {
       setContentInputForm(initValue.content);
       return ;
     } else {
-      if (key === diaryInputKey.subject) {
+      if (key === 'subject') {
         setSubjectInputForm(e.target.value);
         setContentInputForm(contentInputForm);
         return ;
-      } else if (key === diaryInputKey.content) {
+      } else if (key === 'content') {
         setSubjectInputForm(subjectInputForm);
         setContentInputForm(e.target.value);
         return ;
@@ -126,9 +118,10 @@ const Diary = () => {
     }
   };
 
-  const getPost = useCallback(async () => {
+  const getPost = async () => {
 
     const lastDiaryId = diaries[diaries.length - 1].id;
+
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
@@ -168,17 +161,17 @@ const Diary = () => {
         { lastDiaryId: lastDiaryId },
         { withCredentials: true, headers:{ jwt: token } }
       );
-
+      
       if (res.data) {
         if (res.data.end) {
           endRef.current = true;
         }
-        setDiaries((prev) => [...prev, ...res.data.list]); 
+        setDiaries((prev) => [...prev, ...res.data.list]);
         preventRef.current = true;
       }
-      setLoad(false);
     }
-  }, [page]);
+    return ;
+  };
 
   const isCurrentDiary = () => {
     const nowDate = new Date(getKRDate());

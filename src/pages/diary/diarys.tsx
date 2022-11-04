@@ -16,7 +16,7 @@ const Diarys = (props: any) => {
       date: ' '
     });
   };
-  
+ 
   return (
     <div className="border-2 border-[#855958] my-11 flex flex-col bg-white rounded-md">
       {diaries.map((diaryContent: DiaryContent) => (
