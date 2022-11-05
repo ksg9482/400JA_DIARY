@@ -23,7 +23,7 @@ const KeywordSearch = (props: any) => {
         }
         const findResult = await axios.get(
             `${HOST}/api/diary/search/keyword?keyword=${searchInput}`,
-            { withCredentials: true, headers: { jwt: token } }
+            { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
         );
         const diaryForm = 0 < findResult.data.list.length
             ? [...findResult.data.list]

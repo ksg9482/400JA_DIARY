@@ -58,7 +58,7 @@ const PasswordChangeModal = (props: any) => {
     const passwordChange: any = await axios.patch(
       `${HOST}/api/user/password`,
       body,
-      { withCredentials: true, headers:{ jwt: token } }
+      { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
     );
     if (passwordChange.status !== 200) {
       setErrorMessage("비밀번호 변경에 실패했습니다.");

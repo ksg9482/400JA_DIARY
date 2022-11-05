@@ -18,7 +18,7 @@ const Header = (props: headerProps) => {
   const logOutHandle = async () => {
     const userLogout = await axios.get(
       `${HOST}/api/user/logout`,
-      { withCredentials: true, headers:{ jwt: token } }
+      { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
     );
     localStorage.removeItem('jwt');
     navigate('/', { replace: true });

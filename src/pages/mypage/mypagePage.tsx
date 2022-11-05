@@ -39,7 +39,7 @@ const Mypage = () => {
     const mypageInit = async () => {
       const userData: any = await axios.get(
         `${HOST}/api/user/me`,
-        { withCredentials: true, headers:{ jwt: token } }
+        { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
       );
 
       const MypageForm = userData.data;

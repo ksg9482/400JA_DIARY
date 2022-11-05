@@ -67,10 +67,11 @@ const Diary = () => {
         date: dateKR,
       };
       
+      //token은 Authorization필드에 넣어서 보낸다. Authorization: <type> <credentials>
       const sendDiary: any = await axios.post(
         `${HOST}/api/diary`,
         body,
-        { withCredentials: true, headers:{ jwt: token } }
+        { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
       );
       
       if (!sendDiary) {
@@ -126,7 +127,7 @@ const Diary = () => {
       const diaryInit = async () => {
         const weeklyDiary: any = await axios.get(
           `${HOST}/api/diary`,
-          { withCredentials: true, headers:{ jwt: token } }
+          { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
         );
         const diaryLength = weeklyDiary.data.list.length;
         if (weeklyDiary.data) {
@@ -159,7 +160,7 @@ const Diary = () => {
       const res = await axios.post(
         `${HOST}/api/diary/nextDiary`,
         { lastDiaryId: lastDiaryId },
-        { withCredentials: true, headers:{ jwt: token } }
+        { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
       );
       
       if (res.data) {

@@ -53,7 +53,7 @@ const UserDeleteModal = (props: any) => {
       }
       const userdelete: any = await axios.delete(
         `${HOST}/api/user`,
-        { withCredentials: true, headers:{ jwt: token } }
+        { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
       );
       return "userDelete";
     };
