@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faUser, faRightFromBracket, faBookOpen, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import config from "config";
+import { customAxios } from "./axios/customAxios";
 type headerProps = {
   isLogin: boolean;
 };
@@ -12,15 +13,15 @@ const Header = (props: headerProps) => {
   const navigate = useNavigate()
   
   const HOST = config.SERVER_HOST;
-  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
-
+  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
   
   const logOutHandle = async () => {
-    const userLogout = await axios.get(
-      `${HOST}/api/user/logout`,
-      { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
+    const userLogout = await customAxios.get(
+      `/user/logout`,
     );
-    localStorage.removeItem('jwt');
+    
+    localStorage.clear()
     navigate('/', { replace: true });
     location.reload();
     return ;

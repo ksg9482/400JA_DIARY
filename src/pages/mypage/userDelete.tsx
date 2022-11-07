@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customAxios } from "components/axios/customAxios";
 import config from "config";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,8 @@ const UserDeleteModal = (props: any) => {
 
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
+  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
 
   const nav = useNavigate();
 
@@ -43,23 +45,22 @@ const UserDeleteModal = (props: any) => {
       return;
     }
     const userDeleteSequence = async () => {
-      const passwordCheck: any = await axios.post(
-        `${HOST}/api/user/valid`,
-        { password: passwordInput },
-        { withCredentials: true }
+      const passwordCheck: any = await customAxios.post(
+        `/user/valid`,
+        { password: passwordInput }
       );
       if (passwordCheck.data !== true) {
         setErrorMessage("비밀번호가 잘못 되었습니다.");
       }
-      const userdelete: any = await axios.delete(
-        `${HOST}/api/user`,
-        { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
+      const userdelete: any = await customAxios.delete(
+        `/user`,
       );
       return "userDelete";
     };
     await userDeleteSequence();
     modalHandle();
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     nav("/", { replace: true });
     location.reload();
   };

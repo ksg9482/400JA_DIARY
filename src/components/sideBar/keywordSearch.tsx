@@ -9,8 +9,8 @@ const KeywordSearch = (props: any) => {
 
 
     const HOST = config.SERVER_HOST;
-    const token: string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
-
+    const token: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+    const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
 
     const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(e.target.value);
@@ -22,8 +22,7 @@ const KeywordSearch = (props: any) => {
             return;
         }
         const findResult = await axios.get(
-            `${HOST}/api/diary/search/keyword?keyword=${searchInput}`,
-            { withCredentials: true, headers:{ Authorization: `Bearer ${token}` } }
+            `/diary/search/keyword?keyword=${searchInput}`
         );
         const diaryForm = 0 < findResult.data.list.length
             ? [...findResult.data.list]
