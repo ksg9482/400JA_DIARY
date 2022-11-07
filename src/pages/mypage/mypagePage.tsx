@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customAxios } from "components/axios/customAxios";
 import { LoadingSpin } from "components/loading";
 import config from "config";
 import React, { useEffect, useState } from "react";
@@ -19,7 +20,8 @@ const Mypage = () => {
   const [onModal, setOnModal] = useState(false);
   const [load, setLoad] = useState(true);
   const [modalPage, setModalPage] = useState(<UserDeleteModal modalHandle={modalHandle} />);
-  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
+  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
   function modalHandle() {
     setOnModal(onModal => !onModal)
   }
@@ -37,9 +39,12 @@ const Mypage = () => {
 
   useEffect(() => {
     const mypageInit = async () => {
-      const userData: any = await axios.get(
-        `${HOST}/api/user/me`,
-        { withCredentials: true, headers:{ jwt: token } }
+      // const userData: any = await axios.get(
+      //   `${HOST}/api/user/me`,
+      //   { withCredentials: true, headers:{ Authorization: `Bearer ${token}`, "x-refresh": refreshToken } }
+      // );
+      const userData: any = await customAxios.get(
+        `/user/me`,
       );
 
       const MypageForm = userData.data;

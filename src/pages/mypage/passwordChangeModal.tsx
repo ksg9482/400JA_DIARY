@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customAxios } from "components/axios/customAxios";
 import config from "config";
 import React, { useState } from "react";
 
@@ -19,7 +20,8 @@ const PasswordChangeModal = (props: any) => {
     passwordChange: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
+  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
 
 
   const escKey = (e: KeyboardEvent) => {
@@ -55,10 +57,9 @@ const PasswordChangeModal = (props: any) => {
     }
 
     const body = passwordInputObj;
-    const passwordChange: any = await axios.patch(
-      `${HOST}/api/user/password`,
-      body,
-      { withCredentials: true, headers:{ jwt: token } }
+    const passwordChange: any = await customAxios.patch(
+      `/user/password`,
+      body
     );
     if (passwordChange.status !== 200) {
       setErrorMessage("비밀번호 변경에 실패했습니다.");

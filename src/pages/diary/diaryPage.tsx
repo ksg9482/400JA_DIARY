@@ -8,6 +8,7 @@ import Diarys from "./diarys";
 import SideBar from "components/sideBar/sideBar";
 import { LoadingSpin } from "components/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { customAxios } from "components/axios/customAxios";
 const Diary = () => {
   
   
@@ -33,7 +34,8 @@ const Diary = () => {
   const preventRef = useRef(true); //옵저버 중복실행 방지. 
   const obsRef = useRef(null); //옵저버 element
   const endRef = useRef(false); //모든 글 로드여부
-  const token:string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
+  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
   const setFindResult = (result: any) => {
     setDiaries([...result.list]);
     preventRef.current = true;
@@ -67,10 +69,10 @@ const Diary = () => {
         date: dateKR,
       };
       
-      const sendDiary: any = await axios.post(
+      //token은 Authorization필드에 넣어서 보낸다. Authorization: <type> <credentials>
+      const sendDiary: any = await customAxios.post(
         `${HOST}/api/diary`,
-        body,
-        { withCredentials: true, headers:{ jwt: token } }
+        body
       );
       
       if (!sendDiary) {
@@ -124,9 +126,8 @@ const Diary = () => {
 
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
-        const weeklyDiary: any = await axios.get(
-          `${HOST}/api/diary`,
-          { withCredentials: true, headers:{ jwt: token } }
+        const weeklyDiary: any = await customAxios.get(
+          `/diary`
         );
         const diaryLength = weeklyDiary.data.list.length;
         if (weeklyDiary.data) {
@@ -156,10 +157,9 @@ const Diary = () => {
 
       return ;
     } else {
-      const res = await axios.post(
-        `${HOST}/api/diary/nextDiary`,
-        { lastDiaryId: lastDiaryId },
-        { withCredentials: true, headers:{ jwt: token } }
+      const res = await customAxios.post(
+        `/diary/nextDiary`,
+        { lastDiaryId: lastDiaryId }
       );
       
       if (res.data) {

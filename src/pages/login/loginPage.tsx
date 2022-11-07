@@ -48,7 +48,8 @@ const Login = () => {
             body,
             { withCredentials: true }
           );
-          window.localStorage.setItem('jwt', userLogin.data.token);
+          window.localStorage.setItem('accessToken', userLogin.data.accessToken);
+          window.localStorage.setItem('refreshToken', userLogin.data.refreshToken);
           const userInfo = userLogin.data.user;
           navigate("/", { replace: true });
           location.reload();

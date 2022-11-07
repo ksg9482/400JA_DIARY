@@ -9,7 +9,8 @@ const DateSearch = (props: any) => {
     const HOST = config.SERVER_HOST;
 
     const now = new Date().toISOString().split('T')[0];
-    const token: string = localStorage.getItem('jwt') ? localStorage.getItem('jwt')! : '';
+    const token: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
+    const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
 
     const findByDate = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -20,8 +21,7 @@ const DateSearch = (props: any) => {
         };
         
         const findResult = await axios.get(
-            `${HOST}/api/diary/search/date?date=${targetDate.value}`,
-            { withCredentials: true, headers: { jwt: token } }
+            `/diary/search/date?date=${targetDate.value}`
         );
 
         const diaryForm = 0 < findResult.data.list.length

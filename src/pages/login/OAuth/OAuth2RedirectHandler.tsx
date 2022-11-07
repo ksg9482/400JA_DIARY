@@ -28,7 +28,8 @@ const OAuth2RedirectHandler = (props: any) => {
           `${HOST}/api/auth/kakao?code=${code}`,
           { withCredentials: true }
         );
-        window.localStorage.setItem('jwt', sendCode.data.token);
+        window.localStorage.setItem('accessToken', sendCode.data.accessToken);
+        window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);
         return oAuthNav();
       } catch (error) {
         return error;
@@ -50,7 +51,8 @@ const OAuth2RedirectHandler = (props: any) => {
           { accessToken: getGoogleAccessToken() },
           { withCredentials: true }
         );
-        window.localStorage.setItem('jwt', sendCode.data.token);
+        window.localStorage.setItem('accessToken', sendCode.data.accessToken);
+        window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);
         return oAuthNav();
       } catch (error: any) {
         return setOnModal(true);
