@@ -46,7 +46,7 @@ const Mypage = () => {
       const userData: any = await customAxios.get(
         `/user/me`,
       );
-
+      
       const MypageForm = userData.data;
       setUserdata(MypageForm);
       setLoad(false);

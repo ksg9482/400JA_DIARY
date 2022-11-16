@@ -17,19 +17,23 @@ const OAuth2RedirectHandler = (props: any) => {
 
   const navigate = useNavigate();
   const oauthPath = new URL(window.location.href).pathname.split("/");
-
+  const oAuthNav = () => {
+    oauthLoginIsTrue()
+    navigate("/", { replace: true, state: { isLoginTrue: true } });
+    location.reload(); //새로고침해서 axios인스턴스 재생성. 맨처음 생성은 토큰이 안들어가 있다
+  }
 
   async function handle() {
-    const oAuthNav = () => {
-      oauthLoginIsTrue()
-      navigate("/", { replace: true, state: { isLoginTrue: true } });
-    }
+    
     if (oauthPath.includes("kakao")) {
       try {
         const code = new URL(window.location.href).searchParams.get("code");
         const sendCode = await axios.get(
           `${HOST}/api/auth/kakao?code=${code}`,
-          { withCredentials: true }
+          { 
+            withCredentials: true,
+            headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
+           }
         );
         window.localStorage.setItem('accessToken', sendCode.data.accessToken);
         window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);
@@ -55,7 +59,7 @@ const OAuth2RedirectHandler = (props: any) => {
           { 
             withCredentials: true,
             headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
-           }
+          }
         );
         window.localStorage.setItem('accessToken', sendCode.data.accessToken);
         window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);

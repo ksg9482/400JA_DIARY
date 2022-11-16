@@ -14,7 +14,7 @@ export const customAxios: AxiosInstance = axios.create({
   withCredentials: true,
   headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
 });
-
+console.log('customAxios 호출', getToken('accessToken'))
 customAxios.interceptors.response.use(
   reponse => { return reponse },
   error => { return getRefresh(error) }
