@@ -11,16 +11,9 @@ type headerProps = {
 const Header = (props: headerProps) => {
 
   const navigate = useNavigate()
-  
-  const HOST = config.SERVER_HOST;
-  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-  
+   
   const logOutHandle = async () => {
-    const userLogout = await customAxios.get(
-      `/user/logout`,
-    );
-    
+    await customAxios.get(`/user/logout`);
     localStorage.clear()
     navigate('/', { replace: true });
     location.reload();

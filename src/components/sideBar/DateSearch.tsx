@@ -1,17 +1,13 @@
 import axios from "axios";
-import config from "config";
-import React, { useEffect, useState } from "react";
+import { customAxios } from "components/axios/customAxios";
+import React, { useState } from "react";
 
 const DateSearch = (props: any) => {
     const { setFindResult } = props;
     const [errorMessage, setErrorMessage] = useState('');
     
-    const HOST = config.SERVER_HOST;
-
     const now = new Date().toISOString().split('T')[0];
-    const token: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-    const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-
+    
     const findByDate = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         const targetDate: any = document.getElementById('date-search');
@@ -20,7 +16,7 @@ const DateSearch = (props: any) => {
             return ;
         };
         
-        const findResult = await axios.get(
+        const findResult = await customAxios.get(
             `/diary/search/date?date=${targetDate.value}`
         );
 

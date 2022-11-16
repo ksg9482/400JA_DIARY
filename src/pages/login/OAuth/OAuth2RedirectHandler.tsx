@@ -32,11 +32,10 @@ const OAuth2RedirectHandler = (props: any) => {
           `${HOST}/api/auth/kakao?code=${code}`,
           { 
             withCredentials: true,
-            headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
+            headers: { Authorization: `Bearer ${getToken('accessToken')}`}
            }
         );
         window.localStorage.setItem('accessToken', sendCode.data.accessToken);
-        window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);
         return oAuthNav();
       } catch (error) {
         return error;
@@ -58,11 +57,10 @@ const OAuth2RedirectHandler = (props: any) => {
           { accessToken: accessToken },
           { 
             withCredentials: true,
-            headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
+            headers: { Authorization: `Bearer ${getToken('accessToken')}`}
           }
         );
         window.localStorage.setItem('accessToken', sendCode.data.accessToken);
-        window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);
         return oAuthNav();
       } catch (error: any) {
         return setOnModal(true);

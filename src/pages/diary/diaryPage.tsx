@@ -37,9 +37,7 @@ const Diary = () => {
   const preventRef = useRef(true); //옵저버 중복실행 방지. 
   const obsRef = useRef(null); //옵저버 element
   const endRef = useRef(false); //모든 글 로드여부
-  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-  const setFindResult = (result: any) => {
+ const setFindResult = (result: any) => {
     setDiaries([...result.list]);
     preventRef.current = true;
     if (result.end) {
@@ -74,7 +72,7 @@ const Diary = () => {
       
       //token은 Authorization필드에 넣어서 보낸다. Authorization: <type> <credentials>
       const sendDiary: any = await customAxios.post(
-        `${HOST}/diary`,
+        `/diary`,
         body
       );
       
@@ -133,7 +131,7 @@ const Diary = () => {
           `${HOST}/api/diary`,
           {
             withCredentials: true,
-            headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
+            headers: { Authorization: `Bearer ${getToken('accessToken')}`}
           }
         );
         const diaryLength = weeklyDiary.data.list.length;

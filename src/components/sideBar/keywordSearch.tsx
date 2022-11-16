@@ -1,16 +1,11 @@
 import axios from "axios";
-import config from "config";
-import React, { useEffect, useState } from "react";
+import { customAxios } from "components/axios/customAxios";
+import React, { useState } from "react";
 
 const KeywordSearch = (props: any) => {
     const { setFindResult } = props;
     const [searchInput, setSearchInput] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
-
-    const HOST = config.SERVER_HOST;
-    const token: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-    const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
 
     const inputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(e.target.value);
@@ -21,7 +16,7 @@ const KeywordSearch = (props: any) => {
             setErrorMessage('키워드를 입력하지 않았습니다.')
             return;
         }
-        const findResult = await axios.get(
+        const findResult = await customAxios.get(
             `/diary/search/keyword?keyword=${searchInput}`
         );
         const diaryForm = 0 < findResult.data.list.length

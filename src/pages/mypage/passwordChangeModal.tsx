@@ -20,9 +20,7 @@ const PasswordChangeModal = (props: any) => {
     passwordChange: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-
+  
 
   const escKey = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {

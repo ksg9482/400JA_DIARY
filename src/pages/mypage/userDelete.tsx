@@ -12,9 +12,7 @@ const UserDeleteModal = (props: any) => {
 
   const [passwordInput, setPasswordInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-
+  
   const nav = useNavigate();
 
   const escKey = (e: KeyboardEvent) => {
@@ -60,7 +58,6 @@ const UserDeleteModal = (props: any) => {
     await userDeleteSequence();
     modalHandle();
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
     nav("/", { replace: true });
     location.reload();
   };

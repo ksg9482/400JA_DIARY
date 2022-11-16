@@ -4,13 +4,12 @@ import serverConfig from 'config';
 
 export const getRefresh = async (error: AxiosError) => {
     const accessToken: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-    const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-   
+    
      if(error.response?.data.error === 'expire_token') {
         let originalRequest = error.config;
         const getAccessToken: any = await axios.get(
             `${serverConfig.SERVER_HOST}/api/auth/refresh`,
-            { withCredentials: true, headers:{ Authorization: `Bearer ${accessToken}`, "x-refresh": refreshToken } }
+            { withCredentials: true, headers:{ Authorization: `Bearer ${accessToken}`} }
           );
         localStorage.setItem('accessToken', getAccessToken.data.accessToken)
 

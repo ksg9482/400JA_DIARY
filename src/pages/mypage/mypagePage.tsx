@@ -20,8 +20,6 @@ const Mypage = () => {
   const [onModal, setOnModal] = useState(false);
   const [load, setLoad] = useState(true);
   const [modalPage, setModalPage] = useState(<UserDeleteModal modalHandle={modalHandle} />);
-  const token:string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-  const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
   function modalHandle() {
     setOnModal(onModal => !onModal)
   }
@@ -41,7 +39,7 @@ const Mypage = () => {
     const mypageInit = async () => {
       // const userData: any = await axios.get(
       //   `${HOST}/api/user/me`,
-      //   { withCredentials: true, headers:{ Authorization: `Bearer ${token}`, "x-refresh": refreshToken } }
+      //   { withCredentials: true, headers:{ Authorization: `Bearer ${token}`} }
       // );
       const userData: any = await customAxios.get(
         `/user/me`,
