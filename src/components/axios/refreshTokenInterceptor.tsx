@@ -6,7 +6,6 @@ export const getRefresh = async (error: AxiosError) => {
     const accessToken: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
     const refreshToken:string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
    
-     console.log(error.response)
      if(error.response?.data.error === 'expire_token') {
         let originalRequest = error.config;
         const getAccessToken: any = await axios.get(

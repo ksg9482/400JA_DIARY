@@ -9,6 +9,9 @@ import SideBar from "components/sideBar/sideBar";
 import { LoadingSpin } from "components/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { customAxios } from "components/axios/customAxios";
+const getToken = (key:string) => {
+  return localStorage.getItem(key) || 'token not found'
+  }
 const Diary = () => {
   
   
@@ -71,7 +74,7 @@ const Diary = () => {
       
       //token은 Authorization필드에 넣어서 보낸다. Authorization: <type> <credentials>
       const sendDiary: any = await customAxios.post(
-        `${HOST}/api/diary`,
+        `${HOST}/diary`,
         body
       );
       
@@ -126,8 +129,12 @@ const Diary = () => {
 
     if (lastDiaryId.length <= 0) {
       const diaryInit = async () => {
-        const weeklyDiary: any = await customAxios.get(
-          `/diary`
+        const weeklyDiary: any = await axios.get(
+          `${HOST}/api/diary`,
+          {
+            withCredentials: true,
+            headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
+          }
         );
         const diaryLength = weeklyDiary.data.list.length;
         if (weeklyDiary.data) {

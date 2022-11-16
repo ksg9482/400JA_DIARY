@@ -4,6 +4,9 @@ import axios from "axios";
 import OauthErrorModal from "./OauthErrorModal";
 import config from "config";
 
+const getToken = (key:string) => {
+  return localStorage.getItem(key) || 'token not found'
+  }
 const OAuth2RedirectHandler = (props: any) => {
 
   const HOST = config.SERVER_HOST;
@@ -45,11 +48,14 @@ const OAuth2RedirectHandler = (props: any) => {
           const accessToken = parsedHash.get("access_token");
           return accessToken;
         }
-
+        const accessToken = getGoogleAccessToken()
         const sendCode = await axios.post(
           `${HOST}/api/auth/google`,
-          { accessToken: getGoogleAccessToken() },
-          { withCredentials: true }
+          { accessToken: accessToken },
+          { 
+            withCredentials: true,
+            headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
+           }
         );
         window.localStorage.setItem('accessToken', sendCode.data.accessToken);
         window.localStorage.setItem('refreshToken', sendCode.data.refreshToken);

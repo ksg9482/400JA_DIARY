@@ -2,14 +2,17 @@ import axios, { AxiosInstance } from 'axios';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import { getRefresh } from './refreshTokenInterceptor';
+const getToken = (key:string) => {
+return localStorage.getItem(key) || 'token not found'
+}
+// const token: string = getToken('accessToken');
+// const refreshToken: string = getToken('refreshToken');
 
-const token: string = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')! : '';
-const refreshToken: string = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken')! : '';
-
+//여기서 미리 만들어봤자 헤더는 null값으로 이미 들어가있다. 그때 생성되는게 아니라, 이미 생성된 것을 쓰는 것.
 export const customAxios: AxiosInstance = axios.create({
   baseURL: `${config.SERVER_HOST}/api`,
   withCredentials: true,
-  headers: { Authorization: `Bearer ${token}`, "x-refresh": refreshToken }
+  headers: { Authorization: `Bearer ${getToken('accessToken')}`, "x-refresh": getToken('refreshToken') }
 });
 
 customAxios.interceptors.response.use(
